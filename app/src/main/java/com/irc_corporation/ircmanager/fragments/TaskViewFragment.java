@@ -16,14 +16,19 @@ import com.irc_corporation.ircmanager.Task;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
 public class TaskViewFragment extends Fragment {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Task.setTasks();
+        Task.tasks.add(new Task("freer", "fregregrege"));
+        Task.tasks.add(new Task("weqorwer", "l;'jymkwe"));
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //какой овер говнокод
-        Task.setTasks();
-        Task.tasks.add(new Task("freer", "fregregrege"));
-        Task.tasks.add(new Task("weqorwer", "l;'jymkwe"));
-
         @SuppressLint("ResourceType") RecyclerView recyclerView =(RecyclerView) inflater.inflate(R.layout.recycler_tasks, container, false);
         //todo: сделать так, чтобы данные приходили с локалиной бд или с сервера
         //как выгоднее и как правильнее пока хз

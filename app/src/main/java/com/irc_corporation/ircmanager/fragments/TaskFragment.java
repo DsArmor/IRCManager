@@ -25,12 +25,11 @@ import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
 public class TaskFragment extends Fragment implements View.OnClickListener{
 
+    TaskViewFragment fragment;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TaskViewFragment fragment = new TaskViewFragment();
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.tasks_container, fragment).commit();
     }
 
     @Override
@@ -46,9 +45,24 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        //todo: нужно сделать пересыл этой информации в mainactivity
+        //todo: нужно сделать пересыл этой информации в main activity
         //todo: где то нужно сделать перепривязку фрагмента, чтобы после добавления таска он отоброжался
+        //todo: чекни жизненный цикл метод onResume()
         Intent intent = new Intent(getActivity(), AddTaskActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (fragment == null){
+            fragment = new TaskViewFragment();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(R.id.tasks_container, fragment).commit();
+        } else{
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.detach(fragment).attach(fragment).commit();
+            System.out.println(Task.tasks.size());
+        }
     }
 }
