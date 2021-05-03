@@ -1,11 +1,15 @@
 package com.irc_corporation.ircmanager;
 
+import java.util.ArrayList;
+
 public class Task {
     private String name;
     private String description;
     //todo: переделать на дату string
     private String start_date;
     private String end_date;
+
+    public static ArrayList<Task> tasks;
 
     public Task(String name, String start_date, String end_date, String description){
         this.name = name;

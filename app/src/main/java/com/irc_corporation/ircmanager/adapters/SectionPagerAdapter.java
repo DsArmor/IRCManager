@@ -1,4 +1,4 @@
-package com.irc_corporation.ircmanager;
+package com.irc_corporation.ircmanager.adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -35,7 +35,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position) {
 
         //не могу поправить, чтобы обратиться к ресурсу string и вытащить оттуда
-        //поправить
+        //todo:поправить
         switch (position){
             case 0:
                 return "Сегодня";
