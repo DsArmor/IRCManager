@@ -11,6 +11,13 @@ public class Task {
 
     public static ArrayList<Task> tasks;
 
+    //вынужденная мера для отладки, лучше как то избавиться
+    public static void setTasks() {
+        if (tasks == null){
+            tasks = new ArrayList<>();
+        }
+    }
+
     public Task(String name, String start_date, String end_date, String description){
         this.name = name;
         this.start_date =start_date;
@@ -21,5 +28,13 @@ public class Task {
     public Task(String name, String start_date){
         this.name = name;
         this.start_date =start_date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -20,12 +20,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/tasks_recycler"
-            android:layout_margin="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical"/>
+        <include
+            layout="@layout/recycler_tasks"/>
     </LinearLayout>
 
 

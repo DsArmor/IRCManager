@@ -13,7 +13,7 @@ public class AddTaskActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         Button add = findViewById(R.id.add_button);
-        add.setOnClickListener(this);
+        add.setOnClickListener(this::onClick);
     }
 
     @Override
