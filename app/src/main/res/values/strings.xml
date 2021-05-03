@@ -4,6 +4,9 @@
     <string name="your_groups">Твои группы</string>
     <string name="your_tasks">Твои задания</string>
 
+    <string name="day_view">Сегодня</string>
+    <string name="other_view">Другой вид</string>
+
     <string name="nav_open_drawer">Open navigation drawer</string>
     <string name="nav_close_drawer">Close navigation drawer</string>
 </resources>
