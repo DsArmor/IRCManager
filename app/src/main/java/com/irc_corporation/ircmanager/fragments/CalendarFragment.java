@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.irc_corporation.ircmanager.R;
 
-public class CalendarViewFragment extends Fragment {
+public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

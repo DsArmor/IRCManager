@@ -4,21 +4,23 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
+    android:layout_height="150dp"
     card_view:cardElevation="5dp"
     card_view:cardCornerRadius="15dp"
-    android:layout_margin="5dp">
+    android:layout_margin="2dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/task_name_in_card"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin = "10dp"
+            android:layout_margin = "5dp"
             android:layout_weight="1"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -36,6 +38,12 @@
                 android:text="Тут будет дата"
                 android:layout_margin="2dp"
                 android:padding="3dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -49,6 +57,7 @@
                 android:layout_margin="2dp"
                 android:padding="3dp"/>
         </LinearLayout>
+
         <TextView
             android:id="@+id/task_description_in_card"
             android:layout_width="match_parent"

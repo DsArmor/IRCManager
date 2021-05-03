@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.irc_corporation.ircmanager.fragments.CalendarViewFragment;
+import com.irc_corporation.ircmanager.fragments.CalendarFragment;
 import com.irc_corporation.ircmanager.fragments.TaskFragment;
 
 public class SectionPagerAdapter extends FragmentPagerAdapter{
@@ -20,7 +20,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter{
             case 0:
                 return new TaskFragment();
             case 1:
-                return new CalendarViewFragment();
+                return new CalendarFragment();
         }
         return null;
     }

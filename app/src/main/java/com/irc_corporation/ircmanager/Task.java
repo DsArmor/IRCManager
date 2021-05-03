@@ -25,9 +25,9 @@ public class Task {
         this.description = description;
     }
 
-    public Task(String name, String start_date){
+    public Task(String name, String description){
         this.name = name;
-        this.start_date =start_date;
+        this.description = description;
     }
 
     public String getName() {
