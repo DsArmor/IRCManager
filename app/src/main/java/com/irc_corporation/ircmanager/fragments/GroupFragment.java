@@ -52,7 +52,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         } else{
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.detach(fragment).attach(fragment).commit();
-            System.out.println(Task.tasks.size());
         }
     }
 }

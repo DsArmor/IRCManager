@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.Task;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
 public class GroupViewFragment extends Fragment {
@@ -20,9 +20,11 @@ public class GroupViewFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         //todo: убрать отсюда эту хрень для тестов
         super.onCreate(savedInstanceState);
-        Task.setTasks();
-        Task.tasks.add(new Task("freer", "fregregrege"));
-        Task.tasks.add(new Task("weqorwer", "l;'jymkwe"));
+        Group.setGroups();
+        String[] temp = {"fewrfer", "freregewr","qweiq"};
+        Group.groups.add(new Group("werfwe", temp));
+        Group.groups.add(new Group("popqw", temp));
+
     }
 
     @Nullable
@@ -30,17 +32,15 @@ public class GroupViewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //какой овер говнокод
         RecyclerView recyclerView =
-                (RecyclerView) inflater.inflate(R.layout.recycler_tasks, container, false);
+                (RecyclerView) inflater.inflate(R.layout.recycler_groups, container, false);
         //todo: сделать так, чтобы данные приходили с локалиной бд или с сервера
         //как выгоднее и как правильнее пока хз
-        String[] names = new String[Task.tasks.size()];
-        String[] descriptions = new String[Task.tasks.size()];
-        for (int i=0; i<names.length; i++){
-            names[i] = Task.tasks.get(i).getName();
-            descriptions[i] = Task.tasks.get(i).getDescription();
+        String[] titles = new String[Group.groups.size()];
+        for (int i=0; i<titles.length; i++){
+            titles[i] = Group.groups.get(i).getTitle();
         }
 
-        TaskViewAdapter adapter =new TaskViewAdapter(names, descriptions);
+        TaskViewAdapter adapter =new TaskViewAdapter(titles);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
