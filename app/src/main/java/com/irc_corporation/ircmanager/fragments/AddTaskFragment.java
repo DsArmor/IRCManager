@@ -1,13 +1,10 @@
 package com.irc_corporation.ircmanager.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +20,8 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
     private Listener listener;
     private TextView name;
     private TextView description;
+    private Button addButton;
+    private Button exitButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,16 +34,14 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
 
         View rootView =
                 inflater.inflate(R.layout.fragment_add_task, container, false);
-        Button button = rootView.findViewById(R.id.add_task_complete);
-        button.setOnClickListener(this);
+        addButton = rootView.findViewById(R.id.add_task_complete);
+        addButton.setOnClickListener(this);
+
 
         name = rootView.findViewById(R.id.task_name);
         description = rootView.findViewById(R.id.description);
 
         return rootView;
-//        getDialog().setTitle("Title!");
-//        @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_add_task, null);
-//        return v;
     }
 
     @Override

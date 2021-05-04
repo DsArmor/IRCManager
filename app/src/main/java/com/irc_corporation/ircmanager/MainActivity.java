@@ -82,12 +82,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onMyClick(int id) {
 //        View frame = findViewById(R.id.content_container);
         if (id == 1){
+            //благодаря этому получается диалоговое окно
+            //но размеры портят вид, а кнопки в нем пока не работают, поэтому оставлю просто Fragment
+//            DialogFragment fragment = new AddTaskFragment();
+//            fragment.show(getSupportFragmentManager(), "Add");
             Fragment fragment = new AddTaskFragment();
             FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
             ft.addToBackStack(null);
             ft.replace(R.id.content_container, fragment).commit();
         }
 
-//        fragment.show(getSupportFragmentManager(), "Add");
+//
     }
 }
