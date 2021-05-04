@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.irc_corporation.ircmanager.AddTaskActivity;
+
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
 
@@ -38,8 +38,8 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         //todo: нужно порешать за сервер
-        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
+//        startActivity(intent);
     }
 
     @Override

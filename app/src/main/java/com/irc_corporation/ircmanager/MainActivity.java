@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,14 +18,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.irc_corporation.ircmanager.adapters.SectionPagerAdapter;
+import com.irc_corporation.ircmanager.fragments.AddTaskFragment;
 import com.irc_corporation.ircmanager.fragments.GroupFragment;
 import com.irc_corporation.ircmanager.fragments.TaskFragment;
 
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +35,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        SectionPagerAdapter adapter = new SectionPagerAdapter(getSupportFragmentManager());
-        ViewPager pager = findViewById(R.id.pager);
-        pager.setAdapter(adapter);
-
-        TabLayout tabLayout =findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(pager);
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Fragment fragment = new TaskFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment).commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle =new ActionBarDrawerToggle(
@@ -59,15 +57,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
-        Intent intent = null;
+        Fragment fragment = null;
+
+        //вызывается метод onCreate для каждого фрагмента при переключении по навигационным кнопкам, следовательно либо оставь так и молись чтобы при работе с сервером все было гладко
+        //либо нужно каждый фрагмент сделать одиночкой)
         switch (id){
             case R.id.nav_group:
-                intent = new Intent(this, AddGroupActivity.class);
+                fragment = new GroupFragment();
                 break;
+            case R.id.nav_tasks:
+                fragment = new TaskFragment();
+                break;
+                //допиши навигацию к календарному виду, когда найдешь ему иконку
         }
-        if (intent != null){
-            startActivity(intent);
-        }
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        assert fragment != null;
+        ft.replace(R.id.content_container, fragment).commit();
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onMyClick(int id) {
+//        View frame = findViewById(R.id.content_container);
+        if (id == 1){
+            Fragment fragment = new AddTaskFragment();
+            FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+            ft.addToBackStack(null);
+            ft.replace(R.id.content_container, fragment).commit();
+        }
+
+//        fragment.show(getSupportFragmentManager(), "Add");
     }
 }

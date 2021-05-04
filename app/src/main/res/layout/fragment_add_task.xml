@@ -53,12 +53,13 @@
         android:gravity="start"
         android:hint="Описание"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/add_task"
+        app:layout_constraintBottom_toTopOf="@+id/add_task_complete"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
     <Button
-        android:id="@+id/add_task"
+        android:id="@+id/add_task_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Добавить"
@@ -75,7 +76,7 @@
         android:text="Отмена"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/add_task" />
+        app:layout_constraintEnd_toStartOf="@+id/add_task_complete" />
 
     <CalendarView
         android:id="@+id/calendarView"

@@ -1,6 +1,7 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.irc_corporation.ircmanager.AddTaskActivity;
+import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
@@ -26,6 +27,7 @@ import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 public class TaskFragment extends Fragment implements View.OnClickListener{
 
     TaskViewFragment fragment;
+    private Listener listener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,10 +46,16 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.listener = (Listener) context;
+    }
+
+    @Override
     public void onClick(View v) {
-        //todo: нужно порешать за сервер
-        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-        startActivity(intent);
+        if (listener!= null){
+            listener.onMyClick(1);
+        }
     }
 
     @Override
