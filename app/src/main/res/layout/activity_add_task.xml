@@ -46,18 +46,16 @@
 
     <EditText
         android:id="@+id/description"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="226dp"
         android:layout_marginBottom="13dp"
-        android:layout_marginTop="3dp"
         android:ems="10"
-        android:hint="Описание"
         android:gravity="start"
+        android:hint="Описание"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/add_task"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/add_task"

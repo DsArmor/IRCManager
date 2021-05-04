@@ -1,6 +1,5 @@
 package com.irc_corporation.ircmanager.fragments;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +14,7 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
-public class TaskViewFragment extends Fragment {
+public class GroupViewFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
