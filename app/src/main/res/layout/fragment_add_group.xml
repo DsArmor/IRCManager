@@ -46,13 +46,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_user" />
 
-    <Button
-        android:id="@+id/cancel_creation_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text="Отмена"
-        app:layout_constraintBaseline_toBaselineOf="@+id/add_group_complete"
-        app:layout_constraintEnd_toStartOf="@+id/add_group_complete" />
+<!--    <Button-->
+<!--        android:id="@+id/cancel_creation_group"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginEnd="8dp"-->
+<!--        android:text="Отмена"-->
+<!--        app:layout_constraintBaseline_toBaselineOf="@+id/add_group_complete"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/add_group_complete" />-->
 
 </android.support.constraint.ConstraintLayout>
