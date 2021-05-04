@@ -1,6 +1,7 @@
 package com.irc_corporation.ircmanager;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.irc_corporation.ircmanager.fragments.AddGroupFragment;
 import com.irc_corporation.ircmanager.fragments.AddTaskFragment;
 import com.irc_corporation.ircmanager.fragments.GroupFragment;
 import com.irc_corporation.ircmanager.fragments.TaskFragment;
@@ -25,7 +27,7 @@ import com.irc_corporation.ircmanager.fragments.TaskFragment;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener, DismissListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +87,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             //благодаря этому получается диалоговое окно
             //но размеры портят вид, а кнопки в нем пока не работают, поэтому оставлю просто Fragment
 //            DialogFragment fragment = new AddTaskFragment();
-//            fragment.show(getSupportFragmentManager(), "Add");
+//            fragment.show(getSupportFragmentManager(), "AddTask");
             Fragment fragment = new AddTaskFragment();
             FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
             ft.addToBackStack(null);
             ft.replace(R.id.content_container, fragment).commit();
+        } else if (id==2){
+            DialogFragment fragment = new AddGroupFragment();
+            fragment.show(getSupportFragmentManager(), "AddGroup");
+//            FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+//            ft.addToBackStack(null).commit();
         }
+    }
 
-//
+
+    @Override
+    public void onDismiss() {
+        Fragment fragment = new GroupFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_container, fragment).commit();
     }
 }

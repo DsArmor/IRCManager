@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Group {
     //todo: изменить конфигурацию, см сервер
     private String title;
-    private String[] members;
+    private ArrayList<String> members;
 
     public static ArrayList<Group> groups;
 
@@ -15,7 +15,7 @@ public class Group {
         }
     }
 
-    public Group(String title, String[] names){
+    public Group(String title, ArrayList<String> names){
         this.title = title;
         this.members = names;
     }
@@ -24,7 +24,7 @@ public class Group {
         return title;
     }
 
-    public String[] getMembers() {
+    public ArrayList<String> getMembers() {
         return members;
     }
 }

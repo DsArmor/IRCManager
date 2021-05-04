@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.Listener;
@@ -18,8 +19,8 @@ import com.irc_corporation.ircmanager.Task;
 public class AddTaskFragment extends DialogFragment implements View.OnClickListener {
 
     private Listener listener;
-    private TextView name;
-    private TextView description;
+    private EditText name;
+    private EditText description;
     private Button addButton;
     private Button exitButton;
 
@@ -36,7 +37,6 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
                 inflater.inflate(R.layout.fragment_add_task, container, false);
         addButton = rootView.findViewById(R.id.add_task_complete);
         addButton.setOnClickListener(this);
-
 
         name = rootView.findViewById(R.id.task_name);
         description = rootView.findViewById(R.id.description);

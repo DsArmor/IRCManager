@@ -1,23 +1,29 @@
 package com.irc_corporation.ircmanager.fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
+import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
 
 
-public class GroupFragment extends Fragment implements View.OnClickListener{
+public class GroupFragment extends Fragment implements View.OnClickListener, DialogInterface.OnDismissListener {
 
     GroupViewFragment fragment;
+    private Listener listener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,7 +42,16 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.listener = (Listener) context;
+    }
+
+    @Override
     public void onClick(View v) {
+        if (listener != null){
+            listener.onMyClick(2);
+        }
         //todo: нужно порешать за сервер
 //        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
 //        startActivity(intent);
@@ -49,9 +64,14 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             fragment = new GroupViewFragment();
             FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
             transaction.add(R.id.groups_container, fragment).commit();
-        } else{
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.detach(fragment).attach(fragment).commit();
         }
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        System.out.println("frefgregregergwregewrgewrg");
+        Toast.makeText(getContext(), "FMewfe", Toast.LENGTH_LONG);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.detach(fragment).attach(fragment).commit();
     }
 }

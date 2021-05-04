@@ -14,6 +14,8 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
+import java.util.ArrayList;
+
 public class GroupViewFragment extends Fragment {
 
     @Override
@@ -21,9 +23,11 @@ public class GroupViewFragment extends Fragment {
         //todo: убрать отсюда эту хрень для тестов
         super.onCreate(savedInstanceState);
         Group.setGroups();
-        String[] temp = {"fewrfer", "freregewr","qweiq"};
-        Group.groups.add(new Group("werfwe", temp));
-        Group.groups.add(new Group("popqw", temp));
+//        ArrayList<String> temp = new ArrayList<>();
+//        temp.add("fewfwe");
+//        temp.add("frefer");
+//        Group.groups.add(new Group("werfwe", temp));
+//        Group.groups.add(new Group("popqw", temp));
 
     }
 

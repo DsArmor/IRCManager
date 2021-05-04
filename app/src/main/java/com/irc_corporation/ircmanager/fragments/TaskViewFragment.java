@@ -22,8 +22,8 @@ public class TaskViewFragment extends Fragment {
         //todo: убрать отсюда эту хрень для тестов
         super.onCreate(savedInstanceState);
         Task.setTasks();
-        Task.tasks.add(new Task("freer", "fregregrege"));
-        Task.tasks.add(new Task("weqorwer", "l;'jymkwe"));
+//        Task.tasks.add(new Task("freer", "fregregrege"));
+//        Task.tasks.add(new Task("weqorwer", "l;'jymkwe"));
     }
 
     @Nullable
