@@ -14,8 +14,6 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
-import java.util.ArrayList;
-
 public class GroupViewFragment extends Fragment {
 
     @Override
@@ -41,7 +39,7 @@ public class GroupViewFragment extends Fragment {
         //как выгоднее и как правильнее пока хз
         String[] titles = new String[Group.groups.size()];
         for (int i=0; i<titles.length; i++){
-            titles[i] = Group.groups.get(i).getTitle();
+            titles[i] = Group.groups.get(i).getName();
         }
 
         TaskViewAdapter adapter =new TaskViewAdapter(titles);
