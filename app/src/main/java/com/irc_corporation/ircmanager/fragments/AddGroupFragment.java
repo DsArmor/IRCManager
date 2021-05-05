@@ -47,6 +47,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
 //        cancel = rootView.findViewById(R.id.cancel_creation_group);
         addUser.setOnClickListener(this);
         addGroup.setOnClickListener(this);
+
         return rootView;
     }
 

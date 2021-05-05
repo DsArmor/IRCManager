@@ -9,25 +9,29 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 
+import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
+import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 
 
-public class GroupFragment extends Fragment implements View.OnClickListener, DialogInterface.OnDismissListener {
+public class GroupFragment extends Fragment implements View.OnClickListener{
 
-    GroupViewFragment fragment;
     private Listener listener;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Group.setGroups();
     }
 
     @Override
@@ -38,6 +42,18 @@ public class GroupFragment extends Fragment implements View.OnClickListener, Dia
                 inflater.inflate(R.layout.fragment_group, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
         button.setOnClickListener(this);
+
+        RecyclerView recyclerView = rootView.findViewById(R.id.temp_recycler_groups);
+        String[] titles = new String[Group.groups.size()];
+        for (int i=0; i<titles.length; i++){
+            titles[i] = Group.groups.get(i).getTitle();
+        }
+
+        TaskViewAdapter adapter =new TaskViewAdapter(titles);
+        recyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
+
         return rootView;
     }
 
@@ -53,25 +69,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener, Dia
             listener.onMyClick(2);
         }
         //todo: нужно порешать за сервер
-//        Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-//        startActivity(intent);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (fragment == null){
-            fragment = new GroupViewFragment();
-            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-            transaction.add(R.id.groups_container, fragment).commit();
-        }
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        System.out.println("frefgregregergwregewrgewrg");
-        Toast.makeText(getContext(), "FMewfe", Toast.LENGTH_LONG);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.detach(fragment).attach(fragment).commit();
-    }
 }

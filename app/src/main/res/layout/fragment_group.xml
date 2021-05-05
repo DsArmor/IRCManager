@@ -11,12 +11,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/groups_container"
-            android:layout_marginTop="10dp"
+        <RelativeLayout
             android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/temp_recycler_groups"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </RelativeLayout>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
