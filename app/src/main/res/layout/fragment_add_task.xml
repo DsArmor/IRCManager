@@ -47,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        android:layout_marginStart="5dp"
         android:text="Выберите группу"
         app:layout_constraintBottom_toTopOf="@+id/spinner_groups"
         app:layout_constraintStart_toStartOf="parent" />
@@ -69,11 +70,11 @@
         android:gravity="start"
         android:hint="Описание"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/add_task_complete"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        app:layout_constraintVertical_bias="0.624" />
+        app:layout_constraintVertical_bias="0.884" />
 
     <Button
         android:id="@+id/add_task_complete"

@@ -43,6 +43,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
                 inflater.inflate(R.layout.fragment_add_task, container, false);
         addButton = rootView.findViewById(R.id.add_task_complete);
         exitButton = rootView.findViewById(R.id.exit);
+        exitButton.setOnClickListener(this);
         addButton.setOnClickListener(this);
 
         name = rootView.findViewById(R.id.task_name);
@@ -84,9 +85,14 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        String name_string = name.getText().toString();
-        String description_string = description.getText().toString();
-        Task.tasks.add(new Task(name_string, description_string));
+        switch (v.getId()){
+            case R.id.exit:
+                break;
+            case R.id.add_task_complete:
+                String name_string = name.getText().toString();
+                String description_string = description.getText().toString();
+                Task.tasks.add(new Task(name_string, description_string));
+        }
         getActivity().getSupportFragmentManager().popBackStack();
     }
 }
