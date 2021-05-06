@@ -111,6 +111,11 @@ public class SimpleRepository implements Repository{
         return false;
     }
 
+    @Override
+    public boolean addUser(String name, String email, String password) {
+        return false;
+    }
+
     public static Repository getInstance() {
         if (instance == null) {
             return new SimpleRepository();

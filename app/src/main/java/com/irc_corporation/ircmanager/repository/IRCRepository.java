@@ -7,6 +7,7 @@ import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.models.User;
 import com.irc_corporation.ircmanager.repository.JSON.AddTask;
+import com.irc_corporation.ircmanager.repository.JSON.Registration;
 import com.irc_corporation.ircmanager.repository.JSON.View;
 
 import java.io.IOException;
@@ -95,6 +96,17 @@ public class IRCRepository implements Repository{
         return false;
     }
 
+    @Override
+    public boolean addUser(String name, String email, String password) {
+        Registration reg = new Registration();
+        reg.email = email;
+        reg.fullname = name;
+        reg.password = password;
+        AsyncTaskAddUser asyncTaskAddUser = new AsyncTaskAddUser();
+        asyncTaskAddUser.execute(reg);
+        return true;
+    }
+
     private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
         List<Group> receivedGroups;
 
@@ -125,10 +137,6 @@ public class IRCRepository implements Repository{
     }
 
     private class AsyncTaskAddTask extends AsyncTask<AddTask, Void, Void> {
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-        }
 
         @Override
         protected Void doInBackground(AddTask... addTasks) {
@@ -145,6 +153,27 @@ public class IRCRepository implements Repository{
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d(LOG_TAG, "Запрос на создание задания НЕ отправлен");
+            }
+            return null;
+        }
+    }
+
+    private class AsyncTaskAddUser extends AsyncTask<Registration, Void, Void> {
+        @Override
+        protected Void doInBackground(Registration... registrations) {
+            Registration json = registrations[0];
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            RetrofitService service = retrofit.create(RetrofitService.class);
+            Call<Response> call = service.registration(json);
+            try {
+                call.execute();
+                Log.d(LOG_TAG, "Запрос на создание пользователя отправлен");
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(LOG_TAG, "Запрос на создание пользователя НЕ отправлен");
             }
             return null;
         }
