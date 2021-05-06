@@ -23,6 +23,7 @@ import com.irc_corporation.ircmanager.fragments.AddGroupFragment;
 import com.irc_corporation.ircmanager.fragments.AddTaskFragment;
 import com.irc_corporation.ircmanager.fragments.GroupFragment;
 import com.irc_corporation.ircmanager.fragments.TaskFragment;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
@@ -38,7 +39,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //todo: переписать на базу данных, это временно
         UserTemp userTemp = UserTemp.getInstance("admin", "admin");
-        Repository repository = SimpleRepository.getInstance();
+        Repository repository = IRCRepository.getInstance();
+        repository.refresh("Почта4", "Пароль");
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);

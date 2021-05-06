@@ -15,6 +15,7 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.UserTemp;
 import com.irc_corporation.ircmanager.models.User;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
@@ -55,7 +56,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         String string_title = titleOfGroup.getText().toString();
         //работа с репозиторием
         //todo: отладить для настоящего репозитория
-        Repository repository = SimpleRepository.getInstance();
+        Repository repository = IRCRepository.getInstance();
         System.out.println(repository.getGroups().size());
         UserTemp user = UserTemp.getInstance("dew", "F");
         com.irc_corporation.ircmanager.models.Group group =

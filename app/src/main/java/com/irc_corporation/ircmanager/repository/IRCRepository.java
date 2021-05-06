@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class IRCRepository implements Repository{
-    List<Group> groups;
+    private List<Group> groups;
     private static Repository instance;
     private final static String URL = "https://to-do-server-for-samsung.herokuapp.com/";
     private final static String LOG_TAG = "repo";
@@ -33,7 +33,10 @@ public class IRCRepository implements Repository{
     }
 
     public static Repository getInstance() {
-        if (instance == null) return new IRCRepository();
+        if (instance == null) {
+            Log.d(LOG_TAG, "Создание нового репозитория");
+            return instance = new IRCRepository();
+        }
         return instance;
     }
 
@@ -49,17 +52,20 @@ public class IRCRepository implements Repository{
 
     @Override
     public List<Group> getGroups() {
+        Log.d(LOG_TAG, "выводится : " + Integer.toString(groups.size()));
         return this.groups;
     }
 
     @Override
     public List<GroupTask> getAllTasks() {
+
         ArrayList<GroupTask> result= new ArrayList<>();
         for (Group group: groups) {
             for (GroupTask task : group.getTasks()) {
                 result.add(task);
             }
         }
+        Log.d(LOG_TAG, "количество тасков : " + Integer.toString(result.size()));
         return result;
     }
 

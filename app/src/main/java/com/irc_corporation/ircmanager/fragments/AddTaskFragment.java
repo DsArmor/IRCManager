@@ -20,6 +20,7 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
@@ -55,7 +56,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
 
         //переделать под репозиторий
         //todo: переделать под получение Array List
-        Repository repository = SimpleRepository.getInstance();
+        Repository repository = IRCRepository.getInstance();
         List<com.irc_corporation.ircmanager.models.Group> groups = repository.getGroups();
         Group.setGroups();
 

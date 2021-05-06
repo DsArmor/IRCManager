@@ -16,6 +16,7 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
@@ -28,11 +29,12 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     private List<com.irc_corporation.ircmanager.models.Group> groupList;
     private Repository repository;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Group.setGroups();
-        repository = SimpleRepository.getInstance();
+        repository = IRCRepository.getInstance();
+        repository.refresh("Почта4","Пароль");
         groupList = repository.getGroups();
     }
 
