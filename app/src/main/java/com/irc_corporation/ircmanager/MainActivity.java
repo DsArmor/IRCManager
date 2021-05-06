@@ -23,6 +23,8 @@ import com.irc_corporation.ircmanager.fragments.AddGroupFragment;
 import com.irc_corporation.ircmanager.fragments.AddTaskFragment;
 import com.irc_corporation.ircmanager.fragments.GroupFragment;
 import com.irc_corporation.ircmanager.fragments.TaskFragment;
+import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.Objects;
 
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //todo: переписать на базу данных, это временно
         UserTemp userTemp = UserTemp.getInstance("admin", "admin");
+        Repository repository = SimpleRepository.getInstance();
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);

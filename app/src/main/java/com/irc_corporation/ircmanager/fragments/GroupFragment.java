@@ -26,10 +26,14 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
 
+    private List<com.irc_corporation.ircmanager.models.Group> groupList;
+    private Repository repository;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Group.setGroups();
+        repository = SimpleRepository.getInstance();
+        groupList = repository.getGroups();
     }
 
     @Override
@@ -42,10 +46,9 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         button.setOnClickListener(this);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_groups);
-        //получение данных с сервера
 
-        Repository repository = SimpleRepository.getInstance();
-        List<com.irc_corporation.ircmanager.models.Group> groupList = repository.getGroups();
+        //получение данных с сервера
+        System.out.println(groupList.size());
         String[] titles = new String[groupList.size()];
         for (int i=0; i<titles.length; i++){
             titles[i] = groupList.get(i).getName();

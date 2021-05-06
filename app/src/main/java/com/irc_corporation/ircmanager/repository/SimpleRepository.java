@@ -13,7 +13,7 @@ import java.util.List;
 
 public class SimpleRepository implements Repository{
     private static SimpleRepository instance;
-    private List<Group> groups;
+    private static List<Group> groups;
     private List<User> users;
     private List<GroupTask> tasks;
     private List<GroupEvent> events;

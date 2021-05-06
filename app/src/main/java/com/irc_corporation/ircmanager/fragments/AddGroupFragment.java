@@ -34,7 +34,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_add_group, container, false);
-
+        members = new ArrayList<>();
         addGroup = rootView.findViewById(R.id.add_group_complete);
         addUser = rootView.findViewById(R.id.add_user);
         titleOfGroup = rootView.findViewById(R.id.edit_group);
@@ -54,7 +54,9 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
     private void onClickAddGroup(){
         String string_title = titleOfGroup.getText().toString();
         //работа с репозиторием
+        //todo: отладить для настоящего репозитория
         Repository repository = SimpleRepository.getInstance();
+        System.out.println(repository.getGroups().size());
         UserTemp user = UserTemp.getInstance("dew", "F");
         com.irc_corporation.ircmanager.models.Group group =
                 new com.irc_corporation.ircmanager.models.Group(string_title,
@@ -66,7 +68,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         for (User member : members){
             repository.addMember(user.getLogin(), user.getPassword(), group, member);
         }
-
+        System.out.println(repository.getGroups().size());
         //todo: нужно положить созданную группу на сервер
         //todo: в этом месте реализован интерфейс, но можно наверное проще
         //хотя я весь инет облазил, реализация своего интрефейса может даже лучше...
