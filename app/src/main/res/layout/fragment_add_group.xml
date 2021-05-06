@@ -22,7 +22,6 @@
         android:id="@+id/edit_user"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:layout_marginTop="88dp"
         android:hint="Почта пользователя"
         app:layout_constraintEnd_toEndOf="parent"
