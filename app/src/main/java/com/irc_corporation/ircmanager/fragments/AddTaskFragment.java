@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.models.Group;
+import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
@@ -32,6 +36,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
     private EditText description;
     private Button addButton;
     private Button exitButton;
+    private String checkedGroup;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,7 +67,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             temp_groups[i] = groups.get(i).getName();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, temp_groups);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, temp_groups);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner_groups);
@@ -70,10 +75,9 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
         // устанавливаем обработчик нажатия
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                //todo: доделать тут выбор группы
-                // показываем позиция нажатого элемента
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                checkedGroup = (String)parent.getSelectedItem();
+                Toast.makeText(getContext(), checkedGroup, Toast.LENGTH_LONG);
             }
 
             @Override
@@ -99,8 +103,13 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             case R.id.add_task_complete:
                 String name_string = name.getText().toString();
                 String description_string = description.getText().toString();
-                //todo: Здесь нужно поместить созданный таск на сервер
-//                Task.tasks.add(new Task(name_string, description_string));
+                Repository repository = IRCRepository.getInstance();
+                //System.out.print("''''''" + checkedGroup + "''''''''");
+                //todo добавить dueDate
+                repository.addTask("Почта4",
+                        "Пароль",
+                        new Group(checkedGroup, null, null, null, null),
+                        new GroupTask(name_string, description_string, "00--00--00", false));
         }
         getActivity().getSupportFragmentManager().popBackStack();
     }
