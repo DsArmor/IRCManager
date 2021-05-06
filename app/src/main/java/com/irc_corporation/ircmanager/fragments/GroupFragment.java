@@ -16,6 +16,10 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
+import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.repository.SimpleRepository;
+
+import java.util.List;
 
 
 public class GroupFragment extends Fragment implements View.OnClickListener{
@@ -38,10 +42,15 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         button.setOnClickListener(this);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_groups);
-        String[] titles = new String[Group.groups.size()];
+        //получение данных с сервера
+
+        Repository repository = SimpleRepository.getInstance();
+        List<com.irc_corporation.ircmanager.models.Group> groupList = repository.getGroups();
+        String[] titles = new String[groupList.size()];
         for (int i=0; i<titles.length; i++){
-            titles[i] = Group.groups.get(i).getTitle();
+            titles[i] = groupList.get(i).getName();
         }
+
         TaskViewAdapter adapter = new TaskViewAdapter(titles);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

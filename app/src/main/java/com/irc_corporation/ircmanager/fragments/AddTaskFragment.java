@@ -20,8 +20,11 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
+import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddTaskFragment extends DialogFragment implements View.OnClickListener {
 
@@ -51,10 +54,14 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
         description = rootView.findViewById(R.id.description);
 
         //переделать под репозиторий
+        //todo: переделать под получение Array List
+        Repository repository = SimpleRepository.getInstance();
+        List<com.irc_corporation.ircmanager.models.Group> groups = repository.getGroups();
         Group.setGroups();
-        String[] temp_groups = new String[Group.groups.size()];
+
+        String[] temp_groups = new String[groups.size()];
         for (int i=0; i<temp_groups.length; i++){
-            temp_groups[i] = Group.groups.get(i).getTitle();
+            temp_groups[i] = groups.get(i).getName();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, temp_groups);
@@ -94,6 +101,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             case R.id.add_task_complete:
                 String name_string = name.getText().toString();
                 String description_string = description.getText().toString();
+                //todo: Здесь нужно поместить созданный таск на сервер
                 Task.tasks.add(new Task(name_string, description_string));
         }
         getActivity().getSupportFragmentManager().popBackStack();

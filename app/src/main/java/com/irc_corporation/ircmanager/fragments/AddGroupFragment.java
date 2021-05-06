@@ -58,6 +58,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
     private void onClickAddGroup(){
         String string_title = titleOfGroup.getText().toString();
         Group.groups.add(new Group(string_title, members));
+        //todo: нужно положить созданную группу на сервер
         //todo: в этом месте реализован интерфейс, но можно наверное проще
         //хотя я весь инет облазил, реализация своего интрефейса может даже лучше...
         dismissListener.onDismiss();

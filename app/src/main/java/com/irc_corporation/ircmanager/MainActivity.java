@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //todo: переписать на базу данных, это временно
+        UserTemp userTemp = UserTemp.getInstance("admin", "admin");
+
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -93,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragment.show(getSupportFragmentManager(), "AddGroup");
         }
     }
-
 
     @Override
     public void onDismiss() {

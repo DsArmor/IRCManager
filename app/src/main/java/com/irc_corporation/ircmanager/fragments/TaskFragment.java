@@ -16,6 +16,12 @@ import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
+import com.irc_corporation.ircmanager.models.Group;
+import com.irc_corporation.ircmanager.models.GroupTask;
+import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.repository.SimpleRepository;
+
+import java.util.List;
 
 public class TaskFragment extends Fragment implements View.OnClickListener{
 
@@ -36,12 +42,23 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
         FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
-        String[] names = new String[Task.tasks.size()];
-        String[] descriptions = new String[Task.tasks.size()];
-        for (int i=0; i<names.length; i++){
-            names[i] = Task.tasks.get(i).getName();
-            descriptions[i] = Task.tasks.get(i).getDescription();
+
+        //получение данных с сервера
+        Repository repository = SimpleRepository.getInstance();
+        List<com.irc_corporation.ircmanager.models.Group> groupList = repository.getGroups();
+        List<GroupTask> groupTasks = repository.getAllTasks();
+        String[] names = new String[groupTasks.size()];
+        String[] descriptions = new String[names.length];
+        int i=0;
+        for (Group group : groupList){
+            List<GroupTask> groupTasks1 = repository.getTaskFromGroup(group);
+            int previousSumTasks=i;
+            for (; i<groupTasks1.size()+previousSumTasks; i++){
+                names[i] = groupTasks1.get(i-previousSumTasks).getName();
+                descriptions[i] = groupTasks1.get(i-previousSumTasks).getDescription();
+            }
         }
+
         TaskViewAdapter adapter =new TaskViewAdapter(names, descriptions);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

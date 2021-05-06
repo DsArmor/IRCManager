@@ -20,6 +20,8 @@ import com.irc_corporation.ircmanager.fragments.MembersDialogFragment;
 
 public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHolder> {
 
+
+    //todo: переделать под ArrayList
     private String[] names;
     private String[] descriptions;
 

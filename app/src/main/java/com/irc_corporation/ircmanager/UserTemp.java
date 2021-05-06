@@ -25,5 +25,4 @@ public class UserTemp {
     public String getPassword() {
         return password;
     }
-
 }
