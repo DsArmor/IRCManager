@@ -6,15 +6,15 @@ public class KickMember {
     public Admin admin;
     public Group group;
 
-    private class NewMember {
+    public class NewMember {
         public String email;
     }
-    private  class Admin {
+    public  class Admin {
         public String fullname;
         public String password;
         public String email;
     }
-    private class Group {
+    public class Group {
         public String name;
     }
 }

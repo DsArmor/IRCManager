@@ -4,11 +4,11 @@ public class Create {
     public Admin admin;
     public NewGroup newGroup;
 
-    private class Admin {
+    public class Admin {
         public String password;
         public String email;
     }
-    private class NewGroup {
+    public class NewGroup {
         public String name;
     }
 }

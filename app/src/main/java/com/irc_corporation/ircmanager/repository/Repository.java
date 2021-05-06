@@ -15,4 +15,6 @@ public interface Repository {
     boolean addTask(String email, String password, Group group, GroupTask task);
     boolean addGroup(String email, String password, Group group);
     boolean addMember(String email, String password, Group group, User user);
+    //----------------------------------------
+    boolean addUser(String name, String email, String password);//регистрация нового пользователя
 }

@@ -4,11 +4,11 @@ public class Done {
     public User user;
     public Task task;
 
-    private class User {
+    public class User {
         public String email;
         public String password;
     }
-    private class Task{
+    public class Task{
         public String name;
         public Group group;
 
