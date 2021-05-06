@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 inflater.inflate(R.layout.fragment_task, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.temp_recycler);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
         String[] names = new String[Task.tasks.size()];
         String[] descriptions = new String[Task.tasks.size()];
         for (int i=0; i<names.length; i++){

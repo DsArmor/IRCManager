@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = menuItem.getItemId();
         Fragment fragment = null;
 
-        //вызывается метод onCreate для каждого фрагмента при переключении по навигационным кнопкам, следовательно либо оставь так и молись чтобы при работе с сервером все было гладко
+        //вызывается метод onCreate для каждого фрагмента при переключении по навигационным кнопкам, можно и так
         //либо нужно каждый фрагмент сделать одиночкой)
         switch (id){
             case R.id.nav_group:
@@ -83,12 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMyClick(int id) {
-//        View frame = findViewById(R.id.content_container);
         if (id == 1){
-            //благодаря этому получается диалоговое окно
-            //но размеры портят вид, а кнопки в нем пока не работают, поэтому оставлю просто Fragment
-//            DialogFragment fragment = new AddTaskFragment();
-//            fragment.show(getSupportFragmentManager(), "AddTask");
             Fragment fragment = new AddTaskFragment();
             FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
             ft.addToBackStack(null);
@@ -96,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id==2){
             DialogFragment fragment = new AddGroupFragment();
             fragment.show(getSupportFragmentManager(), "AddGroup");
-//            FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
-//            ft.addToBackStack(null).commit();
         }
     }
 

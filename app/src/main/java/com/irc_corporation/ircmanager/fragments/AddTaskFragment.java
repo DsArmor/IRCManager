@@ -1,5 +1,6 @@
 package com.irc_corporation.ircmanager.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -56,7 +57,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             temp_groups[i] = Group.groups.get(i).getTitle();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, temp_groups);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, temp_groups);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner_groups);
@@ -66,6 +67,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
+                //todo: доделать тут выбор группы
                 // показываем позиция нажатого элемента
             }
 
@@ -83,6 +85,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
         this.listener = (Listener) context;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()){

@@ -31,7 +31,6 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
     ArrayList<String> members;
     Button addUser;
     Button addGroup;
-//    Button cancel;
     EditText titleOfGroup;
     EditText user;
 
@@ -44,7 +43,6 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         addUser = rootView.findViewById(R.id.add_user);
         titleOfGroup = rootView.findViewById(R.id.edit_group);
         user = rootView.findViewById(R.id.edit_user);
-//        cancel = rootView.findViewById(R.id.cancel_creation_group);
         addUser.setOnClickListener(this);
         addGroup.setOnClickListener(this);
 
@@ -74,8 +72,6 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         members.add(string_user);
         user.setText("");
         //тосты почему-то не работают
-//        Toast.makeText(getActivity().getApplicationContext(),
-//                "Пользователь найден", Toast.LENGTH_SHORT);
     }
 
     //todo: почему-то dismiss тут не работает
@@ -93,8 +89,6 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
             case R.id.add_user:
                 onClickAddUser();
                 break;
-//            case R.id.cancel_creation_group:
-//                onClickCancel();
         }
     }
 }
