@@ -18,26 +18,26 @@ public interface RetrofitService {
     Call<List<Group>> view(@Body View query);
 
     @POST("/groups/leave")
-    Response leave(@Body Leave query);
+    Call<Response> leave(@Body Leave query);
 
     @POST("/groups/addEvent")
-    Response addEvent(@Body AddEvent query);
+    Call<Response> addEvent(@Body AddEvent query);
 
     @POST("/groups/done")
-    Response done(@Body Done query);
+    Call<Response> done(@Body Done query);
 
     @POST("/groups/addTask")
-    Response addTask(@Body AddTask query);
+    Call<Response> addTask(@Body AddTask query);
 
     @HTTP(method = "DELETE", path = "/groups/kickMember", hasBody = true)
-    Response kickMember(@Body KickMember query);
+    Call<Response> kickMember(@Body KickMember query);
 
     @POST("/groups/addMember")
-    Response addMember(@Body AddMember query);
+    Call<Response> addMember(@Body AddMember query);
 
     @POST("/groups/create")
-    Response create(@Body Create query);
+    Call<Response> create(@Body Create query);
 
     @POST("/users/registration")
-    Response registration(@Body Registration query);
+    Call<Response> registration(@Body Registration query);
 }

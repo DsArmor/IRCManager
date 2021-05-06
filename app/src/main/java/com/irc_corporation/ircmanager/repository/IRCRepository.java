@@ -6,9 +6,11 @@ import android.util.Log;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.models.User;
+import com.irc_corporation.ircmanager.repository.JSON.AddTask;
 import com.irc_corporation.ircmanager.repository.JSON.View;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -31,8 +33,11 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean refresh(String email, String password) {
+        View jsonBody = new View();
+        jsonBody.email = email;
+        jsonBody.password = password;
         AsyncTaskRefresh asyncTaskRefresh = new AsyncTaskRefresh();
-        asyncTaskRefresh.execute(email, password);
+        asyncTaskRefresh.execute(jsonBody);
         return true;
     }
 
@@ -43,22 +48,41 @@ public class IRCRepository implements Repository{
 
     @Override
     public List<GroupTask> getAllTasks() {
-        return null;
+        ArrayList<GroupTask> result= new ArrayList<>();
+        for (Group group: groups) {
+            for (GroupTask task : group.getTasks()) {
+                result.add(task);
+            }
+        }
+        return result;
     }
 
     @Override
     public List<GroupTask> getTaskFromGroup(Group group) {
-        return null;
+        ArrayList<GroupTask> result= new ArrayList<>();
+        for (GroupTask task : group.getTasks()) {
+            result.add(task);
+        }
+        return result;
     }
 
     @Override
     public List<GroupTask> getCurrentTaskFromGroup(Group group, String date) {
         return null;
-    }
+    }//todo
 
     @Override
     public boolean addTask(String email, String password, Group group, GroupTask task) {
-        return false;
+        AddTask jsonBody = new AddTask();
+        jsonBody.admin.email = email;
+        jsonBody.admin.password = password;
+        jsonBody.task.name = task.getName();
+        jsonBody.task.description = task.getDescription();
+        jsonBody.group.name = group.getName();
+        AsyncTaskAddTask asyncTaskAddTask = new AsyncTaskAddTask();
+        asyncTaskAddTask.execute(jsonBody);
+        refresh(email, password); //todo нужно ли после добавления группы обновлять репозитрорий?
+        return true;
     }
 
     @Override
@@ -71,7 +95,7 @@ public class IRCRepository implements Repository{
         return false;
     }
 
-    private class AsyncTaskRefresh extends AsyncTask<String, Void, Void> {
+    private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
         List<Group> receivedGroups;
 
         @Override
@@ -81,18 +105,13 @@ public class IRCRepository implements Repository{
         }
 
         @Override
-        protected Void doInBackground(String... strings) {
-            String email = strings[0];
-            String password = strings[1];
+        protected Void doInBackground(View... views) {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            View json = new View();
-            json.email = email;
-            json.password = password;
-            Call<List<Group>> call = service.view(json);
+            Call<List<Group>> call = service.view(views[0]);
             try {
                 Response<List<Group>> userResponse = call.execute();
                 receivedGroups = userResponse.body();
@@ -100,6 +119,32 @@ public class IRCRepository implements Repository{
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.d(LOG_TAG, "Группы НЕ получены");
+            }
+            return null;
+        }
+    }
+
+    private class AsyncTaskAddTask extends AsyncTask<AddTask, Void, Void> {
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
+
+        @Override
+        protected Void doInBackground(AddTask... addTasks) {
+            AddTask json = addTasks[0];
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            RetrofitService service = retrofit.create(RetrofitService.class);
+            Call<Response> call = service.addTask(json);
+            try {
+                call.execute();
+                Log.d(LOG_TAG, "Запрос на создание задания отправлен");
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(LOG_TAG, "Запрос на создание задания НЕ отправлен");
             }
             return null;
         }

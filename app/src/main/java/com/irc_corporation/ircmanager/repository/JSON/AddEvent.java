@@ -5,16 +5,16 @@ public class AddEvent {
     public Admin admin;
     public Group group;
 
-    private class Event {
+    public class Event {
         public String name;
         public String description;
     }
-    private class Admin {
+    public class Admin {
         public String fullname;
         public String password;
         public String email;
     }
-    private class Group {
+    public class Group {
         public String name;
     }
 }

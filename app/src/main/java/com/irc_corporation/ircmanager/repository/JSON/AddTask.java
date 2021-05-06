@@ -5,11 +5,11 @@ public class AddTask {
     public Admin admin;
     public Group group;
 
-    private class Task{
+    public class Task{
         public String name;
         public String description;
     }
-    private class Admin {
+    public class Admin {
         public String fullname;
         public String password;
         public String email;
