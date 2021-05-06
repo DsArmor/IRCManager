@@ -15,6 +15,18 @@ public class Group implements Serializable {
     private List<GroupEvent> events;
 
     public Group(String name, User admin, List<User> members, List<GroupTask> tasks, List<GroupEvent> events) {
+        if (members == null){
+            members = new ArrayList<>();
+        }
+        if (tasks == null){
+            tasks = new ArrayList<>();
+        }
+        if (events == null){
+            events = new ArrayList<>();
+        }
+        if (admin == null){
+            admin = new User("", "");
+        }
         this.name = name;
         this.admin = admin;
         this.members = members;

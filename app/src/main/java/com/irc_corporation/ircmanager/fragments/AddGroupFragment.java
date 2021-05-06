@@ -1,26 +1,22 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.irc_corporation.ircmanager.DismissListener;
 import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.UserTemp;
+import com.irc_corporation.ircmanager.models.User;
+import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.ArrayList;
 
@@ -28,11 +24,11 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
 
     private DismissListener dismissListener;
 
-    ArrayList<String> members;
+    ArrayList<User> members;
     Button addUser;
     Button addGroup;
     EditText titleOfGroup;
-    EditText user;
+    EditText editUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +38,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         addGroup = rootView.findViewById(R.id.add_group_complete);
         addUser = rootView.findViewById(R.id.add_user);
         titleOfGroup = rootView.findViewById(R.id.edit_group);
-        user = rootView.findViewById(R.id.edit_user);
+        editUser = rootView.findViewById(R.id.edit_user);
         addUser.setOnClickListener(this);
         addGroup.setOnClickListener(this);
 
@@ -57,7 +53,20 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
 
     private void onClickAddGroup(){
         String string_title = titleOfGroup.getText().toString();
-        Group.groups.add(new Group(string_title, members));
+        //работа с репозиторием
+        Repository repository = SimpleRepository.getInstance();
+        UserTemp user = UserTemp.getInstance("dew", "F");
+        com.irc_corporation.ircmanager.models.Group group =
+                new com.irc_corporation.ircmanager.models.Group(string_title,
+                        null,
+                        null,
+                        null,
+                        null);
+        repository.addGroup(user.getLogin(), user.getPassword(), group);
+        for (User member : members){
+            repository.addMember(user.getLogin(), user.getPassword(), group, member);
+        }
+
         //todo: нужно положить созданную группу на сервер
         //todo: в этом месте реализован интерфейс, но можно наверное проще
         //хотя я весь инет облазил, реализация своего интрефейса может даже лучше...
@@ -69,9 +78,9 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         if (members == null){
             members = new ArrayList<>();
         }
-        String string_user = user.getText().toString();
-        members.add(string_user);
-        user.setText("");
+        String email_user = editUser.getText().toString();
+        members.add(new User("", email_user));
+        editUser.setText("");
         //тосты почему-то не работают
     }
 

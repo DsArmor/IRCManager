@@ -11,6 +11,7 @@ public class UserTemp {
         this.password = password;
     }
 
+    //todo: перенести в базу данных хранение логина и пароля, по возможности переписать одиночку
     public static UserTemp getInstance(String login, String password){
         if (userInstance ==null){
             return new UserTemp(login, password);
