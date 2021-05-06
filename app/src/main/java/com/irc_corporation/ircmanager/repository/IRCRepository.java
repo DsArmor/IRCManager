@@ -27,7 +27,9 @@ public class IRCRepository implements Repository{
     private final static String URL = "https://to-do-server-for-samsung.herokuapp.com/";
     private final static String LOG_TAG = "repo";
 
-    private IRCRepository() {}
+    private IRCRepository() {
+        groups = new ArrayList<>();
+    }
 
     public static Repository getInstance() {
         if (instance == null) return new IRCRepository();
@@ -35,7 +37,7 @@ public class IRCRepository implements Repository{
     }
 
     @Override
-    public boolean refresh(String email, String password) {
+    public boolean refresh(String email, String password){
         View jsonBody = new View();
         jsonBody.email = email;
         jsonBody.password = password;
@@ -123,12 +125,13 @@ public class IRCRepository implements Repository{
     }
 
     private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
-        List<Group> receivedGroups;
+        List<Group> receivedGroups = new ArrayList<>();
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             groups = receivedGroups;
+            Log.d(LOG_TAG, "получено : " + Integer.toString(groups.size()));
         }
 
         @Override
