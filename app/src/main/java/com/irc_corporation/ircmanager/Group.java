@@ -3,10 +3,8 @@ package com.irc_corporation.ircmanager;
 import java.util.ArrayList;
 
 public class Group {
-    //todo: изменить конфигурацию, см сервер
-    private String title;
+    private String name;
     private ArrayList<String> members;
-
     public static ArrayList<Group> groups;
 
     public static void setGroups() {
@@ -16,12 +14,12 @@ public class Group {
     }
 
     public Group(String title, ArrayList<String> names){
-        this.title = title;
+        this.name = title;
         this.members = names;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public ArrayList<String> getMembers() {
