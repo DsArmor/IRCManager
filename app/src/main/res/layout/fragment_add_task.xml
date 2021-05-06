@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".AddTaskActivity">
+    tools:context=".fragments.AddTaskFragment">
 
     <EditText
         android:id="@+id/task_name"
@@ -25,7 +25,6 @@
         android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:layout_marginStart="3dp"
         android:ems="10"
         android:hint="Дата начала"
         android:inputType="date"
@@ -37,30 +36,48 @@
         android:layout_width="145dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
-        android:layout_marginStart="3dp"
         android:ems="10"
         android:hint="Дата конца"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/start_date" />
 
-    <EditText
-        android:id="@+id/description"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="13dp"
-        android:layout_marginTop="3dp"
-        android:ems="10"
-        android:hint="Описание"
-        android:gravity="start"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/add_task"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginStart="5dp"
+        android:text="Выберите группу"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_groups"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinner_groups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarView"
+        app:layout_constraintVertical_bias="0.797" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="226dp"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="Описание"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/add_task_complete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendarView"
+        app:layout_constraintVertical_bias="0.884" />
 
     <Button
-        android:id="@+id/add_task"
+        android:id="@+id/add_task_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Добавить"
@@ -72,12 +89,12 @@
         android:id="@+id/exit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="4dp"
         android:text="Отмена"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/add_task" />
+        app:layout_constraintEnd_toStartOf="@+id/add_task_complete" />
 
     <CalendarView
         android:id="@+id/calendarView"

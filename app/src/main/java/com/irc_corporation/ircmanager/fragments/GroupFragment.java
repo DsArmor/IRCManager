@@ -1,6 +1,5 @@
 package com.irc_corporation.ircmanager.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,61 +11,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
-import com.irc_corporation.ircmanager.models.Group;
-import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.List;
 
-public class TaskFragment extends Fragment implements View.OnClickListener{
+
+public class GroupFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
-    Repository repository;
-    private List<GroupTask> groupTasks;
+
+    private List<com.irc_corporation.ircmanager.models.Group> groupList;
+    private Repository repository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = IRCRepository.getInstance();
-        groupTasks = repository.getAllTasks();
+        repository.refresh("Почта4","Пароль");
+        groupList = repository.getGroups();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        repository.refresh("Почта4","Пароль");
         View rootView =
-                inflater.inflate(R.layout.fragment_task, container, false);
-        FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
+                inflater.inflate(R.layout.fragment_group, container, false);
+        FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
+        button.setOnClickListener(this);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
+        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_groups);
 
         //получение данных с сервера
-        List<com.irc_corporation.ircmanager.models.Group> groupList = repository.getGroups();
-        String[] names = new String[groupTasks.size()];
-        String[] descriptions = new String[names.length];
-        int i=0;
-        for (Group group : groupList){
-            List<GroupTask> receivedTasks = repository.getTaskFromGroup(group);
-            int previousSumTasks=i;
-            for (; i<receivedTasks.size()+previousSumTasks; i++){
-                names[i] = receivedTasks.get(i-previousSumTasks).getName();
-                descriptions[i] = receivedTasks.get(i-previousSumTasks).getDescription();
-            }
+
+        System.out.println(groupList.size());
+        String[] titles = new String[groupList.size()];
+        for (int i=0; i<titles.length; i++){
+            titles[i] = groupList.get(i).getName();
         }
 
-        TaskViewAdapter adapter =new TaskViewAdapter(names, descriptions);
+        TaskViewAdapter adapter = new TaskViewAdapter(titles);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        button.setOnClickListener(this);
-
         return rootView;
     }
 
@@ -78,9 +71,10 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if (listener!= null){
-            listener.onMyClick(1);
+        if (listener != null){
+            listener.onMyClick(2);
         }
+        //todo: нужно порешать за сервер
     }
 
 }
