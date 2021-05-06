@@ -161,7 +161,7 @@ public class IRCRepository implements Repository{
         }
     }
 
-    private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
+    /*private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
         List<Group> receivedGroups = new ArrayList<>();
 
         @Override
@@ -189,7 +189,7 @@ public class IRCRepository implements Repository{
             }
             return null;
         }
-    }
+    }*/
 
     private class AsyncTaskAddTask extends AsyncTask<AddTask, Void, Void> {
 

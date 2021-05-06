@@ -1,9 +1,9 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
 public class AddMember {
-    public NewMember newMember;
-    public Admin admin;
-    public Group group;
+    public NewMember newMember = new NewMember();
+    public Admin admin = new Admin();
+    public Group group = new Group();
 
     public class NewMember {
         public String email;

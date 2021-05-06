@@ -41,11 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         UserTemp userTemp = UserTemp.getInstance("admin", "admin");
         Repository repository = IRCRepository.getInstance();
         repository.refresh("Почта4", "Пароль");
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //----------------------------------------------------------------------------
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);

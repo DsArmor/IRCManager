@@ -1,8 +1,8 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
 public class Done {
-    public User user;
-    public Task task;
+    public User user = new User();
+    public Task task = new Task();
 
     public class User {
         public String email;

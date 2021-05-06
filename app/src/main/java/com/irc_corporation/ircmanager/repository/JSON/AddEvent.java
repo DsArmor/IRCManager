@@ -1,9 +1,9 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
 public class AddEvent {
-    public Event event;
-    public Admin admin;
-    public Group group;
+    public Event event = new Event();
+    public Admin admin = new Admin();
+    public Group group = new Group();
 
     public class Event {
         public String name;

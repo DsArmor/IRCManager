@@ -20,6 +20,7 @@ import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.Task;
+import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
@@ -100,10 +101,11 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             case R.id.exit:
                 break;
             case R.id.add_task_complete:
-                String name_string = name.getText().toString();
-                String description_string = description.getText().toString();
-                //todo: Здесь нужно поместить созданный таск на сервер
-                Task.tasks.add(new Task(name_string, description_string));
+                String name = this.name.getText().toString();
+                String description = this.description.getText().toString();
+                Repository repository = IRCRepository.getInstance();
+                //todo добавить логин и пароль с телефона
+                //repository.addTask("Почта3", "Пароль", ,new GroupTask(name, description, "", false));
         }
         getActivity().getSupportFragmentManager().popBackStack();
     }

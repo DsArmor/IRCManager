@@ -1,9 +1,9 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
 public class AddTask {
-    public Task task;
-    public Admin admin;
-    public Group group;
+    public Task task = new Task();
+    public Admin admin = new Admin();
+    public Group group = new Group();
 
     public class Task{
         public String name;
