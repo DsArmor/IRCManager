@@ -45,22 +45,24 @@ public class IRCRepository implements Repository{
         View jsonBody = new View();
         jsonBody.email = email;
         jsonBody.password = password;
-        AsyncTaskRefresh asyncTaskRefresh = new AsyncTaskRefresh();
-        asyncTaskRefresh.execute(jsonBody);
+        ThreadRefresh threadRefresh = new ThreadRefresh(jsonBody);
+        threadRefresh.start();
         return true;
     }
 
     @Override
     public List<Group> getGroups() {
-        Log.d(LOG_TAG, "выводится : " + Integer.toString(groups.size()));
-        return this.groups;
+        synchronized (groups) {
+            Log.d(LOG_TAG, "выводится : " + Integer.toString(groups.size()));
+            return this.groups;
+        }
     }
 
     @Override
     public List<GroupTask> getAllTasks() {
 
         ArrayList<GroupTask> result= new ArrayList<>();
-        for (Group group: groups) {
+        for (Group group: getGroups()) {
             for (GroupTask task : group.getTasks()) {
                 result.add(task);
             }
@@ -129,6 +131,34 @@ public class IRCRepository implements Repository{
         AsyncTaskAddUser asyncTaskAddUser = new AsyncTaskAddUser();
         asyncTaskAddUser.execute(jsonBody);
         return true;
+    }
+
+    private class ThreadRefresh extends Thread{
+        private View jsonBody;
+
+        ThreadRefresh(View jsonBody) {
+            this.jsonBody = jsonBody;
+        }
+
+        @Override
+        public void run() {
+            synchronized (groups) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<List<Group>> call = service.view(jsonBody);
+                try {
+                    Response<List<Group>> userResponse = call.execute();
+                    groups = userResponse.body();
+                    Log.d(LOG_TAG, "Группы получены");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.d(LOG_TAG, "Группы НЕ получены");
+                }
+            }
+        }
     }
 
     private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
