@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements Listener{
                         .beginTransaction()
                         .replace(R.id.registration_container, fragment)
                         .commit();
+                break;
             case 1:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);

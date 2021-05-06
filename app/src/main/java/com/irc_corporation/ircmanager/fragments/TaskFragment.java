@@ -21,6 +21,8 @@ import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.List;
 
 public class TaskFragment extends Fragment implements View.OnClickListener{
@@ -29,17 +31,13 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     Repository repository;
     private List<GroupTask> groupTasks;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        repository = IRCRepository.getInstance();
-        groupTasks = repository.getAllTasks();
-    }
+    //todo: посмотри жизненный цикл фрагмента
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        repository = IRCRepository.getInstance();
         repository.refresh("Почта4","Пароль");
         View rootView =
                 inflater.inflate(R.layout.fragment_task, container, false);
@@ -48,12 +46,15 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
 
         //получение данных с сервера
-        List<com.irc_corporation.ircmanager.models.Group> groupList = repository.getGroups();
+        List<Group> groupList = repository.getGroups();
+        System.out.println("Сейчас тестим: "+groupList.size());
+        groupTasks = repository.getAllTasks();
         String[] names = new String[groupTasks.size()];
         String[] descriptions = new String[names.length];
         int i=0;
         for (Group group : groupList){
             List<GroupTask> receivedTasks = repository.getTaskFromGroup(group);
+            System.out.println("Before we die "+receivedTasks.size());
             int previousSumTasks=i;
             for (; i<receivedTasks.size()+previousSumTasks; i++){
                 names[i] = receivedTasks.get(i-previousSumTasks).getName();

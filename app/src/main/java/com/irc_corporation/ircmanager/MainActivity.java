@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
-
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -106,6 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onDismiss() {
         Fragment fragment = new GroupFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
     }
 }

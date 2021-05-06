@@ -73,11 +73,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         //todo: в этом месте реализован интерфейс, но можно наверное проще
         //хотя я весь инет облазил, реализация своего интрефейса может даже лучше...
         repository.refresh("Почта4","Пароль");
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         dismissListener.onDismiss();
         dismiss();
     }
