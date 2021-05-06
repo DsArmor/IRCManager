@@ -49,6 +49,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_groups);
 
         //получение данных с сервера
+
         System.out.println(groupList.size());
         String[] titles = new String[groupList.size()];
         for (int i=0; i<titles.length; i++){

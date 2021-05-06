@@ -201,7 +201,7 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response> call = service.addTask(json);
+            Call<Response<String>> call = service.addTask(json);
             try {
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на создание задания отправлен");
@@ -213,6 +213,7 @@ public class IRCRepository implements Repository{
         }
     }
 
+    //todo: мы меняли Response на Response<String>
     private class AsyncTaskAddUser extends AsyncTask<Registration, Void, Void> {
         @Override
         protected Void doInBackground(Registration... registrations) {
@@ -222,7 +223,7 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response> call = service.registration(json);
+            Call<Response<String>> call = service.registration(json);
             try {
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на создание пользователя отправлен");
@@ -243,7 +244,7 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response> call = service.addMember(json);
+            Call<Response<String>> call = service.addMember(json);
             try {
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на добавление пользователя отправлен");
@@ -264,7 +265,7 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response> call = service.create(json);
+            Call<Response<String>> call = service.create(json);
             try {
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на создание группы отправлен");

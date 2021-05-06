@@ -7,8 +7,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import com.irc_corporation.ircmanager.repository.JSON.*;
@@ -27,17 +25,17 @@ public interface RetrofitService {
     Call<Response> done(@Body Done query);
 
     @POST("/groups/addTask")
-    Call<Response> addTask(@Body AddTask query);
+    Call<Response<String>> addTask(@Body AddTask query);
 
     @HTTP(method = "DELETE", path = "/groups/kickMember", hasBody = true)
     Call<Response> kickMember(@Body KickMember query);
 
     @POST("/groups/addMember")
-    Call<Response> addMember(@Body AddMember query);
+    Call<Response<String>> addMember(@Body AddMember query);
 
     @POST("/groups/create")
-    Call<Response> create(@Body Create query);
+    Call<Response<String>> create(@Body Create query);
 
     @POST("/users/registration")
-    Call<Response> registration(@Body Registration query);
+    Call<Response<String>> registration(@Body Registration query);
 }
