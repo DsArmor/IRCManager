@@ -1,4 +1,3 @@
-/*
 package com.irc_corporation.ircmanager;
 
 import java.util.ArrayList;
@@ -27,4 +26,3 @@ public class Group {
         return members;
     }
 }
-*/
