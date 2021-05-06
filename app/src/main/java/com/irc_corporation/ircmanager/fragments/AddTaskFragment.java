@@ -16,10 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.Task;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
@@ -58,7 +56,6 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
         //todo: переделать под получение Array List
         Repository repository = IRCRepository.getInstance();
         List<com.irc_corporation.ircmanager.models.Group> groups = repository.getGroups();
-        Group.setGroups();
 
         String[] temp_groups = new String[groups.size()];
         for (int i=0; i<temp_groups.length; i++){
@@ -103,7 +100,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
                 String name_string = name.getText().toString();
                 String description_string = description.getText().toString();
                 //todo: Здесь нужно поместить созданный таск на сервер
-                Task.tasks.add(new Task(name_string, description_string));
+//                Task.tasks.add(new Task(name_string, description_string));
         }
         getActivity().getSupportFragmentManager().popBackStack();
     }

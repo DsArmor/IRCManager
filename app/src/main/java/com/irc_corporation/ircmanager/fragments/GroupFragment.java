@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;

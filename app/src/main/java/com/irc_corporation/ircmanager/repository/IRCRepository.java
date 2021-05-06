@@ -161,35 +161,35 @@ public class IRCRepository implements Repository{
         }
     }
 
-    private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
-        List<Group> receivedGroups = new ArrayList<>();
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            groups = receivedGroups;
-            Log.d(LOG_TAG, "получено : " + Integer.toString(groups.size()));
-        }
-
-        @Override
-        protected Void doInBackground(View... views) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<List<Group>> call = service.view(views[0]);
-            try {
-                Response<List<Group>> userResponse = call.execute();
-                receivedGroups = userResponse.body();
-                Log.d(LOG_TAG, "Группы получены");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d(LOG_TAG, "Группы НЕ получены");
-            }
-            return null;
-        }
-    }
+//    private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
+//        List<Group> receivedGroups = new ArrayList<>();
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            groups = receivedGroups;
+//            Log.d(LOG_TAG, "получено : " + Integer.toString(groups.size()));
+//        }
+//
+//        @Override
+//        protected Void doInBackground(View... views) {
+//            Retrofit retrofit = new Retrofit.Builder()
+//                    .baseUrl(URL)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .build();
+//            RetrofitService service = retrofit.create(RetrofitService.class);
+//            Call<List<Group>> call = service.view(views[0]);
+//            try {
+//                Response<List<Group>> userResponse = call.execute();
+//                receivedGroups = userResponse.body();
+//                Log.d(LOG_TAG, "Группы получены");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                Log.d(LOG_TAG, "Группы НЕ получены");
+//            }
+//            return null;
+//        }
+//    }
 
     private class AsyncTaskAddTask extends AsyncTask<AddTask, Void, Void> {
 

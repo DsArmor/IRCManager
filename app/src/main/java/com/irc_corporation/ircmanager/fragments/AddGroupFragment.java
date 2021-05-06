@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.irc_corporation.ircmanager.DismissListener;
-import com.irc_corporation.ircmanager.Group;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.UserTemp;
+import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.User;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
@@ -56,18 +56,17 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         String string_title = titleOfGroup.getText().toString();
         //работа с репозиторием
         //todo: отладить для настоящего репозитория
+        //логин и пароль брать из конфигурации
         Repository repository = IRCRepository.getInstance();
-        System.out.println(repository.getGroups().size());
-        UserTemp user = UserTemp.getInstance("dew", "F");
-        com.irc_corporation.ircmanager.models.Group group =
-                new com.irc_corporation.ircmanager.models.Group(string_title,
+        Group group =
+                new Group(string_title,
                         null,
                         null,
                         null,
                         null);
-        repository.addGroup(user.getLogin(), user.getPassword(), group);
+        repository.addGroup("Почта4", "Пароль", group);
         for (User member : members){
-            repository.addMember(user.getLogin(), user.getPassword(), group, member);
+            repository.addMember("Почта4", "Пароль", group, member);
         }
         System.out.println(repository.getGroups().size());
         //todo: нужно положить созданную группу на сервер
