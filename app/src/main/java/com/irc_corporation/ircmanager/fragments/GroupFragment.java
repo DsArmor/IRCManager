@@ -47,6 +47,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
         groupList = repository.getGroups();
 
+        System.out.println("Размер массива групп внутри Групп Фрагмента"+groupList.size());
         View rootView =
                 inflater.inflate(R.layout.fragment_group, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
