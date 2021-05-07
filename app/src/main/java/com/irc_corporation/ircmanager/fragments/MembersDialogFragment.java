@@ -1,5 +1,6 @@
 package com.irc_corporation.ircmanager.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -9,12 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 public class MembersDialogFragment extends DialogFragment {
 
-    public MembersDialogFragment(){
+    public MembersDialogFragment(){}
+    @SuppressLint("ValidFragment")
+    public MembersDialogFragment(String title){
         //передать сюда группу и по ней найти всех ее участников
     }
 
@@ -25,7 +29,8 @@ public class MembersDialogFragment extends DialogFragment {
 
         //todo: получить всех участников группы с сервера и положить их в адаптер
         //todo: по возможности написать свой адаптер для групп
-//        Repository repository = SimpleRepository.getInstance();
+        Repository repository = IRCRepository.getInstance();
+
 //        repository.
 //        String[] members = new String[];
         ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(),

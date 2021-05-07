@@ -4,24 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:padding="30dp"
     tools:context=".fragments.AddGroupFragment">
 
     <EditText
         android:id="@+id/edit_group"
-        android:layout_width="350dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_margin="20dp"
         android:hint="Название группы"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edit_user"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="240dp"
         android:layout_marginTop="88dp"
         android:hint="Почта пользователя"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,6 +31,7 @@
 
     <Button
         android:id="@+id/add_user"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,6 +42,7 @@
 
     <Button
         android:id="@+id/add_group_complete"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
