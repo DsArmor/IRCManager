@@ -11,6 +11,11 @@ import com.irc_corporation.ircmanager.fragments.Login.RegistrationFragment;
 public class LoginActivity extends AppCompatActivity implements Listener{
 
     @Override
+    public void onContentChanged() {
+        super.onContentChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);

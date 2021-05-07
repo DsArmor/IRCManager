@@ -28,11 +28,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/baseline_add_24_1"
-        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_group_add_24"
+        android:backgroundTint="@color/green"
         app:borderWidth="3dp"
-        android:tint="@color/black"
-        app:maxImageSize="37dp"
+        android:tint="@color/white"
+        app:maxImageSize="33dp"
         android:layout_margin="20dp"
         android:contentDescription="add_group" />
 </FrameLayout>
