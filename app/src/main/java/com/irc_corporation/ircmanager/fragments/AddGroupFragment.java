@@ -2,6 +2,7 @@ package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -64,15 +65,15 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
                         null,
                         null,
                         null);
-        repository.addGroup("Почта4", "Пароль", group);
+        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        repository.addGroup(prefs.getString("email", ""), prefs.getString("password", ""), group);
         for (User member : members){
-            repository.addMember("Почта4", "Пароль", group, member);
+            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), group, member);
         }
-        System.out.println(repository.getGroups().size());
         //todo: нужно положить созданную группу на сервер
         //todo: в этом месте реализован интерфейс, но можно наверное проще
         //хотя я весь инет облазил, реализация своего интрефейса может даже лучше...
-        repository.refresh("Почта4","Пароль");
+        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
 
         dismissListener.onDismiss();
         dismiss();

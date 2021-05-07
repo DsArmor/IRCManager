@@ -42,37 +42,39 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         repository = IRCRepository.getInstance();
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        Log.d(LOG_TAG, prefs.getString("login", ""));
-        Log.d(LOG_TAG, prefs.getString("password", ""));
-        repository.refresh(prefs.getString("login", ""), prefs.getString("password", ""));
+        Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
+        Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
+        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
 
         //получение данных с сервера
-        List<Group> groupList = repository.getGroups();
-        System.out.println("Сейчас тестим: "+groupList.size());
-        groupTasks = repository.getAllTasks();
-        String[] names = new String[groupTasks.size()];
-        String[] descriptions = new String[names.length];
-        int i=0;
-        for (Group group : groupList){
-            List<GroupTask> receivedTasks = repository.getTaskFromGroup(group);
-            System.out.println("Before we die "+receivedTasks.size());
-            int previousSumTasks=i;
-            for (; i<receivedTasks.size()+previousSumTasks; i++){
-                names[i] = receivedTasks.get(i-previousSumTasks).getName();
-                descriptions[i] = receivedTasks.get(i-previousSumTasks).getDescription();
+        if ((prefs.contains("email") && prefs.contains("password"))) {
+            List<Group> groupList = repository.getGroups();
+            System.out.println("Сейчас тестим: " + groupList.size());
+            groupTasks = repository.getAllTasks();
+            String[] names = new String[groupTasks.size()];
+            String[] descriptions = new String[names.length];
+            int i = 0;
+            for (Group group : groupList) {
+                List<GroupTask> receivedTasks = repository.getTaskFromGroup(group);
+                System.out.println("Before we die " + receivedTasks.size());
+                int previousSumTasks = i;
+                for (; i < receivedTasks.size() + previousSumTasks; i++) {
+                    names[i] = receivedTasks.get(i - previousSumTasks).getName();
+                    descriptions[i] = receivedTasks.get(i - previousSumTasks).getDescription();
+                }
             }
+
+            TaskViewAdapter adapter = new TaskViewAdapter(names, descriptions);
+            recyclerView.setAdapter(adapter);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            button.setOnClickListener(this);
+
         }
-
-        TaskViewAdapter adapter =new TaskViewAdapter(names, descriptions);
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        button.setOnClickListener(this);
-
         return rootView;
     }
 

@@ -42,6 +42,7 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean refresh(String email, String password){
+        Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         View jsonBody = new View();
         jsonBody.email = email;
         jsonBody.password = password;
@@ -151,7 +152,7 @@ public class IRCRepository implements Repository{
                 Call<List<Group>> call = service.view(jsonBody);
                 try {
                     Response<List<Group>> userResponse = call.execute();
-                    groups = userResponse.body();
+                    groups = userResponse.body() == null ? new ArrayList<>() : userResponse.body();
                     Log.d(LOG_TAG, "Группы получены");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -270,8 +271,8 @@ public class IRCRepository implements Repository{
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на создание группы отправлен");
             } catch (IOException e) {
-                e.printStackTrace();
-                Log.d(LOG_TAG, "Запрос на создание группы НЕ отправлен");
+                //e.printStackTrace();
+                //Log.d(LOG_TAG, "Запрос на создание группы НЕ отправлен");
             }
             return null;
         }

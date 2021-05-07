@@ -1,6 +1,7 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -33,7 +34,8 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = IRCRepository.getInstance();
-        repository.refresh("Почта4","Пароль");
+        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
         groupList = repository.getGroups();
     }
 

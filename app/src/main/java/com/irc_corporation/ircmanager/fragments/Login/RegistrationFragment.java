@@ -54,6 +54,8 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("email", email.getText().toString());
+        editor.apply();
+        editor = prefs.edit();
         editor.putString("password", password.getText().toString());
         editor.apply();
         this.listener.onMyClick(1);
