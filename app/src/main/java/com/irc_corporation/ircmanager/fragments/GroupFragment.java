@@ -35,17 +35,18 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = IRCRepository.getInstance();
-        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
-        groupList = repository.getGroups();
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        repository.refresh("Почта4","Пароль");
+        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
         groupList = repository.getGroups();
+
         View rootView =
                 inflater.inflate(R.layout.fragment_group, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
