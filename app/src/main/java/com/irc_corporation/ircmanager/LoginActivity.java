@@ -31,8 +31,7 @@ public class LoginActivity extends AppCompatActivity implements Listener{
                         .commit();
                 break;
             case 1:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
+                finish();
         }
     }
 }

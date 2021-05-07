@@ -1,8 +1,10 @@
 package com.irc_corporation.ircmanager;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -16,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -32,15 +35,15 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener, DismissListener{
 
+    private static final String LOG_TAG = "MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //todo: переписать на базу данных, это временно
-        UserTemp userTemp = UserTemp.getInstance("admin", "admin");
         Repository repository = IRCRepository.getInstance();
-        repository.refresh("Почта4", "Пароль");
         //----------------------------------------------------------------------------
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
@@ -62,6 +65,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        if(!(prefs.contains("email") && prefs.contains("password"))){
+            Log.d(LOG_TAG, "User Not Logged In");
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @SuppressLint("NonConstantResourceId")

@@ -2,12 +2,14 @@ package com.irc_corporation.ircmanager.fragments;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     private Listener listener;
     Repository repository;
     private List<GroupTask> groupTasks;
+    private static final String LOG_TAG = "TaskFragment";
 
     //todo: посмотри жизненный цикл фрагмента
 
@@ -38,9 +41,11 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                              ViewGroup container,
                              Bundle savedInstanceState) {
         repository = IRCRepository.getInstance();
-        repository.refresh("Почта4","Пароль");
-        View rootView =
-                inflater.inflate(R.layout.fragment_task, container, false);
+        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        Log.d(LOG_TAG, prefs.getString("login", ""));
+        Log.d(LOG_TAG, prefs.getString("password", ""));
+        repository.refresh(prefs.getString("login", ""), prefs.getString("password", ""));
+        View rootView = inflater.inflate(R.layout.fragment_task, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
