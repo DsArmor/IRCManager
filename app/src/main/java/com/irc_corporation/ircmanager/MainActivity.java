@@ -97,14 +97,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.addToBackStack(null);
             ft.replace(R.id.content_container, fragment).commit();
         } else if (id==2){
+            FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+            ft.addToBackStack(null);
             DialogFragment fragment = new AddGroupFragment();
-            fragment.show(getSupportFragmentManager(), "AddGroup");
+            fragment.show(ft, "AddGroup");
         }
     }
 
     @Override
     public void onDismiss() {
         Fragment fragment = new GroupFragment();
-        getSupportFragmentManager().beginTransaction().detach(fragment).attach(fragment).commit();
+        getSupportFragmentManager().popBackStack();
+        FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.content_container, fragment).commit();
     }
 }

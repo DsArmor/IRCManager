@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
+import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.repository.SimpleRepository;
@@ -26,21 +27,21 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
 
-    private List<com.irc_corporation.ircmanager.models.Group> groupList;
+    private List<Group> groupList;
     private Repository repository;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repository = IRCRepository.getInstance();
-        repository.refresh("Почта4","Пароль");
-        groupList = repository.getGroups();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        repository.refresh("Почта4","Пароль");
+        groupList = repository.getGroups();
         View rootView =
                 inflater.inflate(R.layout.fragment_group, container, false);
         FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
