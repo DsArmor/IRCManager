@@ -11,6 +11,7 @@
         android:id="@+id/edit_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="240dp"
         android:layout_marginTop="16dp"
         android:hint="Название группы"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,6 +33,7 @@
     <Button
         android:id="@+id/add_user"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -43,6 +45,7 @@
     <Button
         android:id="@+id/add_group_complete"
         style="@style/Widget.AppCompat.Button.Colored"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"

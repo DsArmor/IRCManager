@@ -1,5 +1,6 @@
 package com.irc_corporation.ircmanager.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -70,20 +71,22 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull TaskViewAdapter.ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         CardView cv = viewHolder.cardView;
         if (names != null) {
             TextView name = cv.findViewById(R.id.task_name_in_card);
             name.setText(names[position]);
             TextView description = cv.findViewById(R.id.task_description_in_card);
             description.setText(descriptions[position]);
+            //todo: получить реальное название группы
+            TextView groupName = cv.findViewById(R.id.group_name_in_card);
+            groupName.setText("Бульбага");
         } else {
             TextView title = cv.findViewById(R.id.group_name);
             title.setText(titles[position]);
             cv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     FragmentManager fragmentManager = ((AppCompatActivity) cv.getContext()).getSupportFragmentManager();
 //                    Fragment fragment = new MembersDialogFragment();
 //                    FragmentTransaction ft = fragmentManager.beginTransaction();
