@@ -88,7 +88,7 @@ public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHo
 //                    Fragment fragment = new MembersDialogFragment();
 //                    FragmentTransaction ft = fragmentManager.beginTransaction();
 //                    ft.replace(R.id.content_container, fragment).commit();
-                    DialogFragment fragment = new MembersDialogFragment();
+                    DialogFragment fragment = new MembersDialogFragment(titles[position]);
                     fragment.show(fragmentManager, "AddGroup");
                 }
             });

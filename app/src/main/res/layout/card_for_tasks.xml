@@ -19,9 +19,22 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            android:layout_margin="5dp"
-            android:gravity="center"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="start"
             android:textSize="20sp"/>
+
+        <TextView
+
+            android:id="@+id/group_name_in_card"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="Тут будет название группы"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -34,8 +47,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
+                android:background="#A3FBA6"
+                android:freezesText="false"
+                android:nestedScrollingEnabled="false"
                 android:padding="3dp"
-                android:text="Дата начала:" />
+                android:text="Дата конца:"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#190F0F"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,23 +66,17 @@
                 android:padding="3dp"
                 android:text="Тут будет дата" />
 
-            <TextView
-                android:id="@+id/group_name_in_card"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:gravity="center"
-                android:text="Тут будет название группы" />
+
         </LinearLayout>
 
         <TextView
             android:id="@+id/task_description_in_card"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="4"
             android:padding="3dp"
             android:textSize="16sp" />
     </LinearLayout>

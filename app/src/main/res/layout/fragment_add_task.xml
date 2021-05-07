@@ -21,26 +21,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/start_date"
-        android:layout_width="145dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:ems="10"
-        android:hint="Дата начала"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_name" />
-
-    <EditText
         android:id="@+id/end_date"
-        android:layout_width="145dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
+        android:layout_width="122dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Дата конца"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_date" />
+        app:layout_constraintTop_toBottomOf="@+id/task_name" />
 
     <TextView
         android:id="@+id/textView"
@@ -65,19 +54,21 @@
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
-        android:layout_height="226dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:gravity="start"
         android:hint="Описание"
-        android:inputType="textPersonName"
+        android:maxLines="5"
         app:layout_constraintBottom_toTopOf="@+id/add_task_complete"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.656"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        app:layout_constraintVertical_bias="0.884" />
+        app:layout_constraintVertical_bias="0.275" />
 
     <Button
         android:id="@+id/add_task_complete"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Добавить"
@@ -87,6 +78,7 @@
 
     <Button
         android:id="@+id/exit"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
@@ -98,8 +90,10 @@
 
     <CalendarView
         android:id="@+id/calendarView"
-        android:layout_width="234dp"
-        android:layout_height="231dp"
+        android:layout_width="237dp"
+        android:layout_height="234dp"
+        app:layout_constraintEnd_toStartOf="@+id/end_date"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_name" />
 </android.support.constraint.ConstraintLayout>
