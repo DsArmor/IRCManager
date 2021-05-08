@@ -33,7 +33,7 @@ import com.irc_corporation.ircmanager.repository.SimpleRepository;
 import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener, DismissListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener, DismissListener {
 
     private static final String LOG_TAG = "MainActivity";
 
@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         //todo: переписать на базу данных, это временно
-        Repository repository = IRCRepository.getInstance();
         //----------------------------------------------------------------------------
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment).commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle =new ActionBarDrawerToggle(
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 drawer,
                 toolbar,
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onResume() {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
-        if(!(prefs.contains("email") && prefs.contains("password"))){
+        if (!(prefs.contains("email") && prefs.contains("password"))) {
             Log.d(LOG_TAG, "User Not Logged In");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -86,14 +85,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //вызывается метод onCreate для каждого фрагмента при переключении по навигационным кнопкам, можно и так
         //либо нужно каждый фрагмент сделать одиночкой)
-        switch (id){
+        switch (id) {
             case R.id.nav_group:
                 fragment = new GroupFragment();
                 break;
             case R.id.nav_tasks:
                 fragment = new TaskFragment();
                 break;
-                //допиши навигацию к календарному виду, когда найдешь ему иконку
+            //допиши навигацию к календарному виду, когда найдешь ему иконку
         }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         assert fragment != null;
@@ -105,13 +104,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onMyClick(int id) {
-        if (id == 1){
+        if (id == 1) {
             Fragment fragment = new AddTaskFragment();
-            FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.addToBackStack(null);
             ft.replace(R.id.content_container, fragment).commit();
-        } else if (id==2){
-            FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+        } else if (id == 2) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.addToBackStack(null);
             DialogFragment fragment = new AddGroupFragment();
             fragment.show(ft, "AddGroup");
