@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
+import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
@@ -62,7 +62,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             titles[i] = groupList.get(i).getName();
         }
 
-        TaskViewAdapter adapter = new TaskViewAdapter(titles);
+        TaskAdapter adapter = new TaskAdapter(titles);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
