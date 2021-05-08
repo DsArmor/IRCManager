@@ -13,12 +13,14 @@
 
         <RelativeLayout
             android:padding="10dp"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_groups"
-                android:layout_width="match_parent"
+                android:foregroundGravity="center"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
         </RelativeLayout>
     </LinearLayout>
