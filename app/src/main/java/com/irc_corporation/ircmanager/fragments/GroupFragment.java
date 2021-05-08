@@ -1,13 +1,16 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +18,9 @@ import android.view.ViewGroup;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.adapters.TaskAdapter;
+import com.irc_corporation.ircmanager.adapters.GroupAdapter;
 import com.irc_corporation.ircmanager.models.Group;
-import com.irc_corporation.ircmanager.repository.IRCRepository;
-import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.viewmodels.GroupViewModel;
 
 import java.util.List;
 
@@ -27,28 +29,23 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
 
-    private List<Group> groupList;
-    private Repository repository;
+    private static final String LOG_TAG = "GroupFragment";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = IRCRepository.getInstance();
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
-        groupList = repository.getGroups().getValue();
-
-        System.out.println("Размер массива групп внутри Групп Фрагмента"+groupList.size());
+//        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+//        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
+//        groupList = repository.getGroups().getValue();
         View rootView =
                 inflater.inflate(R.layout.fragment_group, container, false);
+
         FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
         button.setOnClickListener(this);
 
@@ -56,17 +53,23 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
         //получение данных с сервера
 
-        System.out.println(groupList.size());
-        String[] titles = new String[groupList.size()];
-        for (int i=0; i<titles.length; i++){
-            titles[i] = groupList.get(i).getName();
-        }
-
-        TaskAdapter adapter = new TaskAdapter();
+        GroupAdapter adapter = new GroupAdapter();
         recyclerView.setAdapter(adapter);
+
+        GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+        groupViewModel.getGroups().observe(this, new Observer<List<Group>>() {
+            @Override
+            public void onChanged(List<Group> groups) {
+                Log.d(LOG_TAG, "OnChanged");
+                adapter.setGroups(groups);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         return rootView;
+
     }
 
     @Override
@@ -80,7 +83,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         if (listener != null){
             listener.onMyClick(2);
         }
-        //todo: нужно порешать за сервер
     }
 
 }

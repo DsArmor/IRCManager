@@ -45,6 +45,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         return rootView;
     }
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -67,7 +68,7 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         //хотя я весь инет облазил, реализация своего интрефейса может даже лучше...
         repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
 
-        dismissListener.onDismiss();
+//        dismissListener.onDismiss();
         dismiss();
     }
 

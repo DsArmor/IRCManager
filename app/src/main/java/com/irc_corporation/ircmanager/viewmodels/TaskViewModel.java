@@ -1,4 +1,4 @@
-package com.irc_corporation.ircmanager.fragments;
+package com.irc_corporation.ircmanager.viewmodels;
 
 import android.app.Application;
 
@@ -27,7 +27,6 @@ public class TaskViewModel extends ViewModel {
     }
 
     //todo: отпарсить таски по дате и вернуть
-
 
     public MutableLiveData<List<Group>> getGroups() {
         return groups;

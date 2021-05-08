@@ -1,6 +1,7 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -43,12 +44,19 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        return super.onCreateDialog(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView =
                 inflater.inflate(R.layout.fragment_add_task, container, false);
+
         addButton = rootView.findViewById(R.id.add_task_complete);
         exitButton = rootView.findViewById(R.id.exit);
         exitButton.setOnClickListener(this);
@@ -67,7 +75,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
             temp_groups[i] = groups.get(i).getName();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, temp_groups);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, temp_groups);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.spinner_groups);

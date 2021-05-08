@@ -3,7 +3,6 @@ package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.ImageReader;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,9 +20,9 @@ import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
-import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.viewmodels.TaskViewModel;
 
 import java.util.List;
 
@@ -88,7 +87,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
         Repository repository = IRCRepository.getInstance();
         repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
     }
-
 
     @Override
     public void onClick(View v) {

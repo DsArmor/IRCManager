@@ -50,7 +50,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
     }
 
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView textViewTaskName;

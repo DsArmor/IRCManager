@@ -51,7 +51,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         private final TextView textViewCountMembers;
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
-            textViewGroupName = itemView.findViewById(R.id.group_name_in_card_tasks);
+            textViewGroupName = itemView.findViewById(R.id.group_name_in_card_groups);
             textViewCountMembers = itemView.findViewById(R.id.count_of_members);
         }
     }
