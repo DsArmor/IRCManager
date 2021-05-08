@@ -44,7 +44,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
-        groupList = repository.getGroups();
+        groupList = repository.getGroups().getValue();
 
         System.out.println("Размер массива групп внутри Групп Фрагмента"+groupList.size());
         View rootView =

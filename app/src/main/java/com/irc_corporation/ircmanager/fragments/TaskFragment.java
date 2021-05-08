@@ -28,7 +28,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
     Repository repository;
-    private List<GroupTask> groupTasks;
     private static final String LOG_TAG = "TaskFragment";
 
     //todo: посмотри жизненный цикл фрагмента
@@ -49,10 +48,15 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
         //получение данных с сервера
         if ((prefs.contains("email") && prefs.contains("password"))) {
-            List<Group> groupList = repository.getGroups();
+            List<Group> groupList = repository.getGroups().getValue();
             System.out.println("Сейчас тестим: " + groupList.size());
-            groupTasks = repository.getAllTasks();
-            String[] names = new String[groupTasks.size()];
+            int countTasks = 0;
+            for (Group group : groupList) {
+                for (GroupTask task : group.getTasks()) {
+                    countTasks++;
+                }
+            }
+            String[] names = new String[countTasks];
             String[] descriptions = new String[names.length];
             int i = 0;
             for (Group group : groupList) {

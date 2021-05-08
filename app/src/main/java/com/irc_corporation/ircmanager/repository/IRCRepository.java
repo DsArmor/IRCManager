@@ -3,6 +3,8 @@ package com.irc_corporation.ircmanager.repository;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.models.User;
@@ -27,13 +29,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class IRCRepository implements Repository{
-    private List<Group> groups;
+    private MutableLiveData<List<Group>> groups;
     private static Repository instance;
     private final static String URL = "https://to-do-server-for-samsung.herokuapp.com/";
     private final static String LOG_TAG = "repo";
 
     private IRCRepository() {
-        groups = new ArrayList<>();
+        groups = new MutableLiveData<List<Group>>();
+        groups.setValue(new ArrayList<Group>());
     }
 
     public static Repository getInstance() {
@@ -53,7 +56,7 @@ public class IRCRepository implements Repository{
         Thread threadRefresh = new Thread() {
             @Override
             public void run() {
-                synchronized (groups) {
+                //synchronized (groups) {
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl(URL)
                             .addConverterFactory(GsonConverterFactory.create())
@@ -62,29 +65,34 @@ public class IRCRepository implements Repository{
                     Call<List<Group>> call = service.view(jsonBody);
                     try {
                         Response<List<Group>> response = call.execute();
-                        groups = response.body() == null ? new ArrayList<>() : response.body();
-                        Collections.sort(groups);
+                        List<Group> newGroups = response.body();
+                        Log.d(LOG_TAG, "Получено групп от сервера: " + String.valueOf(newGroups.size()));
+                        if (newGroups != null) {
+                            groups.postValue(newGroups);
+                        }
+                        else {
+                            groups.postValue(new ArrayList<>());
+                        }
+                        Log.d(LOG_TAG, "После refresh() в группе: " + String.valueOf(groups.getValue().size()));
                         Log.d(LOG_TAG, "Группы получены");
                     } catch (IOException e) {
                         e.printStackTrace();
                         Log.d(LOG_TAG, "Группы НЕ получены");
                     }
                 }
-            }
+            //}
         };
         threadRefresh.start();
     }
 
     @Override
-    public List<Group> getGroups() {
-        synchronized (groups) {
-            Log.d(LOG_TAG, "выводится : " + Integer.toString(groups.size()));
-            return this.groups;
-        }
+    public MutableLiveData<List<Group>> getGroups() {
+        Log.d(LOG_TAG, "getGroups() возвращает: " + String.valueOf(groups.getValue().size()));
+        return this.groups;
     }
 
-    @Override
-    public List<GroupTask> getAllTasks() {
+/*    @Override
+    public MutableLiveData<ArrayList<GroupTask>> getAllTasks() {
 
         ArrayList<GroupTask> result= new ArrayList<>();
         for (Group group: getGroups()) {
@@ -94,7 +102,7 @@ public class IRCRepository implements Repository{
         }
         Log.d(LOG_TAG, "количество тасков : " + Integer.toString(result.size()));
         return result;
-    }
+    }*/
 
     @Override
     public void addTask(String email, String password, String groupName, String newGroupTaskName, String newGroupTaskDescription, Date newGroupTaskDueDate) {

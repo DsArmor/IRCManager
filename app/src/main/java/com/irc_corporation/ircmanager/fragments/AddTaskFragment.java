@@ -60,7 +60,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
         //переделать под репозиторий
         //todo: переделать под получение Array List
         Repository repository = IRCRepository.getInstance();
-        List<com.irc_corporation.ircmanager.models.Group> groups = repository.getGroups();
+        List<com.irc_corporation.ircmanager.models.Group> groups = repository.getGroups().getValue();
 
         String[] temp_groups = new String[groups.size()];
         for (int i=0; i<temp_groups.length; i++){
