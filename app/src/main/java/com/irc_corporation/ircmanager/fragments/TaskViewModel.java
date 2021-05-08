@@ -34,17 +34,10 @@ public class TaskViewModel extends ViewModel {
     }
 
     public List<GroupTask> getTasks() {
-//        String[] names = new String[groupTasks.size()];
-//        String[] descriptions = new String[names.length];
-//        int i = 0;
-//        for (Group group : groupList) {
-//            List<GroupTask> receivedTasks = group.getTasks();
-//            int previousSumTasks = i;
-//            for (; i < receivedTasks.size() + previousSumTasks; i++) {
-//                names[i] = receivedTasks.get(i - previousSumTasks).getName();
-//                descriptions[i] = receivedTasks.get(i - previousSumTasks).getDescription();
-//            }
-//        }
+        tasks = new ArrayList<>();
+        for (Group group: getGroups().getValue()) {
+            tasks.addAll(group.getTasks());
+        }
         return tasks;
     }
 }

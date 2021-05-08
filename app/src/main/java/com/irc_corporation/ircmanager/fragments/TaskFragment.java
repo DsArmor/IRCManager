@@ -3,6 +3,7 @@ package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.ImageReader;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -21,6 +22,7 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d(LOG_TAG, "enter OnCreateView");
         //Не уверен, что размещение в коде правильное
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
@@ -46,6 +48,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
         //получение данных с сервера//получение данных из viewModel
         if ((prefs.contains("email") && prefs.contains("password"))) {
+            Repository repository = IRCRepository.getInstance();
             //обновим данные, получив все с сервера
 //        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
 
@@ -61,13 +64,15 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             taskViewModel.getGroups().observe(this, new Observer<List<Group>>() {
                 @Override
                 public void onChanged(List<Group> groups) {
+                    Log.d(LOG_TAG, "OnChanged");
                     adapter.setTasks(taskViewModel.getTasks());
+                    adapter.notifyDataSetChanged();
                 }
             });
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-
+            repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
             button.setOnClickListener(this);
         }
         return rootView;

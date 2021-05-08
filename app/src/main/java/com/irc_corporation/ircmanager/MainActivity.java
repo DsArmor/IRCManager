@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Fragment fragment = new TaskFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment).commit();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,11 +61,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onResume() {
         super.onResume();
+        Fragment fragment = new TaskFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment).commit();
         SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
         if (!(prefs.contains("email") && prefs.contains("password"))) {
             Log.d(LOG_TAG, "User Not Logged In");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
+        }
+        else {
+            Repository repository = IRCRepository.getInstance();
         }
     }
 

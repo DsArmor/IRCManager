@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.util.List;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     private List<GroupTask> tasks = new ArrayList<>();
+    private static final String LOG_TAG = "TaskAdapter";
 
     @NonNull
     @Override
@@ -43,7 +45,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     public void setTasks(List<GroupTask> tasks) {
+        Log.d(LOG_TAG, "setTasks");
         this.tasks = tasks;
+        Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
     }
 
 
