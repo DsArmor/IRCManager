@@ -119,9 +119,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onDismiss() {
+        Repository repository = IRCRepository.getInstance();
+        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
         Fragment fragment = new GroupFragment();
         getSupportFragmentManager().popBackStack();
-        FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.content_container, fragment).commit();
     }
 }
