@@ -1,11 +1,11 @@
 package com.irc_corporation.ircmanager.repository;
 
-import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.lifecycle.MutableLiveData;
 
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
-import com.irc_corporation.ircmanager.models.User;
 import com.irc_corporation.ircmanager.repository.JSON.AddMemberRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.AddTaskRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.CreateGroupRequestBody;
@@ -14,7 +14,6 @@ import com.irc_corporation.ircmanager.repository.JSON.GetAllGroupsRequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -27,16 +26,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class IRCRepository implements Repository{
-    private List<Group> groups;
+
+    private MutableLiveData<List<Group>> groups;
     private static Repository instance;
     private final static String URL = "https://to-do-server-for-samsung.herokuapp.com/";
     private final static String LOG_TAG = "repo";
 
     private IRCRepository() {
-        groups = new ArrayList<>();
+        groups = new MutableLiveData<>();
     }
 
     public static Repository getInstance() {
+        //одиночка
         if (instance == null) {
             Log.d(LOG_TAG, "Создание нового репозитория");
             return instance = new IRCRepository();
@@ -76,9 +77,9 @@ public class IRCRepository implements Repository{
     }
 
     @Override
-    public List<Group> getGroups() {
+    public MutableLiveData<List<Group>> getGroups() {
         synchronized (groups) {
-            Log.d(LOG_TAG, "выводится : " + Integer.toString(groups.size()));
+            Log.d(LOG_TAG, "выводится размер группы: " + Integer.toString(groups.size()));
             return this.groups;
         }
     }
@@ -92,7 +93,7 @@ public class IRCRepository implements Repository{
                 result.add(task);
             }
         }
-        Log.d(LOG_TAG, "количество тасков : " + Integer.toString(result.size()));
+        Log.d(LOG_TAG, "количество тасков: " + Integer.toString(result.size()));
         return result;
     }
 

@@ -7,6 +7,8 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -16,10 +18,9 @@ import android.view.ViewGroup;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
+import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
-import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.List;
@@ -27,8 +28,6 @@ import java.util.List;
 public class TaskFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
-    Repository repository;
-    private List<GroupTask> groupTasks;
     private static final String LOG_TAG = "TaskFragment";
 
     //todo: посмотри жизненный цикл фрагмента
@@ -37,53 +36,55 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        repository = IRCRepository.getInstance();
+
+        //Не уверен, что размещение в коде правильное
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
         Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
-        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
-        FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
-
-        //получение данных с сервера
+        //получение данных с сервера//получение данных из viewModel
         if ((prefs.contains("email") && prefs.contains("password"))) {
-            List<Group> groupList = repository.getGroups();
-            System.out.println("Сейчас тестим: " + groupList.size());
-            groupTasks = repository.getAllTasks();
-            String[] names = new String[groupTasks.size()];
-            String[] descriptions = new String[names.length];
-            int i = 0;
-            for (Group group : groupList) {
-                List<GroupTask> receivedTasks = group.getTasks();
-                System.out.println("Before we die " + receivedTasks.size());
-                int previousSumTasks = i;
-                for (; i < receivedTasks.size() + previousSumTasks; i++) {
-                    names[i] = receivedTasks.get(i - previousSumTasks).getName();
-                    descriptions[i] = receivedTasks.get(i - previousSumTasks).getDescription();
-                }
-            }
+            //обновим данные, получив все с сервера
+//        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
 
-            TaskViewAdapter adapter = new TaskViewAdapter(names, descriptions);
+            FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
+
+            //найдем ресайклер
+            RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
+
+            TaskAdapter adapter = new TaskAdapter();
             recyclerView.setAdapter(adapter);
+
+            TaskViewModel taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+            taskViewModel.getGroups().observe(this, new Observer<List<Group>>() {
+                @Override
+                public void onChanged(List<Group> groups) {
+                    adapter.setTasks(taskViewModel.getTasks());
+                }
+            });
+
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-            button.setOnClickListener(this);
 
+            button.setOnClickListener(this);
         }
         return rootView;
     }
 
+    //привязка
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.listener = (Listener) context;
     }
 
+
     @Override
     public void onClick(View v) {
         if (listener!= null){
+            //вызов метода onMyClick происходит в MainActivity
             listener.onMyClick(1);
         }
     }

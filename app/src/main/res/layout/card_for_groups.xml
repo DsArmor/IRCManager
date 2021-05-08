@@ -22,14 +22,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="3dp"
             android:tint="@color/light_green"
-            card_view:layout_constraintBottom_toTopOf="@+id/textView2"
+            card_view:layout_constraintBottom_toTopOf="@+id/count_of_members"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="0.727"
             card_view:srcCompat="@drawable/baseline_groups_24" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/count_of_members"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
@@ -40,7 +40,7 @@
             card_view:layout_constraintTop_toBottomOf="@+id/imageViewGroup" />
 
         <TextView
-            android:id="@+id/group_name"
+            android:id="@+id/group_name_in_card_groups"
             android:layout_width="313dp"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
