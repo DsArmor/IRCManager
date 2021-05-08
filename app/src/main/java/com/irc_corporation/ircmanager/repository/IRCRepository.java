@@ -14,6 +14,9 @@ import com.irc_corporation.ircmanager.repository.JSON.GetAllGroupsRequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -60,6 +63,7 @@ public class IRCRepository implements Repository{
                     try {
                         Response<List<Group>> response = call.execute();
                         groups = response.body() == null ? new ArrayList<>() : response.body();
+                        Collections.sort(groups);
                         Log.d(LOG_TAG, "Группы получены");
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -93,7 +97,7 @@ public class IRCRepository implements Repository{
     }
 
     @Override
-    public void addTask(String email, String password, String groupName, String newGroupTaskName, String newGroupTaskDescription, String newGroupTaskDueDate) {
+    public void addTask(String email, String password, String groupName, String newGroupTaskName, String newGroupTaskDescription, Date newGroupTaskDueDate) {
         AddTaskRequestBody jsonBody = new AddTaskRequestBody();
         Log.d(LOG_TAG, "создание группы с параметрами");
         jsonBody.admin.email = email;
@@ -113,10 +117,8 @@ public class IRCRepository implements Repository{
                 Call<String> call = service.addTask(jsonBody);
                 try {
                     Response<String> response = call.execute();
-                    Log.d(LOG_TAG, "Задание отправлено на добавление добавлено");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.d(LOG_TAG, "Задание НЕ отправлено на добавление");
                 }
             }
         };
@@ -162,7 +164,7 @@ public class IRCRepository implements Repository{
         jsonBody.admin.password = password;
         jsonBody.group.name = groupName;
         jsonBody.newMember.email = newMemberEmail;
-        Thread tHread = new Thread() {
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 Retrofit retrofit = new Retrofit.Builder()
@@ -185,7 +187,7 @@ public class IRCRepository implements Repository{
                 Log.d(LOG_TAG, "");
             }
         };
-        tHread.start();
+        thread.start();
     }
 
     @Override

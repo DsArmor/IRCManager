@@ -1,7 +1,7 @@
 package com.irc_corporation.ircmanager.models;
 
 
-public class GroupTask {
+public class GroupTask implements Comparable<GroupTask>{
     private String name;
     private String description;
     private String dueDate;
@@ -12,6 +12,12 @@ public class GroupTask {
         this.description = description;
         this.dueDate = dueDate;
         this.isDone = isDone;
+    }
+
+    @Override
+    public int compareTo(GroupTask o) {
+        return 0;
+        //todo
     }
 
     public String getName() {

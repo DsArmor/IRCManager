@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class Group implements Serializable {
+public class Group implements Serializable, Comparable<Group> {
 
     private String name;
     private User admin;
@@ -71,7 +71,22 @@ public class Group implements Serializable {
     public void setEvents(List<GroupEvent> events) { this.events = events; }
 
     public List<GroupTask> getCurrentTaskFromGroup(String data) { //date format: dd-mm-yy"
-        return null;
-        //todo
+        List<GroupTask> result = new ArrayList<GroupTask>();
+        for (GroupTask task : getTasks()) {
+            if (task.getDueDate().equals(data)) {
+                result.add(task);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int compareTo(Group o) {
+        if(this.getName().compareTo(o.name) == 0) {
+            return this.getAdmin().getEmail().compareTo(o.getAdmin().getEmail());
+        }
+        else {
+            return this.getName().compareTo(o.name);
+        }
     }
 }

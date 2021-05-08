@@ -1,5 +1,7 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
+import java.util.Date;
+
 public class AddTaskRequestBody {
     public Task task = new Task();
     public Admin admin = new Admin();
@@ -8,7 +10,7 @@ public class AddTaskRequestBody {
     public class Task{
         public String name;
         public String description;
-        public String dueDate;
+        public Date dueDate;
     }
     public class Admin {
         public String fullname;
