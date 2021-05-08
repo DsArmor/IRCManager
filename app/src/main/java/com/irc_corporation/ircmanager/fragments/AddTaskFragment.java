@@ -27,6 +27,7 @@ import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddTaskFragment extends DialogFragment implements View.OnClickListener {
@@ -107,7 +108,7 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
                 //System.out.print("''''''" + checkedGroup + "''''''''");
                 //todo добавить dueDate
                 SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-                repository.addTask(prefs.getString("email", ""), prefs.getString("password", ""), checkedGroup, name_string, description_string, "00-00-00");
+                repository.addTask(prefs.getString("email", ""), prefs.getString("password", ""), checkedGroup, name_string, description_string, new Date()); //new Date() исправить на дату из календаря
         }
         getActivity().getSupportFragmentManager().popBackStack();
     }
