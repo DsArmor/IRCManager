@@ -21,11 +21,14 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.List;
 
 public class TaskFragment extends Fragment implements View.OnClickListener{
+
+    SharedPreferences prefs;
 
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
@@ -38,9 +41,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
 
         //Не уверен, что размещение в коде правильное
-        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
-        Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
 
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
 
@@ -62,6 +62,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 @Override
                 public void onChanged(List<Group> groups) {
                     adapter.setTasks(taskViewModel.getTasks());
+                    adapter.notifyDataSetChanged();
                 }
             });
 
@@ -78,6 +79,11 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     public void onAttach(Context context) {
         super.onAttach(context);
         this.listener = (Listener) context;
+        prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
+        Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
+        Repository repository = IRCRepository.getInstance();
+        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
     }
 
 

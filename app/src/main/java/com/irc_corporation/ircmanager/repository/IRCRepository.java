@@ -64,7 +64,7 @@ public class IRCRepository implements Repository{
                     try {
                         Response<List<Group>> response = call.execute();
                         List<Group> newGroups = response.body();
-                        Log.d(LOG_TAG, "Получено групп от сервера: " + String.valueOf(newGroups.size()));
+//                        Log.d(LOG_TAG, "Получено групп от сервера: " + String.valueOf(newGroups.size()));
                         if (newGroups != null) {
                             groups.postValue(newGroups);
                         }

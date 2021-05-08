@@ -23,6 +23,7 @@ public class TaskViewModel extends ViewModel {
 
     public TaskViewModel() {
         repository = IRCRepository.getInstance();
+
         groups = repository.getGroups();
     }
 
@@ -45,6 +46,10 @@ public class TaskViewModel extends ViewModel {
 //                descriptions[i] = receivedTasks.get(i - previousSumTasks).getDescription();
 //            }
 //        }
+        tasks = new ArrayList<>();
+        for (Group group: groups.getValue()) {
+            tasks.addAll(group.getTasks());
+        }
         return tasks;
     }
 }

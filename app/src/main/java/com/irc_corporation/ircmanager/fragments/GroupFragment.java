@@ -62,7 +62,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             titles[i] = groupList.get(i).getName();
         }
 
-        TaskAdapter adapter = new TaskAdapter(titles);
+        TaskAdapter adapter = new TaskAdapter();
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
