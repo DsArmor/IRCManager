@@ -6,11 +6,11 @@ import android.util.Log;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.models.User;
-import com.irc_corporation.ircmanager.repository.JSON.AddMember;
-import com.irc_corporation.ircmanager.repository.JSON.AddTask;
-import com.irc_corporation.ircmanager.repository.JSON.Create;
-import com.irc_corporation.ircmanager.repository.JSON.Registration;
-import com.irc_corporation.ircmanager.repository.JSON.View;
+import com.irc_corporation.ircmanager.repository.JSON.AddMemberRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.AddTaskRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.CreateGroupRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.RegistrationRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.GetAllGroupsRequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class IRCRepository implements Repository{
     @Override
     public boolean refresh(String email, String password){
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
-        View jsonBody = new View();
+        GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
         jsonBody.email = email;
         jsonBody.password = password;
         ThreadRefresh threadRefresh = new ThreadRefresh(jsonBody);
@@ -88,7 +88,7 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean addTask(String email, String password, Group group, GroupTask task) {
-        AddTask jsonBody = new AddTask();
+        AddTaskRequestBody jsonBody = new AddTaskRequestBody();
         jsonBody.admin.email = email;
         jsonBody.admin.password = password;
         jsonBody.task.name = task.getName();
@@ -102,7 +102,7 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean addGroup(String email, String password, Group group) {
-         Create jsonBody = new Create();
+         CreateGroupRequestBody jsonBody = new CreateGroupRequestBody();
          jsonBody.newGroup.name = group.getName();
          jsonBody.admin.email = email;
          jsonBody.admin.password = password;
@@ -113,7 +113,7 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean addMember(String email, String password, Group group, User user) {
-        AddMember jsonBody = new AddMember();
+        AddMemberRequestBody jsonBody = new AddMemberRequestBody();
         jsonBody.admin.email = email;
         jsonBody.admin.password = password;
         jsonBody.group.name = group.getName();
@@ -125,7 +125,7 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean addUser(String name, String email, String password) {
-        Registration jsonBody = new Registration();
+        RegistrationRequestBody jsonBody = new RegistrationRequestBody();
         jsonBody.email = email;
         jsonBody.fullname = name;
         jsonBody.password = password;
@@ -135,9 +135,9 @@ public class IRCRepository implements Repository{
     }
 
     private class ThreadRefresh extends Thread{
-        private View jsonBody;
+        private GetAllGroupsRequestBody jsonBody;
 
-        ThreadRefresh(View jsonBody) {
+        ThreadRefresh(GetAllGroupsRequestBody jsonBody) {
             this.jsonBody = jsonBody;
         }
 
@@ -162,41 +162,12 @@ public class IRCRepository implements Repository{
         }
     }
 
-    /*private class AsyncTaskRefresh extends AsyncTask<View, Void, Void> {
-        List<Group> receivedGroups = new ArrayList<>();
+
+    private class AsyncTaskAddTask extends AsyncTask<AddTaskRequestBody, Void, Void> {
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            groups = receivedGroups;
-            Log.d(LOG_TAG, "получено : " + Integer.toString(groups.size()));
-        }
-
-        @Override
-        protected Void doInBackground(View... views) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<List<Group>> call = service.view(views[0]);
-            try {
-                Response<List<Group>> userResponse = call.execute();
-                receivedGroups = userResponse.body();
-                Log.d(LOG_TAG, "Группы получены");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d(LOG_TAG, "Группы НЕ получены");
-            }
-            return null;
-        }
-    }*/
-
-    private class AsyncTaskAddTask extends AsyncTask<AddTask, Void, Void> {
-
-        @Override
-        protected Void doInBackground(AddTask... addTasks) {
-            AddTask json = addTasks[0];
+        protected Void doInBackground(AddTaskRequestBody... addTasks) {
+            AddTaskRequestBody json = addTasks[0];
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -215,10 +186,10 @@ public class IRCRepository implements Repository{
     }
 
     //todo: мы меняли Response на Response<String>
-    private class AsyncTaskAddUser extends AsyncTask<Registration, Void, Void> {
+    private class AsyncTaskAddUser extends AsyncTask<RegistrationRequestBody, Void, Void> {
         @Override
-        protected Void doInBackground(Registration... registrations) {
-            Registration json = registrations[0];
+        protected Void doInBackground(RegistrationRequestBody... registrations) {
+            RegistrationRequestBody json = registrations[0];
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -236,10 +207,10 @@ public class IRCRepository implements Repository{
         }
     }
 
-    private class AsyncTaskAddMember extends AsyncTask<AddMember, Void, Void> {
+    private class AsyncTaskAddMember extends AsyncTask<AddMemberRequestBody, Void, Void> {
         @Override
-        protected Void doInBackground(AddMember... addMembers) {
-            AddMember json = addMembers[0];
+        protected Void doInBackground(AddMemberRequestBody... addMembers) {
+            AddMemberRequestBody json = addMembers[0];
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())
@@ -257,10 +228,10 @@ public class IRCRepository implements Repository{
         }
     }
 
-    private class AsyncTaskAddGroup extends  AsyncTask<Create, Void, Void> {
+    private class AsyncTaskAddGroup extends  AsyncTask<CreateGroupRequestBody, Void, Void> {
         @Override
-        protected Void doInBackground(Create... creates) {
-            Create json = creates[0];
+        protected Void doInBackground(CreateGroupRequestBody... creates) {
+            CreateGroupRequestBody json = creates[0];
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(URL)
                     .addConverterFactory(GsonConverterFactory.create())

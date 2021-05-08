@@ -2,7 +2,7 @@ package com.irc_corporation.ircmanager.repository.JSON;
 
 public class KickMember {
     public NewMember newMember; //название newMember, так и должно быть
-    //todo если сенять здесь название, нужно менять и на сервере
+    //todo если менять здесь название, нужно менять и на сервере
     public Admin admin = new Admin();
     public Group group = new Group();
 

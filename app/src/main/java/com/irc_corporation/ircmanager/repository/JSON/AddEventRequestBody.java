@@ -1,6 +1,6 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
-public class AddEvent {
+public class AddEventRequestBody {
     public Event event = new Event();
     public Admin admin = new Admin();
     public Group group = new Group();

@@ -1,6 +1,6 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
-public class Done {
+public class TaskDoneRequestBody {
     public User user = new User();
     public Task task = new Task();
 

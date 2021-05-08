@@ -1,6 +1,6 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
-public class Leave {
+public class LeaveGroupRequestBody {
     public User user = new User();
     public Group group = new Group();
     public class User {
