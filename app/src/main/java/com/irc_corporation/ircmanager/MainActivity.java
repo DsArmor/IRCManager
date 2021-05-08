@@ -16,6 +16,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //todo: переписать на базу данных, это временно
         //----------------------------------------------------------------------------
+
 
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
