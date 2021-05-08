@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.irc_corporation.ircmanager.fragments.Login.AuthorizationFragment;
 import com.irc_corporation.ircmanager.fragments.Login.RegistrationFragment;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
+import com.irc_corporation.ircmanager.repository.Repository;
 
 public class LoginActivity extends AppCompatActivity implements Listener{
 
