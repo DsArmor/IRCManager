@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +13,6 @@ import android.widget.EditText;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.repository.IRCRepository;
-import com.irc_corporation.ircmanager.repository.Repository;
 
 public class AuthorizationFragment extends Fragment implements View.OnClickListener{
 

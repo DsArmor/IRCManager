@@ -1,22 +1,19 @@
 package com.irc_corporation.ircmanager.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.fragments.AddGroupFragment;
 import com.irc_corporation.ircmanager.fragments.MembersDialogFragment;
 
 public class TaskViewAdapter extends RecyclerView.Adapter<TaskViewAdapter.ViewHolder> {
