@@ -48,6 +48,48 @@ public class IRCRepository implements Repository{
     }
 
     @Override
+    public boolean userExist(String email, String password) {
+        Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
+        GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
+        jsonBody.email = email;
+        jsonBody.password = password;
+        Thread threadRefresh = new Thread() {
+            @Override
+            public void run() {
+                synchronized (groups) {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<List<Group>> call = service.view(jsonBody);
+                try {
+                    Response<List<Group>> response = call.execute();
+                    List<Group> newGroups = response.body();
+                    Log.d(LOG_TAG, "Получено групп от сервера: " + String.valueOf(newGroups.size()));
+                    if (newGroups != null) {
+                        groups.postValue(newGroups);
+                    }
+                    else {
+                        groups.postValue(new ArrayList<>());
+                    }
+                    if (!(response.code() > 199 && response.code() < 300)) groups = null;
+                    Log.d(LOG_TAG, "После refresh() в группе: " + String.valueOf(groups.getValue().size()));
+                    Log.d(LOG_TAG, "Группы получены");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.d(LOG_TAG, "Группы НЕ получены");
+                }
+            }
+            }
+        };
+        threadRefresh.start();
+        synchronized (groups) {
+            return groups != null;
+        }
+    }
+
+    @Override
     public void refresh(String email, String password){
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
