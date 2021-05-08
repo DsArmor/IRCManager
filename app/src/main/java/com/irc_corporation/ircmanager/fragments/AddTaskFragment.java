@@ -2,6 +2,7 @@ package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +25,6 @@ import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
-import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -106,10 +106,8 @@ public class AddTaskFragment extends DialogFragment implements View.OnClickListe
                 Repository repository = IRCRepository.getInstance();
                 //System.out.print("''''''" + checkedGroup + "''''''''");
                 //todo добавить dueDate
-                repository.addTask("Почта4",
-                        "Пароль",
-                        new Group(checkedGroup, null, null, null, null),
-                        new GroupTask(name_string, description_string, "00--00--00", false));
+                SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+                repository.addTask(prefs.getString("email", ""), prefs.getString("password", ""), checkedGroup, name_string, description_string, "00-00-00");
         }
         getActivity().getSupportFragmentManager().popBackStack();
     }

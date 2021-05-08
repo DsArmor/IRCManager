@@ -8,6 +8,7 @@ public class AddTaskRequestBody {
     public class Task{
         public String name;
         public String description;
+        public String dueDate;
     }
     public class Admin {
         public String fullname;

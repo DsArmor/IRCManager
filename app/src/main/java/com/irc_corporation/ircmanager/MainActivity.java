@@ -28,7 +28,6 @@ import com.irc_corporation.ircmanager.fragments.GroupFragment;
 import com.irc_corporation.ircmanager.fragments.TaskFragment;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
-import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.Objects;
 

@@ -50,7 +50,7 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         //todo: сделать проверку
         Repository repository = IRCRepository.getInstance();
-        repository.addUser(name.getText().toString(), email.getText().toString(), password.getText().toString());
+        repository.createUser(name.getText().toString(), email.getText().toString(), password.getText().toString());
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("email", email.getText().toString());

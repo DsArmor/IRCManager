@@ -21,7 +21,6 @@ import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
-import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import org.w3c.dom.ls.LSOutput;
 
@@ -59,7 +58,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             String[] descriptions = new String[names.length];
             int i = 0;
             for (Group group : groupList) {
-                List<GroupTask> receivedTasks = repository.getTaskFromGroup(group);
+                List<GroupTask> receivedTasks = group.getTasks();
                 System.out.println("Before we die " + receivedTasks.size());
                 int previousSumTasks = i;
                 for (; i < receivedTasks.size() + previousSumTasks; i++) {

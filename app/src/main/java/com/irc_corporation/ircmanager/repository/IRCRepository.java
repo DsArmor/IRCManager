@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -41,14 +42,33 @@ public class IRCRepository implements Repository{
     }
 
     @Override
-    public boolean refresh(String email, String password){
+    public void refresh(String email, String password){
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
         jsonBody.email = email;
         jsonBody.password = password;
-        ThreadRefresh threadRefresh = new ThreadRefresh(jsonBody);
+        Thread threadRefresh = new Thread() {
+            @Override
+            public void run() {
+                synchronized (groups) {
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    RetrofitService service = retrofit.create(RetrofitService.class);
+                    Call<List<Group>> call = service.view(jsonBody);
+                    try {
+                        Response<List<Group>> response = call.execute();
+                        groups = response.body() == null ? new ArrayList<>() : response.body();
+                        Log.d(LOG_TAG, "Группы получены");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.d(LOG_TAG, "Группы НЕ получены");
+                    }
+                }
+            }
+        };
         threadRefresh.start();
-        return true;
     }
 
     @Override
@@ -73,18 +93,135 @@ public class IRCRepository implements Repository{
     }
 
     @Override
-    public List<GroupTask> getTaskFromGroup(Group group) {
-        ArrayList<GroupTask> result= new ArrayList<>();
-        for (GroupTask task : group.getTasks()) {
-            result.add(task);
-        }
-        return result;
+    public void addTask(String email, String password, String groupName, String newGroupTaskName, String newGroupTaskDescription, String newGroupTaskDueDate) {
+        AddTaskRequestBody jsonBody = new AddTaskRequestBody();
+        Log.d(LOG_TAG, "создание группы с параметрами");
+        jsonBody.admin.email = email;
+        jsonBody.admin.password = password;
+        jsonBody.task.name = newGroupTaskName;
+        jsonBody.task.description = newGroupTaskDescription;
+        jsonBody.task.dueDate = newGroupTaskDueDate;
+        jsonBody.group.name = groupName;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.addTask(jsonBody);
+                try {
+                    Response<String> response = call.execute();
+                    Log.d(LOG_TAG, "Задание отправлено на добавление добавлено");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.d(LOG_TAG, "Задание НЕ отправлено на добавление");
+                }
+            }
+        };
+        thread.start();
     }
 
     @Override
-    public List<GroupTask> getCurrentTaskFromGroup(Group group, String date) {
-        return null;
-    }//todo
+    public void createGroup(String email, String password, String newGroupName) {
+        CreateGroupRequestBody jsonBody = new CreateGroupRequestBody();
+        jsonBody.newGroup.name = newGroupName;
+        jsonBody.admin.email = email;
+        jsonBody.admin.password = password;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.create(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+                Log.d(LOG_TAG, "");
+            }
+        };
+        thread.start();
+    }
+
+    @Override
+    public void addMember(String email, String password, String groupName, String newMemberEmail) {
+        AddMemberRequestBody jsonBody = new AddMemberRequestBody();
+        jsonBody.admin.email = email;
+        jsonBody.admin.password = password;
+        jsonBody.group.name = groupName;
+        jsonBody.newMember.email = newMemberEmail;
+        Thread tHread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.addMember(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+                Log.d(LOG_TAG, "");
+            }
+        };
+        tHread.start();
+    }
+
+    @Override
+    public void createUser(String name, String email, String password) {
+        RegistrationRequestBody jsonBody = new RegistrationRequestBody();
+        jsonBody.email = email;
+        jsonBody.fullname = name;
+        jsonBody.password = password;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.registration(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+                Log.d(LOG_TAG, "");
+            }
+        };
+        thread.start();
+    }
+
+    /*
+
 
     @Override
     public boolean addTask(String email, String password, Group group, GroupTask task) {
@@ -96,12 +233,12 @@ public class IRCRepository implements Repository{
         jsonBody.group.name = group.getName();
         AsyncTaskAddTask asyncTaskAddTask = new AsyncTaskAddTask();
         asyncTaskAddTask.execute(jsonBody);
-        refresh(email, password); //todo нужно ли после добавления группы обновлять репозитрорий?
+        refresh(email, password);
         return true;
     }
 
     @Override
-    public boolean addGroup(String email, String password, Group group) {
+    public boolean createGroup(String email, String password, Group group) {
          CreateGroupRequestBody jsonBody = new CreateGroupRequestBody();
          jsonBody.newGroup.name = group.getName();
          jsonBody.admin.email = email;
@@ -121,20 +258,9 @@ public class IRCRepository implements Repository{
         AsyncTaskAddMember asyncTaskAddMember = new AsyncTaskAddMember();
         asyncTaskAddMember.execute(jsonBody);
         return true;
-    }
+    }*/
 
-    @Override
-    public boolean addUser(String name, String email, String password) {
-        RegistrationRequestBody jsonBody = new RegistrationRequestBody();
-        jsonBody.email = email;
-        jsonBody.fullname = name;
-        jsonBody.password = password;
-        AsyncTaskAddUser asyncTaskAddUser = new AsyncTaskAddUser();
-        asyncTaskAddUser.execute(jsonBody);
-        return true;
-    }
-
-    private class ThreadRefresh extends Thread{
+    /*private class ThreadRefresh extends Thread{
         private GetAllGroupsRequestBody jsonBody;
 
         ThreadRefresh(GetAllGroupsRequestBody jsonBody) {
@@ -160,10 +286,10 @@ public class IRCRepository implements Repository{
                 }
             }
         }
-    }
+    }*/
 
 
-    private class AsyncTaskAddTask extends AsyncTask<AddTaskRequestBody, Void, Void> {
+   /* private class AsyncTaskAddTask extends AsyncTask<AddTaskRequestBody, Void, Void> {
 
         @Override
         protected Void doInBackground(AddTaskRequestBody... addTasks) {
@@ -173,7 +299,7 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response<String>> call = service.addTask(json);
+            Call<String> call = service.addTask(json);
             try {
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на создание задания отправлен");
@@ -183,10 +309,9 @@ public class IRCRepository implements Repository{
             }
             return null;
         }
-    }
+    }*/
 
-    //todo: мы меняли Response на Response<String>
-    private class AsyncTaskAddUser extends AsyncTask<RegistrationRequestBody, Void, Void> {
+/*    private class AsyncTaskAddUser extends AsyncTask<RegistrationRequestBody, Void, Void> {
         @Override
         protected Void doInBackground(RegistrationRequestBody... registrations) {
             RegistrationRequestBody json = registrations[0];
@@ -195,19 +320,23 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response<String>> call = service.registration(json);
-            try {
-                call.execute();
-                Log.d(LOG_TAG, "Запрос на создание пользователя отправлен");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d(LOG_TAG, "Запрос на создание пользователя НЕ отправлен");
-            }
+            Call<String> call = service.registration(json);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.d(LOG_TAG, response.message());
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                }
+            });
+            Log.d(LOG_TAG, "Запрос на создание группы отправлен");
             return null;
         }
-    }
+    }*/
 
-    private class AsyncTaskAddMember extends AsyncTask<AddMemberRequestBody, Void, Void> {
+/*    private class AsyncTaskAddMember extends AsyncTask<AddMemberRequestBody, Void, Void> {
         @Override
         protected Void doInBackground(AddMemberRequestBody... addMembers) {
             AddMemberRequestBody json = addMembers[0];
@@ -216,7 +345,7 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response<String>> call = service.addMember(json);
+            Call<String> call = service.addMember(json);
             try {
                 call.execute();
                 Log.d(LOG_TAG, "Запрос на добавление пользователя отправлен");
@@ -226,9 +355,9 @@ public class IRCRepository implements Repository{
             }
             return null;
         }
-    }
+    }*/
 
-    private class AsyncTaskAddGroup extends  AsyncTask<CreateGroupRequestBody, Void, Void> {
+   /* private class AsyncTaskAddGroup extends  AsyncTask<CreateGroupRequestBody, Void, Void> {
         @Override
         protected Void doInBackground(CreateGroupRequestBody... creates) {
             CreateGroupRequestBody json = creates[0];
@@ -237,15 +366,19 @@ public class IRCRepository implements Repository{
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitService service = retrofit.create(RetrofitService.class);
-            Call<Response<String>> call = service.create(json);
-            try {
-                call.execute();
-                Log.d(LOG_TAG, "Запрос на создание группы отправлен");
-            } catch (IOException e) {
-                //e.printStackTrace();
-                //Log.d(LOG_TAG, "Запрос на создание группы НЕ отправлен");
-            }
+            Call<String> call = service.create(json);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    Log.d(LOG_TAG, response.message());
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                }
+            });
+            Log.d(LOG_TAG, "Запрос на создание группы отправлен");
             return null;
         }
-    }
+    }*/
 }

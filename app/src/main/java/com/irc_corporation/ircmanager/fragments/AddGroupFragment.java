@@ -13,12 +13,10 @@ import android.widget.EditText;
 
 import com.irc_corporation.ircmanager.DismissListener;
 import com.irc_corporation.ircmanager.R;
-import com.irc_corporation.ircmanager.UserTemp;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.User;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
-import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.ArrayList;
 
@@ -59,16 +57,10 @@ public class AddGroupFragment extends DialogFragment implements View.OnClickList
         //todo: отладить для настоящего репозитория
         //логин и пароль брать из конфигурации
         Repository repository = IRCRepository.getInstance();
-        Group group =
-                new Group(string_title,
-                        null,
-                        null,
-                        null,
-                        null);
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        repository.addGroup(prefs.getString("email", ""), prefs.getString("password", ""), group);
+        repository.createGroup(prefs.getString("email", ""), prefs.getString("password", ""), string_title);
         for (User member : members){
-            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), group, member);
+            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), string_title, member.getEmail());
         }
         //todo: нужно положить созданную группу на сервер
         //todo: в этом месте реализован интерфейс, но можно наверное проще

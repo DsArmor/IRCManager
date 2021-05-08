@@ -69,4 +69,9 @@ public class Group implements Serializable {
     public List<GroupEvent> getEvents() { return events; }
 
     public void setEvents(List<GroupEvent> events) { this.events = events; }
+
+    public List<GroupTask> getCurrentTaskFromGroup(String data) { //date format: dd-mm-yy"
+        return null;
+        //todo
+    }
 }

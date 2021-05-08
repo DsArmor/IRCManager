@@ -19,7 +19,6 @@ import com.irc_corporation.ircmanager.adapters.TaskViewAdapter;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
-import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 import java.util.List;
 

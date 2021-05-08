@@ -12,7 +12,6 @@ import android.widget.ListView;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
-import com.irc_corporation.ircmanager.repository.SimpleRepository;
 
 public class MembersDialogFragment extends DialogFragment {
 
