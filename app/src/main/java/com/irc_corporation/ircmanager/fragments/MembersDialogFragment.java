@@ -26,6 +26,7 @@ public class MembersDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_members_dialog, container, false);
 
+        //todo: докрутить удаление пользователей
         //todo: получить всех участников группы с сервера и положить их в адаптер
         //todo: по возможности написать свой адаптер для групп
         Repository repository = IRCRepository.getInstance();

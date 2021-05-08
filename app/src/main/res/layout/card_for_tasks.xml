@@ -30,7 +30,7 @@
                 card_view:srcCompat="@drawable/baseline_front_hand_24"
                 android:tint="@color/green" />
             <TextView
-                android:id="@+id/task_name_in_card"
+                android:id="@+id/task_name_in_card_tasks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -61,7 +61,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/group_name_in_card"
+                android:id="@+id/group_name_in_card_tasks"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -98,6 +98,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/task_date_in_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
@@ -108,7 +109,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/task_description_in_card"
+            android:id="@+id/task_description_in_card_tasks"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"

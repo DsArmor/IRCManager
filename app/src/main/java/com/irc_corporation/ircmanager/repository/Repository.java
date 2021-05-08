@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
-import com.irc_corporation.ircmanager.models.User;
 
 import java.util.ArrayList;
 import java.util.Date;
