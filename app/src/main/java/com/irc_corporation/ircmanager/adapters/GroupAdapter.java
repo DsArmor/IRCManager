@@ -4,13 +4,18 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 
@@ -34,6 +39,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         Group group = groups.get(position);
         viewHolder.textViewGroupName.setText(group.getName());
         viewHolder.textViewCountMembers.setText("4");
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialog = new MembersDialogFragment();
+                dialog.show();
+            }
+        });
     }
 
     @Override

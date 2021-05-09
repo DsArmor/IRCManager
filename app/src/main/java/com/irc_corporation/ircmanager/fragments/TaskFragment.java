@@ -33,8 +33,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
 
-    //todo: посмотри жизненный цикл фрагмента
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -50,7 +48,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
             //найдем ресайклер
             RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
-
             TaskAdapter adapter = new TaskAdapter();
             recyclerView.setAdapter(adapter);
 

@@ -27,14 +27,9 @@ public class MembersDialogViewModel extends ViewModel {
         return groups;
     }
 
-    public String[] getMembers(Group group) {
+    public List<String> getMembers(Group group) {
         //временный код
-        List<User> members = group.getMembers();
-        String[] stringMembers = new String[members.size()];
-        for (int i=0; i<members.size(); i++){
-            stringMembers[i] = members.get(i).getFullname();
-        }
-        return stringMembers;
+
     }
 
 
