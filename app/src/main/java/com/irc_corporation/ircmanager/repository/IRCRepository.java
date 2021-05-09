@@ -110,6 +110,7 @@ public class IRCRepository implements Repository{
                         Response<List<Group>> response = call.execute();
                         List<Group> newGroups = response.body();
                         if (newGroups != null) {
+                            Collections.sort(newGroups);
                             groups.postValue(newGroups);
                             Log.d(LOG_TAG, "поле group обновлено");
                         }
