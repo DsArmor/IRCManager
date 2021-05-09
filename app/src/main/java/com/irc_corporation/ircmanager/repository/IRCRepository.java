@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.JSON.AddMemberRequestBody;
@@ -161,9 +163,13 @@ public class IRCRepository implements Repository{
         Thread thread = new Thread() {
             @Override
             public void run() {
+                Gson gson = new GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                        .create();
+
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(URL)
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(gson))
                         .build();
                 RetrofitService service = retrofit.create(RetrofitService.class);
                 Call<String> call = service.addTask(jsonBody);
