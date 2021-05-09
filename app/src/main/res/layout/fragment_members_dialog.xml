@@ -12,7 +12,6 @@
         android:padding="10dp"
         android:background="@color/white">
 
-
         <TextView
             android:id="@+id/members_text"
             android:layout_width="match_parent"
@@ -22,9 +21,8 @@
             android:textColor="@color/black"
             android:textSize="16sp"/>
 
-
         <FrameLayout
-            android:id="@+id/frame"
+            android:id="@+id/frame_in_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/members_text"
@@ -57,7 +55,7 @@
             android:id="@+id/recycler_members"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/frame"
+            android:layout_below="@id/frame_in_dialog"
             android:minWidth="300dp"
             tools:listitem="@layout/card_for_members" />
 

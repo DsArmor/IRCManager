@@ -17,6 +17,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.R;
@@ -51,7 +52,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = ((AppCompatActivity)viewHolder.itemView.getContext()).getSupportFragmentManager();
+                AppCompatActivity activity = ((AppCompatActivity)viewHolder.itemView.getContext());
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 DialogFragment dialog = new MembersDialogFragment(group);
                 dialog.show(fragmentManager, ""); }
         });

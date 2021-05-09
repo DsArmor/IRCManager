@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -35,10 +37,12 @@ public class MembersDialogFragment extends DialogFragment {
 
     private static final String LOG_TAG = "MemberDialogFragment";
     private Group group;
+    private FrameLayout frameLayout;
 
-    public MembersDialogFragment(Group group){
+    public MembersDialogFragment(Group group) {
         this.group = group;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +56,7 @@ public class MembersDialogFragment extends DialogFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
+        
 //        for (User member : members){
 //            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), string_title, member.getEmail());
 //        }
@@ -87,5 +92,6 @@ public class MembersDialogFragment extends DialogFragment {
 //        listMembers.setAdapter(listAdapter);
 
         return rootView;
+
     }
 }
