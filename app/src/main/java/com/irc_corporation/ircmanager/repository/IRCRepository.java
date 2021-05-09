@@ -45,16 +45,19 @@ public class IRCRepository implements Repository{
         return instance;
     }
 
+
+    //todo userExist работает неправльно
     @Override
     public boolean userExist(String email, String password) {
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
         jsonBody.email = email;
         jsonBody.password = password;
+        Object sync = new Object();
         Thread threadRefresh = new Thread() {
             @Override
             public void run() {
-                synchronized (groups) {
+                synchronized (sync) {
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(URL)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -64,15 +67,13 @@ public class IRCRepository implements Repository{
                 try {
                     Response<List<Group>> response = call.execute();
                     List<Group> newGroups = response.body();
-                    Log.d(LOG_TAG, "Получено групп от сервера: " + String.valueOf(newGroups.size()));
                     if (newGroups != null) {
                         groups.postValue(newGroups);
                     }
-                    else {
-                        groups.postValue(new ArrayList<>());
+                    if (response.code() == 400){
+                        Log.d(LOG_TAG, "User does not exist 400");
+                        groups = null;
                     }
-                    if (!(response.code() > 199 && response.code() < 300)) groups = null;
-                    Log.d(LOG_TAG, "После refresh() в группе: " + String.valueOf(groups.getValue().size()));
                     Log.d(LOG_TAG, "Группы получены");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -82,7 +83,8 @@ public class IRCRepository implements Repository{
             }
         };
         threadRefresh.start();
-        synchronized (groups) {
+        synchronized (sync) {
+            Log.d(LOG_TAG, "userExist = true");
             return groups != null;
         }
     }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +15,18 @@ import android.widget.EditText;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.databinding.FragmentAuthorizationBinding;
+import com.irc_corporation.ircmanager.viewmodels.Authorization;
 
-public class AuthorizationFragment extends Fragment implements View.OnClickListener{
+public class AuthorizationFragment extends Fragment /*implements View.OnClickListener*/{
 
     private Listener listener;
+    private FragmentAuthorizationBinding binding;
 
-    private Button enter;
+    /*private Button enter;
     private Button registration;
     private EditText email;
-    private EditText password;
+    private EditText password;*/
 
     @Override
     public void onAttach(Context context) {
@@ -32,36 +37,11 @@ public class AuthorizationFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView =  inflater.inflate(R.layout.fragment_authorization, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_authorization, container, false);
+        Authorization auth = new Authorization(listener, getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
+        binding.setAuthorization(auth);
 
-        email = rootView.findViewById(R.id.login);
-        password = rootView.findViewById(R.id.password);
-        enter = rootView.findViewById(R.id.enter_button);
-        enter.setOnClickListener(this);
-        registration = rootView.findViewById(R.id.registration_button);
-        registration.setOnClickListener(this);
 
-        return rootView;
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.registration_button:
-                this.listener.onMyClick(0);
-                break;
-            case R.id.enter_button:
-                //todo: сделать проверку на корректность введенных данных
-                SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("email", email.getText().toString());
-                editor.apply();
-                editor = prefs.edit();
-                editor.putString("password", password.getText().toString());
-                editor.apply();
-                editor.apply();
-                this.listener.onMyClick(1);
-        }
+        return binding.getRoot();
     }
 }
