@@ -1,6 +1,6 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
-public class KickMember {
+public class KickMemberRequestBody {
     public NewMember newMember; //название newMember, так и должно быть
     //todo если менять здесь название, нужно менять и на сервере
     public Admin admin = new Admin();

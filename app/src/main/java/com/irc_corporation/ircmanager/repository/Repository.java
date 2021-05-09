@@ -17,4 +17,7 @@ public interface Repository {
     void createGroup(String email, String password, String newGroupName);
     void addMember(String email, String password, String groupName, String newMemberEmail);
     void createUser(String name, String email, String password);
+    void leave(String email, String password, String groupName, String adminEmail);
+    void kickMember(String email, String password, String userEmail, String groupName);
+    void taskDone(String email, String password, String groupName, String taskName, String adminEmail);
 }

@@ -11,8 +11,11 @@ import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.JSON.AddMemberRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.AddTaskRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.CreateGroupRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.KickMemberRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.LeaveGroupRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.RegistrationRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.GetAllGroupsRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.TaskDoneRequestBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,6 +96,38 @@ public class IRCRepository implements Repository{
     }
 
     @Override
+    public void taskDone(String email, String password, String groupName, String taskName, String adminEmail) {
+        TaskDoneRequestBody jsonBody = new TaskDoneRequestBody();
+        jsonBody.user.email = email;
+        jsonBody.user.password = password;
+        jsonBody.task.name = taskName;
+        jsonBody.task.group.admin.email = adminEmail;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.done(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+            }
+        };
+        thread.start();
+    }
+
+    @Override
     public void refresh(String email, String password){
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
@@ -137,18 +172,6 @@ public class IRCRepository implements Repository{
         return this.groups;
     }
 
-/*    @Override
-    public MutableLiveData<ArrayList<GroupTask>> getAllTasks() {
-
-        ArrayList<GroupTask> result= new ArrayList<>();
-        for (Group group: getGroups()) {
-            for (GroupTask task : group.getTasks()) {
-                result.add(task);
-            }
-        }
-        Log.d(LOG_TAG, "количество тасков: " + Integer.toString(result.size()));
-        return result;
-    }*/
 
     @Override
     public void addTask(String email, String password, String groupName, String newGroupTaskName, String newGroupTaskDescription, Date newGroupTaskDueDate) {
@@ -184,6 +207,70 @@ public class IRCRepository implements Repository{
     }
 
     @Override
+    public void leave(String email, String password, String groupName, String adminEmail) {
+        LeaveGroupRequestBody jsonBody = new LeaveGroupRequestBody();
+        jsonBody.group.name = groupName;
+        jsonBody.user.email = email;
+        jsonBody.user.password = password;
+        jsonBody.group.admin.email = adminEmail;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.leave(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+            }
+        };
+        thread.start();
+    }
+
+    @Override
+    public void kickMember(String email, String password, String userEmail, String groupName) {
+        KickMemberRequestBody jsonBody = new KickMemberRequestBody();
+        jsonBody.group.name = groupName;
+        jsonBody.admin.email = email;
+        jsonBody.admin.password = password;
+        jsonBody.newMember.email = email;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.kickMember(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                    }
+                });
+            }
+        };
+        thread.start();
+    }
+
+    @Override
     public void createGroup(String email, String password, String newGroupName) {
         CreateGroupRequestBody jsonBody = new CreateGroupRequestBody();
         jsonBody.newGroup.name = newGroupName;
@@ -209,7 +296,6 @@ public class IRCRepository implements Repository{
                     public void onFailure(Call<String> call, Throwable t) {
                     }
                 });
-                Log.d(LOG_TAG, "");
             }
         };
         thread.start();

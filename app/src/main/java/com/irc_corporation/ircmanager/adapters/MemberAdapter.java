@@ -58,7 +58,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
             viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //удалить участника
+                    //todo удалить участника
                     System.out.println("Должно типа удалиться");
                 }
             });

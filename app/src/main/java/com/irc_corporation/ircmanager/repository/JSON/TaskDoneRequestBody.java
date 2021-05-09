@@ -10,13 +10,13 @@ public class TaskDoneRequestBody {
     }
     public class Task{
         public String name;
-        public Group group;
+        public Group group = new Group();
 
-        private class Group {
+        public class Group {
             public String name;
-            public Admin admin;
+            public Admin admin = new Admin();
 
-            private class Admin {
+            public class Admin {
                 public String email;
             }
         }
