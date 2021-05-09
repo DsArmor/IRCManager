@@ -33,16 +33,21 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private List<User> members = new ArrayList<>();
     private User admin;
     private String groupName;
+    private FrameLayout frameLayout;
 
     public MemberAdapter(Group group) {
         groupName = group.getName();
-        members = group.getMembers();
+//        members = group.getMembers();
     }
 
     public void setMembers(List<User> members) {
         this.admin = members.get(members.size()-1);
-        //members.remove(members.get(members.size()-1));
+        members.remove(members.get(members.size()-1));
         this.members = members;
+    }
+
+    public void setFrame(FrameLayout frame){
+        this.frameLayout = frame;
     }
 
     public void setGroupName(String groupName) {
@@ -67,29 +72,36 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         //здесь нужно получить имя пользователя
         SharedPreferences prefs = viewHolder.itemView.getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Repository repository = IRCRepository.getInstance();
+
         if (!prefs.getString("email", "").equals(admin.getEmail()) && !prefs.getString("email", "").equals(members.get(position).getEmail())){
             System.out.println("Мы находимся на проверке админа");
             System.out.println(prefs.getString("email", ""));
             System.out.println(admin.getEmail());
             viewHolder.imageButtonDeleteMember.setVisibility(View.INVISIBLE);
+        } else{
+            if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
+                viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
+                        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+                    }
+                });
+            }
+            else {
+                viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
+                        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+                    }
+                });
+            }
         }
-        else if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
-            viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
-                }
-            });
+        if (prefs.getString("email", "").equals(admin.getEmail())) {
+            System.out.println("Мы находимся на проверке админа");
+            frameLayout.setVisibility(View.VISIBLE);
         }
-        else {
-            viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
-                }
-            });
-        }
-        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
     }
 
     @Override

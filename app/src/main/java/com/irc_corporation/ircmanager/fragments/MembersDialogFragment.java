@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -43,7 +44,6 @@ public class MembersDialogFragment extends DialogFragment {
         this.group = group;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,6 +55,8 @@ public class MembersDialogFragment extends DialogFragment {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
+
+        frameLayout = rootView.findViewById(R.id.frame_in_dialog);
         //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
         
 //        for (User member : members){
@@ -68,6 +70,7 @@ public class MembersDialogFragment extends DialogFragment {
                 Log.d(LOG_TAG, "OnChanged");
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
                 adapter.setGroupName(group.getName());
+                adapter.setFrame(frameLayout);
                 //тут должно быть получение группы));
                 adapter.notifyDataSetChanged();
             }
