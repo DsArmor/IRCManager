@@ -55,6 +55,8 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
         GroupAdapter adapter = new GroupAdapter();
         recyclerView.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         groupViewModel.getGroups().observe(this, new Observer<List<Group>>() {
@@ -66,8 +68,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
         return rootView;
 
     }

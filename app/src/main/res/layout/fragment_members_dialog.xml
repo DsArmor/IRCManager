@@ -6,20 +6,59 @@
     tools:context=".fragments.MembersDialogFragment">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:background="@color/white">
+
+
+        <TextView
+            android:id="@+id/members_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Участники группы"
+            android:textColor="@color/black"
+            android:textSize="16sp"/>
+
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/members_text"
+            android:padding="5dp">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"
+                android:hint="Почта нового участника"
+                android:textSize="14sp"
+                android:layout_gravity="bottom|start"/>
+
+            <ImageButton
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_person_add_24"
+                android:background="@color/white"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="8dp"
+                android:tint="#4E8A51"/>
+
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="3dp"
             android:id="@+id/recycler_members"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/frame"
+            android:minWidth="300dp"
+            tools:listitem="@layout/card_for_members" />
 
     </RelativeLayout>
 
-<!--    <ListView-->
-<!--        android:id="@+id/list_members"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_margin="5dp" />-->
 </FrameLayout>

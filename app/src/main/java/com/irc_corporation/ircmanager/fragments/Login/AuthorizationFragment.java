@@ -35,8 +35,6 @@ public class AuthorizationFragment extends Fragment{
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_authorization, container, false);
         Authorization auth = new Authorization(listener, getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
         binding.setAuthorization(auth);
-
-
         return binding.getRoot();
     }
 }

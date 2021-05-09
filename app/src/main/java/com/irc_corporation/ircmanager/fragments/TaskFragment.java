@@ -33,28 +33,21 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
 
-    //todo: посмотри жизненный цикл фрагмента
-
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(LOG_TAG, "enter OnCreateView");
-        //Не уверен, что размещение в коде правильное
-
         View rootView = inflater.inflate(R.layout.fragment_task, container, false);
 
-        //получение данных с сервера//получение данных из viewModel
+        //получение данных из viewModel
         if ((prefs.contains("email") && prefs.contains("password"))) {
             Repository repository = IRCRepository.getInstance();
-            //обновим данные, получив все с сервера
-//        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
 
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
             //найдем ресайклер
             RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
-
             TaskAdapter adapter = new TaskAdapter();
             recyclerView.setAdapter(adapter);
 
