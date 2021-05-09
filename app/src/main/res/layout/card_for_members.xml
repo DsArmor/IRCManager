@@ -40,16 +40,15 @@
         </RelativeLayout>
 
 
-
         <ImageButton
             android:id="@+id/delete_member"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:layout_marginEnd="5dp"
+            android:background="#FFFFFF"
             android:src="@drawable/baseline_person_remove_24"
-            android:tint="#4E8A51"
-            android:background="null"/>
+            android:tint="#4E8A51" />
 
 
     </FrameLayout>

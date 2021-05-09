@@ -17,6 +17,7 @@ public class MembersDialogViewModel extends ViewModel {
 
     private Repository repository;
     private MutableLiveData<List<Group>> groups;
+    private List<User> members;
 
     public MembersDialogViewModel(){
         repository = IRCRepository.getInstance();
@@ -27,9 +28,13 @@ public class MembersDialogViewModel extends ViewModel {
         return groups;
     }
 
-    public List<String> getMembers(Group group) {
+//    Group group
+    public List<User> getMembers() {
         //временный код
-
+        members = new ArrayList<>();
+        members.add(new User("Pasha", "pashok_лох"));
+        System.out.println("добавился студент");
+        return members;
     }
 
 

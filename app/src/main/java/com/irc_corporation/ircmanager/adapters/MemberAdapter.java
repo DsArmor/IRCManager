@@ -37,6 +37,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         User member = members.get(position);
         viewHolder.textViewMember.setText(member.getFullname());
+        //тут должно быть получение номера
         viewHolder.textViewNumberOfMember.setText("13");
         viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
             @Override

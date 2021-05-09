@@ -46,7 +46,8 @@ public class MembersDialogFragment extends DialogFragment {
             @Override
             public void onChanged(List<Group> groups) {
                 Log.d(LOG_TAG, "OnChanged");
-                adapter.setMembers(membersDialogViewModel.getMembers(//тут должно быть получение группы));
+                adapter.setMembers(membersDialogViewModel.getMembers());
+                //тут должно быть получение группы));
                 adapter.notifyDataSetChanged();
             }
         });

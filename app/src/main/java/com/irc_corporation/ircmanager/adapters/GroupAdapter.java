@@ -3,6 +3,7 @@ package com.irc_corporation.ircmanager.adapters;
 import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
@@ -43,9 +44,9 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = viewHolder.itemView.getContext()
+                FragmentManager fragmentManager =((AppCompatActivity) viewHolder.itemView.getContext()).getSupportFragmentManager();
                 DialogFragment dialog = new MembersDialogFragment();
-                dialog.show();
+                dialog.show(fragmentManager, "Members");
             }
         });
     }
