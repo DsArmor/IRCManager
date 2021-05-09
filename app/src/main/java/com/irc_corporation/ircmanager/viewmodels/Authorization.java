@@ -18,7 +18,7 @@ import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.Observable;
 
-public class Authorization extends Observable implements View.OnClickListener {
+public class Authorization implements View.OnClickListener {
     private String email;
     private String password;
     private Listener listener;

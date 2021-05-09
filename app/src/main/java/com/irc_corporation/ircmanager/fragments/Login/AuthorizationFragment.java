@@ -18,15 +18,10 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.databinding.FragmentAuthorizationBinding;
 import com.irc_corporation.ircmanager.viewmodels.Authorization;
 
-public class AuthorizationFragment extends Fragment /*implements View.OnClickListener*/{
+public class AuthorizationFragment extends Fragment{
 
     private Listener listener;
     private FragmentAuthorizationBinding binding;
-
-    /*private Button enter;
-    private Button registration;
-    private EditText email;
-    private EditText password;*/
 
     @Override
     public void onAttach(Context context) {
