@@ -23,6 +23,10 @@ public class MembersDialogViewModel extends ViewModel {
         groups = repository.getGroups();
     }
 
+    public MutableLiveData<List<Group>> getGroups() {
+        return groups;
+    }
+
     public String[] getMembers(Group group) {
         //временный код
         List<User> members = group.getMembers();

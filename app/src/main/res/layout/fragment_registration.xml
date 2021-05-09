@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/password_in_registr"
-        app:layout_constraintTop_toBottomOf="@+id/password_in_registr">
+        app:layout_constraintBottom_toBottomOf="@+id/password_in_registration_form"
+        app:layout_constraintTop_toBottomOf="@+id/password_in_registration_form">
 
         <EditText
-            android:id="@+id/name_in_registr"
+            android:id="@+id/name_in_registration_form"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/mail_in_registr"
+            android:id="@+id/mail_in_registration_form"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -35,10 +35,10 @@
             android:hint="Почта"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/name_in_registr" />
+            app:layout_constraintTop_toBottomOf="@+id/name_in_registration_form" />
 
         <EditText
-            android:id="@+id/password_in_registr"
+            android:id="@+id/password_in_registration_form"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -47,10 +47,10 @@
             android:hint="Пароль"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mail_in_registr" />
+            app:layout_constraintTop_toBottomOf="@+id/mail_in_registration_form" />
 
         <Button
-            android:id="@+id/registration_button_in_registr"
+            android:id="@+id/registration_button_in_registration_form"
             style="@style/Widget.AppCompat.Button.Colored"
             android:background="@drawable/my_button_for_login"
             android:padding="15dp"
@@ -60,7 +60,7 @@
             android:text="Зарегистрироваться"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_in_registr" />
+            app:layout_constraintTop_toBottomOf="@+id/password_in_registration_form" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

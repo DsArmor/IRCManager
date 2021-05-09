@@ -36,11 +36,11 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View rootView =  inflater.inflate(R.layout.fragment_registration, container, false);
 
-        registration = rootView.findViewById(R.id.registration_button_in_registr);
+        registration = rootView.findViewById(R.id.registration_button_in_registration_form);
         registration.setOnClickListener(this);
-        name = rootView.findViewById(R.id.name_in_registr);
-        email = rootView.findViewById(R.id.mail_in_registr);
-        password = rootView.findViewById(R.id.password_in_registr);
+        name = rootView.findViewById(R.id.name_in_registration_form);
+        email = rootView.findViewById(R.id.mail_in_registration_form);
+        password = rootView.findViewById(R.id.password_in_registration_form);
 
         return rootView;
     }
