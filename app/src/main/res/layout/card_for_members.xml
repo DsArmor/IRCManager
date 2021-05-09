@@ -5,10 +5,7 @@
     android:id="@+id/card_view_members"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp"
-    android:background="#FFFFFF"
-    card_view:cardElevation="30dp"
-    card_view:cardCornerRadius="40dp">
+    android:layout_margin="2dp">
 
     <FrameLayout
         android:layout_width="match_parent"

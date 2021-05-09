@@ -1,6 +1,7 @@
 package com.irc_corporation.ircmanager.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +34,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         return new MemberAdapter.ViewHolder(cv);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
         User member = members.get(position);
         viewHolder.textViewMember.setText(member.getFullname());
-        //тут должно быть получение номера
-        viewHolder.textViewNumberOfMember.setText("13");
+        viewHolder.textViewNumberOfMember.setText(Integer.toString(position+1));
         viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

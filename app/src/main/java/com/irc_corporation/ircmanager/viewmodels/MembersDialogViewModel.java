@@ -15,12 +15,11 @@ import java.util.List;
 
 public class MembersDialogViewModel extends ViewModel {
 
-    private Repository repository;
-    private MutableLiveData<List<Group>> groups;
-    private List<User> members;
+    private final MutableLiveData<List<Group>> groups;
+    private final List<User> members = new ArrayList<>();
 
     public MembersDialogViewModel(){
-        repository = IRCRepository.getInstance();
+        Repository repository = IRCRepository.getInstance();
         groups = repository.getGroups();
     }
 
@@ -28,14 +27,13 @@ public class MembersDialogViewModel extends ViewModel {
         return groups;
     }
 
-//    Group group
-    public List<User> getMembers() {
-        //временный код
-        members = new ArrayList<>();
-        members.add(new User("Pasha", "pashok_лох"));
-        System.out.println("добавился студент");
+    public List<User> getMembers(Group group) {
+        List<User> tempMembers = group.getMembers();
+        for (int i = 0; i<tempMembers.size(); i++){
+            if (!tempMembers.get(i).getFullname().equals(group.getAdmin().getFullname())){
+                members.add(tempMembers.get(i));
+            }
+        }
         return members;
     }
-
-
 }
