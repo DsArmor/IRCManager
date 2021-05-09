@@ -3,6 +3,7 @@ package com.irc_corporation.ircmanager.viewmodels;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -20,8 +21,10 @@ public class TaskViewModel extends ViewModel {
     private Repository repository;
     private MutableLiveData<List<Group>> groups;
     private List<GroupTask> tasks = new ArrayList<>();
+    private com.irc_corporation.ircmanager.databinding.FragmentTaskBinding binding;
 
-    public TaskViewModel() {
+    public TaskViewModel(com.irc_corporation.ircmanager.databinding.FragmentTaskBinding binding) {
+        this.binding = binding;
         repository = IRCRepository.getInstance();
         groups = repository.getGroups();
     }

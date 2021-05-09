@@ -4,14 +4,17 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.icu.text.CaseMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.databinding.CardForTasksBinding;
 import com.irc_corporation.ircmanager.models.GroupTask;
 
 import java.util.ArrayList;
@@ -25,18 +28,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @NonNull
     @Override
     public TaskAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        CardView cv;
-        cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_for_tasks, parent, false);
-        return new ViewHolder(cv);
+        LayoutInflater inflater =LayoutInflater.from(parent.getContext());
+        CardForTasksBinding binding = DataBindingUtil.inflate(inflater, R.layout.card_for_tasks, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
-        GroupTask task = tasks.get(position);
-        viewHolder.textViewTaskName.setText(task.getName());
-        viewHolder.textViewDescription.setText(task.getDescription());
-        //todo: получить реальное название группы
-        viewHolder.textViewGroupName.setText("Бульбага");
+    public void onBindViewHolder(ViewHolder viewHolder,final int position) {
+        if(getItemCount()!=0){
+            GroupTask task = tasks.get(position);
+            viewHolder.binding.taskNameInCardTasks.setText(task.getName());
+            viewHolder.binding.taskDescriptionInCardTasks.setText(task.getDescription());
+            //todo: получить реальное название группы
+            viewHolder.binding.groupNameInCardTasks.setText("Бульбаал");
+        }
     }
 
     @Override
@@ -52,16 +57,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView textViewTaskName;
-        private final TextView textViewDescription;
-        private final TextView textViewGroupName;
         private TextView textViewData;//под вопросом, подумай
+        CardForTasksBinding binding;
 
-        public ViewHolder(@NonNull CardView itemView) {
-            super(itemView);
-            textViewTaskName = itemView.findViewById(R.id.task_name_in_card_tasks);
-            textViewDescription = itemView.findViewById(R.id.task_description_in_card_tasks);
-            textViewGroupName = itemView.findViewById(R.id.group_name_in_card_tasks);
+        public ViewHolder(@NonNull CardForTasksBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
