@@ -31,6 +31,10 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     private List<Group> groups = new ArrayList<>();
 
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
     @NonNull
     @Override
     public GroupAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -40,14 +44,13 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Group group = groups.get(position);
         viewHolder.textViewGroupName.setText(group.getName());
         viewHolder.textViewCountMembers.setText("4");
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Мы зашли в onBind в клик");
                 FragmentManager fragmentManager = ((AppCompatActivity)viewHolder.itemView.getContext()).getSupportFragmentManager();
                 DialogFragment dialog = new MembersDialogFragment(group);
                 dialog.show(fragmentManager, ""); }
@@ -59,19 +62,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         return groups.size();
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView textViewGroupName;
         private final TextView textViewCountMembers;
+
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
             textViewGroupName = itemView.findViewById(R.id.group_name_in_card_groups);
             textViewCountMembers = itemView.findViewById(R.id.count_of_members);
-
         }
     }
 }

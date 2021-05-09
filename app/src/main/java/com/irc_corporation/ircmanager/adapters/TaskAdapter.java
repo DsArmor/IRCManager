@@ -22,6 +22,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<GroupTask> tasks = new ArrayList<>();
     private static final String LOG_TAG = "TaskAdapter";
 
+    public void setTasks(List<GroupTask> tasks) {
+        Log.d(LOG_TAG, "setTasks");
+        this.tasks = tasks;
+        Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
+    }
+
     @NonNull
     @Override
     public TaskAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
@@ -31,7 +37,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         GroupTask task = tasks.get(position);
         viewHolder.textViewTaskName.setText(task.getName());
         viewHolder.textViewDescription.setText(task.getDescription());
@@ -42,12 +48,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     @Override
     public int getItemCount() {
         return tasks.size();
-    }
-
-    public void setTasks(List<GroupTask> tasks) {
-        Log.d(LOG_TAG, "setTasks");
-        this.tasks = tasks;
-        Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

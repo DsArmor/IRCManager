@@ -29,11 +29,15 @@ public class MembersDialogViewModel extends ViewModel {
 
     public List<User> getMembers(Group group) {
         List<User> tempMembers = group.getMembers();
+        User admin=null;
         for (int i = 0; i<tempMembers.size(); i++){
             if (!tempMembers.get(i).getFullname().equals(group.getAdmin().getFullname())){
                 members.add(tempMembers.get(i));
+            } else{
+                admin = tempMembers.get(i);
             }
         }
+        members.add(admin);
         return members;
     }
 }

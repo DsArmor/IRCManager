@@ -45,7 +45,7 @@
                 android:src="@drawable/baseline_person_add_24"
                 android:background="@color/white"
                 android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="8dp"
                 android:tint="#4E8A51"/>
 
         </FrameLayout>
