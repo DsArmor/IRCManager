@@ -1,7 +1,13 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -13,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.irc_corporation.ircmanager.R;
@@ -30,19 +37,17 @@ public class MembersDialogFragment extends DialogFragment {
 
     private static final String LOG_TAG = "MemberDialogFragment";
     private Group group;
+    private FrameLayout frameLayout;
 
-    public MembersDialogFragment(Group group){
+    public MembersDialogFragment(Group group) {
         this.group = group;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_members_dialog, container, false);
-
-        //todo: докрутить удаление пользователей
-        //todo: получить всех участников группы с сервера и положить их в адаптер
-
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_members);
 
         MemberAdapter adapter = new MemberAdapter();
@@ -50,6 +55,7 @@ public class MembersDialogFragment extends DialogFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
+        
 //        for (User member : members){
 //            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), string_title, member.getEmail());
 //        }
@@ -64,14 +70,7 @@ public class MembersDialogFragment extends DialogFragment {
                 adapter.notifyDataSetChanged();
             }
         });
-
-//        repository.
-//        String[] members = new String[];
-//        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(),
-//                android.R.layout.simple_list_item_1, new String[]{"fe'wf'", "eowqieqw"});
-//        ListView listMembers = (ListView) rootView.findViewById(R.id.list_members);
-//        listMembers.setAdapter(listAdapter);
-
         return rootView;
+
     }
 }

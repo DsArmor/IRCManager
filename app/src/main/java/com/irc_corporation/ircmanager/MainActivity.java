@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.irc_corporation.ircmanager.fragments.AddGroupFragment;
 import com.irc_corporation.ircmanager.fragments.AddTaskFragment;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String LOG_TAG = "MainActivity";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +44,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //todo: переписать на базу данных, это временно
         //----------------------------------------------------------------------------
 
-
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,6 +60,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        View header = navigationView.getHeaderView(0);
+        ImageButton imageButton = header.findViewById(R.id.leave_from);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(LOG_TAG, "User Leave");
+                SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -75,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else {
             Repository repository = IRCRepository.getInstance();
         }
+
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -82,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
         Fragment fragment = null;
-
         //вызывается метод onCreate для каждого фрагмента при переключении по навигационным кнопкам, можно и так
         //либо нужно каждый фрагмент сделать одиночкой)
         switch (id) {

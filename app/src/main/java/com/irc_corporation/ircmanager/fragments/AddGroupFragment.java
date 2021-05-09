@@ -28,7 +28,6 @@ public class AddGroupFragment extends DialogFragment {
         addGroupViewModel.setDialogFragment(this);
         addGroupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
 
-
         binding.setAddGroupViewModel(addGroupViewModel);
 
         return binding.getRoot();
