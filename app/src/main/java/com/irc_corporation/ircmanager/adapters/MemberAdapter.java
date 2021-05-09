@@ -50,7 +50,8 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        System.out.println(members.size());
+        return members.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

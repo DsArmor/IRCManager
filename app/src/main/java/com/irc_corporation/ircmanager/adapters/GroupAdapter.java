@@ -6,11 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,14 +44,6 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         Group group = groups.get(position);
         viewHolder.textViewGroupName.setText(group.getName());
         viewHolder.textViewCountMembers.setText("4");
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager =((AppCompatActivity)).getSupportFragmentManager();
-                DialogFragment dialog = new MembersDialogFragment();
-                dialog.show(fragmentManager, "Members");
-            }
-        });
     }
 
     @Override
@@ -68,6 +63,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             super(itemView);
             textViewGroupName = itemView.findViewById(R.id.group_name_in_card_groups);
             textViewCountMembers = itemView.findViewById(R.id.count_of_members);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("Мы зашли в onBind в клик");
+                    AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                    DialogFragment dialog = new MembersDialogFragment();
+                    dialog.show(fragmentManager, ""); }
+            });
         }
     }
 }
