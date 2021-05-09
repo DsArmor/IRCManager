@@ -44,7 +44,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager =((AppCompatActivity) viewHolder.itemView.getContext()).getSupportFragmentManager();
+                FragmentManager fragmentManager =((AppCompatActivity)).getSupportFragmentManager();
                 DialogFragment dialog = new MembersDialogFragment();
                 dialog.show(fragmentManager, "Members");
             }
