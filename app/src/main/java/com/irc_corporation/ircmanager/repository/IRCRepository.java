@@ -244,7 +244,7 @@ public class IRCRepository implements Repository{
         jsonBody.group.name = groupName;
         jsonBody.admin.email = email;
         jsonBody.admin.password = password;
-        jsonBody.newMember.email = email;
+        jsonBody.newMember.email = userEmail;
         Thread thread = new Thread() {
             @Override
             public void run() {

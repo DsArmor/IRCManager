@@ -1,6 +1,8 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
@@ -13,6 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.irc_corporation.ircmanager.R;
@@ -40,11 +45,8 @@ public class MembersDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_members_dialog, container, false);
 
-        //todo: докрутить удаление пользователей
-        //todo: получить всех участников группы с сервера и положить их в адаптер
-
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_members);
-
+        EditText newMemberEmail = rootView.findViewById(R.id.new_member_email);
         MemberAdapter adapter = new MemberAdapter(group);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -63,6 +65,17 @@ public class MembersDialogFragment extends DialogFragment {
                 adapter.setGroupName(group.getName());
                 //тут должно быть получение группы));
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        ImageButton addMemberButton = rootView.findViewById(R.id.add_member_button);
+        addMemberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Repository repository = IRCRepository.getInstance();
+                SharedPreferences pref = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+                repository.addMember(pref.getString("email", ""), pref.getString("password", ""), group.getName(), newMemberEmail.getText().toString());
+                repository.refresh(pref.getString("email", ""), pref.getString("password", ""));
             }
         });
 

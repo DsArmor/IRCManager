@@ -36,7 +36,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     public void setMembers(List<User> members) {
         this.admin = members.get(members.size()-1);
-        members.remove(members.get(members.size()-1));
+        //members.remove(members.get(members.size()-1));
         this.members = members;
     }
 
@@ -61,7 +61,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
         //здесь нужно получить имя пользователя
         SharedPreferences prefs = viewHolder.itemView.getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
-
+        Repository repository = IRCRepository.getInstance();
         if (!prefs.getString("email", "").equals(admin.getEmail()) && !prefs.getString("email", "").equals(members.get(position).getEmail())){
             System.out.println("Мы находимся на проверке админа");
             System.out.println(prefs.getString("email", ""));
@@ -72,7 +72,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
             viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Repository repository = IRCRepository.getInstance();
                     repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
                 }
             });
@@ -81,11 +80,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
             viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Repository repository = IRCRepository.getInstance();
                     repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
                 }
             });
         }
+        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
     }
 
     @Override
