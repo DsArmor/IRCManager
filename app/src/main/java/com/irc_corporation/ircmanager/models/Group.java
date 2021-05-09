@@ -82,11 +82,11 @@ public class Group implements Serializable, Comparable<Group> {
 
     @Override
     public int compareTo(Group o) {
-        if(this.getName().compareTo(o.name) == 0) {
+     if(this.getName().compareTo(o.name) == 0) {
             return this.getAdmin().getEmail().compareTo(o.getAdmin().getEmail());
         }
         else {
-            return this.getName().compareTo(o.name);
+            return this.getName().compareTo(o.getName());
         }
     }
 }

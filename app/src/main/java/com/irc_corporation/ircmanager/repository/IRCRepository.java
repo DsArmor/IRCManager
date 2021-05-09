@@ -67,6 +67,7 @@ public class IRCRepository implements Repository{
                 try {
                     Response<List<Group>> response = call.execute();
                     List<Group> newGroups = response.body();
+                    Collections.sort(newGroups);
                     if (newGroups != null) {
                         groups.postValue(newGroups);
                     }
