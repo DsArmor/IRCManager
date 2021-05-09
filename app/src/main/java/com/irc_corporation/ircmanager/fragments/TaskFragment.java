@@ -66,7 +66,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             binding.recyclerTasks.setLayoutManager(layoutManager);
-            TaskAdapter adapter = new TaskAdapter();
+            TaskAdapter adapter = new TaskAdapter(taskViewModel.getTasks());
             binding.recyclerTasks.setAdapter(adapter);
         }
         return binding.getRoot();

@@ -35,6 +35,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder,final int position) {
+        //тут добавление даты должно быть
         if(getItemCount()!=0){
             GroupTask task = tasks.get(position);
             viewHolder.binding.taskNameInCardTasks.setText(task.getName());
@@ -56,8 +57,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        private TextView textViewData;//под вопросом, подумай
         CardForTasksBinding binding;
 
         public ViewHolder(@NonNull CardForTasksBinding binding) {

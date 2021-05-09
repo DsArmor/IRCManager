@@ -42,14 +42,14 @@ public class MembersDialogFragment extends DialogFragment {
         recyclerView.setAdapter(adapter);
 
         MembersDialogViewModel membersDialogViewModel = new ViewModelProvider(this).get(MembersDialogViewModel.class);
-        membersDialogViewModel.getGroups().observe(this, new Observer<List<Group>>() {
-            @Override
-            public void onChanged(List<Group> groups) {
-                Log.d(LOG_TAG, "OnChanged");
-                adapter.setMembers(membersDialogViewModel.getMembers(//тут должно быть получение группы));
-                adapter.notifyDataSetChanged();
-            }
-        });
+//        membersDialogViewModel.getGroups().observe(this, new Observer<List<Group>>() {
+//            @Override
+//            public void onChanged(List<Group> groups) {
+//                Log.d(LOG_TAG, "OnChanged");
+//                adapter.setMembers(membersDialogViewModel.getMembers(//тут должно быть получение группы));
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
 
 //        repository.
 //        String[] members = new String[];
