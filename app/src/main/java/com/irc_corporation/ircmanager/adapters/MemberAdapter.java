@@ -15,7 +15,10 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.User;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
+import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +27,21 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     private List<User> members = new ArrayList<>();
     private User admin;
+    private String groupName;
+
+    public MemberAdapter(Group group) {
+        groupName = group.getName();
+        members = group.getMembers();
+    }
 
     public void setMembers(List<User> members) {
         this.admin = members.get(members.size()-1);
         members.remove(members.get(members.size()-1));
         this.members = members;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     @NonNull
@@ -49,17 +62,27 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         //здесь нужно получить имя пользователя
         SharedPreferences prefs = viewHolder.itemView.getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
 
-        if (!prefs.getString("email", "").equals(admin.getEmail())){
+        if (!prefs.getString("email", "").equals(admin.getEmail()) && !prefs.getString("email", "").equals(members.get(position).getEmail())){
             System.out.println("Мы находимся на проверке админа");
             System.out.println(prefs.getString("email", ""));
             System.out.println(admin.getEmail());
             viewHolder.imageButtonDeleteMember.setVisibility(View.INVISIBLE);
-        } else{
+        }
+        else if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
             viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //todo удалить участника
-                    System.out.println("Должно типа удалиться");
+                    Repository repository = IRCRepository.getInstance();
+                    repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
+                }
+            });
+        }
+        else {
+            viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Repository repository = IRCRepository.getInstance();
+                    repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
                 }
             });
         }

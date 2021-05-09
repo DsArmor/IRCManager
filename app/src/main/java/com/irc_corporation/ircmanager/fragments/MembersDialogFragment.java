@@ -45,7 +45,7 @@ public class MembersDialogFragment extends DialogFragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_members);
 
-        MemberAdapter adapter = new MemberAdapter();
+        MemberAdapter adapter = new MemberAdapter(group);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -60,6 +60,7 @@ public class MembersDialogFragment extends DialogFragment {
             public void onChanged(List<Group> groups) {
                 Log.d(LOG_TAG, "OnChanged");
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
+                adapter.setGroupName(group.getName());
                 //тут должно быть получение группы));
                 adapter.notifyDataSetChanged();
             }
