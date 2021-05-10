@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -45,10 +46,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         GroupTask task = tasks.get(position);
         viewHolder.textViewTaskName.setText(task.getName());
-        viewHolder.textViewDescription.setText(task.getDescription());
+        if (!task.getDescription().equals("")){
+            viewHolder.textViewDescription.setVisibility(View.VISIBLE);
+            viewHolder.textViewDescription.setText(task.getDescription());
+        }
         viewHolder.textViewGroupName.setText(task.getGroup().getName());
         //todo: проверка на наличие даты
-        viewHolder.textViewData.setText(task.getDueDate().toString());
+//        viewHolder.textViewData.setText(task.getDueDate().toString());
     }
 
     @Override

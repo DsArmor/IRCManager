@@ -1,6 +1,8 @@
 package com.irc_corporation.ircmanager.viewmodels;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,9 +19,16 @@ import java.util.List;
 
 public class TaskViewModel extends ViewModel {
 
+    private static final String LOG_TAG = "TaskViewModel";
+
     private Repository repository;
     private MutableLiveData<List<Group>> groups;
     private List<GroupTask> tasks = new ArrayList<>();
+    private SharedPreferences sharedPreferences;
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 
     public TaskViewModel() {
         repository = IRCRepository.getInstance();
@@ -36,10 +45,18 @@ public class TaskViewModel extends ViewModel {
         tasks = new ArrayList<>();
         for (Group group : groups.getValue()) {
             for (GroupTask task : group.getTasks()) {
-                task.setGroup(group);
-                this.tasks.add(task);
+                if (!task.isDone()){
+                    Log.d(LOG_TAG, "task not done "+task.getName());
+                    System.out.println(task.isDone());
+                    task.setGroup(group);
+                    this.tasks.add(task);
+                }
             }
         }
         return tasks;
+    }
+
+    public void refresh(){
+        repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));
     }
 }

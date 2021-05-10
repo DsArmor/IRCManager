@@ -25,8 +25,6 @@ public class AuthorizationViewModel  {
     private SharedPreferences sharedPreferences;
     private static final String LOG_TAG = "authorization";
 
-
-
     public void setSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }

@@ -1,5 +1,7 @@
 package com.irc_corporation.ircmanager.viewmodels;
 
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -13,10 +15,19 @@ public class GroupViewModel extends ViewModel {
 
     private Repository repository;
     private MutableLiveData<List<Group>> groups;
+    private SharedPreferences sharedPreferences;
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 
     public GroupViewModel() {
         repository = IRCRepository.getInstance();
         groups = repository.getGroups();
+    }
+
+    public void refresh(){
+        repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));
     }
 
     public MutableLiveData<List<Group>> getGroups() {

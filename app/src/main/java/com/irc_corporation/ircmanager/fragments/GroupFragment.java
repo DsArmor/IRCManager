@@ -1,6 +1,7 @@
 package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +33,9 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     private static final String LOG_TAG = "GroupFragment";
 
+    SharedPreferences prefs;
+    SwipeRefreshLayout swipeRefresh;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,12 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         button.setOnClickListener(this);
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_groups);
+        swipeRefresh = rootView.findViewById(R.id.swipe_refresh_group);
+
+        int c1 = getResources().getColor(R.color.light_green);
+        int c2 = getResources().getColor(R.color.white);
+        int c3 = getResources().getColor(R.color.light_green);
+        swipeRefresh.setColorSchemeColors(c1, c2, c3);
 
         //получение данных с сервера
 
@@ -56,12 +67,22 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         recyclerView.setLayoutManager(layoutManager);
 
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+        prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        groupViewModel.setSharedPreferences(prefs);
         groupViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
             public void onChanged(List<Group> groups) {
                 Log.d(LOG_TAG, "OnChanged");
                 adapter.setGroups(groups);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                groupViewModel.refresh();
+                swipeRefresh.setRefreshing(false);
             }
         });
 

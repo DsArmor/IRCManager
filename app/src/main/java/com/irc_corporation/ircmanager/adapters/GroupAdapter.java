@@ -14,6 +14,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
+import com.irc_corporation.ircmanager.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +46,12 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         return new ViewHolder(cv);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Group group = groups.get(position);
         viewHolder.textViewGroupName.setText(group.getName());
-        viewHolder.textViewCountMembers.setText("4");
+        viewHolder.textViewCountMembers.setText(Integer.toString(group.getMembers().size()));
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

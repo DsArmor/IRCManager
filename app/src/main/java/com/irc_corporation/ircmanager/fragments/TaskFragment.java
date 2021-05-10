@@ -1,8 +1,10 @@
 package com.irc_corporation.ircmanager.fragments;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -42,6 +44,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     private RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefresh;
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
@@ -56,7 +59,10 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
             swipeRefresh = rootView.findViewById(R.id.swipe_refresh);
-
+            int c1 = getResources().getColor(R.color.light_green);
+            int c2 = getResources().getColor(R.color.white);
+            int c3 = getResources().getColor(R.color.light_green);
+            swipeRefresh.setColorSchemeColors(c1, c2, c3);
             //найдем ресайклер
             recyclerView = rootView.findViewById(R.id.recycler_tasks);
             TaskAdapter adapter = new TaskAdapter();
@@ -85,6 +91,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
             TaskViewModel taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+            taskViewModel.setSharedPreferences(prefs);
             taskViewModel.getGroups().observe(this, new Observer<List<Group>>() {
                 @Override
                 public void onChanged(List<Group> groups) {
@@ -102,7 +109,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    //сделать рефреш, но не через явный выхов репозитория, только не тут!
+                    taskViewModel.refresh();
                     swipeRefresh.setRefreshing(false);
                 }
             });

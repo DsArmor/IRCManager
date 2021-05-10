@@ -30,7 +30,6 @@ public class AddGroupViewModel extends ViewModel implements View.OnClickListener
         this.sharedPreferences = sharedPreferences;
     }
 
-
     @Override
     public void onClick(View v) {
         onClickAddGroup();
@@ -43,7 +42,6 @@ public class AddGroupViewModel extends ViewModel implements View.OnClickListener
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-
 
     private void onClickAddGroup(){
         String string_title = groupName.toString();

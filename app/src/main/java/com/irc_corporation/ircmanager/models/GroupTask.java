@@ -7,14 +7,14 @@ public class GroupTask implements Comparable<GroupTask>{
     private String name;
     private String description;
     private Date dueDate;
-    private boolean isDone;
+    private boolean done;
     private Group group;
 
     public GroupTask(String name, String description, Date dueDate, boolean isDone) {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
-        this.isDone = isDone;
+        this.done = isDone;
     }
 
     @Override
@@ -48,11 +48,11 @@ public class GroupTask implements Comparable<GroupTask>{
     }
 
     public boolean isDone() {
-        return isDone;
+        return done;
     }
 
     public void setDone(boolean done) {
-        isDone = done;
+        this.done = done;
     }
 
     public Group getGroup() {

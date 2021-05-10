@@ -27,7 +27,6 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
     private SharedPreferences sharedPreferences;
     private FragmentManager fragmentManager;
 
-
     public String getCheckedGroup() {
         return checkedGroup;
     }

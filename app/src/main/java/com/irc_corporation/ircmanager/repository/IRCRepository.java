@@ -154,6 +154,16 @@ public class IRCRepository implements Repository{
                         Response<List<Group>> response = call.execute();
                         List<Group> newGroups = response.body();
                         if (newGroups != null) {
+                            int countDone=0;
+                            for (Group group : newGroups) {
+                                for (GroupTask task : group.getTasks()) {
+                                    if (!task.isDone()){
+                                        Log.d(LOG_TAG, "task not done "+task.getName());
+                                        countDone++;
+                                    }
+                                }
+                            }
+                            System.out.println(countDone);
                             Collections.sort(newGroups);
                             groups.postValue(newGroups);
                             Log.d(LOG_TAG, "поле group обновлено");
@@ -205,6 +215,7 @@ public class IRCRepository implements Repository{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                refresh(email, password);
             }
         };
         thread.start();
@@ -279,7 +290,7 @@ public class IRCRepository implements Repository{
     @Override
     public void createGroup(String email, String password, String newGroupName) {
         CreateGroupRequestBody jsonBody = new CreateGroupRequestBody();
-        jsonBody.newGroup.name = newGroupName;
+        jsonBody.group.name = newGroupName;
         jsonBody.admin.email = email;
         jsonBody.admin.password = password;
         Thread thread = new Thread() {

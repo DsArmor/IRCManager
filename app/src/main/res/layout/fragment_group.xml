@@ -11,7 +11,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_group"
             android:padding="10dp"
             android:gravity="center"
             android:layout_width="match_parent"
@@ -22,7 +23,7 @@
                 android:foregroundGravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
-        </RelativeLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

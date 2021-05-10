@@ -2,13 +2,13 @@ package com.irc_corporation.ircmanager.repository.JSON;
 
 public class CreateGroupRequestBody {
     public Admin admin = new Admin();
-    public NewGroup newGroup = new NewGroup();
+    public Group group = new Group();
 
     public class Admin {
         public String password;
         public String email;
     }
-    public class NewGroup {
+    public class Group {
         public String name;
     }
 }
