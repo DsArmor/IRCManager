@@ -9,6 +9,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.LoginActivity;
@@ -18,39 +19,31 @@ import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.Observable;
 
-public class Authorization implements View.OnClickListener {
+public class AuthorizationViewModel  {
     private String email;
     private String password;
-    private Listener listener;
     private SharedPreferences sharedPreferences;
     private static final String LOG_TAG = "authorization";
 
-    public Authorization(Listener listener, SharedPreferences sharedPreferences) {
-        this.listener = listener;
+
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
-    @Override
-    public void onClick(View v) {
+    public boolean logIn() {
         Repository repository = IRCRepository.getInstance();
-        switch (v.getId()) {
-            case R.id.registration_button:
-                this.listener.onMyClick(0);
-                break;
-            case R.id.enter_button:
-                if (repository.userExist(email, password)) {
-                    Log.d(LOG_TAG, "userExist = true");
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("email", email);
-                    editor.apply();
-                    editor = sharedPreferences.edit();
-                    editor.putString("password", password);
-                    editor.apply();
-                    editor.apply();
-                    this.listener.onMyClick(1);
-                }
-                break;
+        if (repository.userExist(email, password)) {
+            Log.d(LOG_TAG, "userExist = true");
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("email", email);
+            editor.apply();
+            editor = sharedPreferences.edit();
+            editor.putString("password", password);
+            editor.apply();
+            editor.apply();
         }
+        return (repository.userExist(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
     }
 
     public String getEmail() {

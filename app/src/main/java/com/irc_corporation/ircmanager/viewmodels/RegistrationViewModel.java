@@ -1,31 +1,33 @@
 package com.irc_corporation.ircmanager.viewmodels;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
-public class Registration implements View.OnClickListener {
+public class RegistrationViewModel {
     private String name;
     private String email;
     private String password;
-    private Listener listener;
     private SharedPreferences sharedPreferences;
     private static final String LOG_TAG = "registration";
 
-    public Registration(Listener listener, SharedPreferences sharedPreferences) {
-        this.listener = listener;
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
     }
 
-    @Override
-    public void onClick(View v) {
-        //todo: сделать проверку
+    public boolean registration() {
         Repository repository = IRCRepository.getInstance();
         repository.createUser(name, email, password);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -34,7 +36,7 @@ public class Registration implements View.OnClickListener {
         editor = sharedPreferences.edit();
         editor.putString("password", password);
         editor.apply();
-        this.listener.onMyClick(1);
+        return (repository.userExist(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
     }
 
     public String getEmail() {

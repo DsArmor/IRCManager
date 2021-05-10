@@ -72,7 +72,8 @@ public class IRCRepository implements Repository{
                 try {
                     Response<List<Group>> response = call.execute();
                     List<Group> newGroups = response.body();
-                    Collections.sort(newGroups);
+                    if (newGroups != null)
+                        Collections.sort(newGroups);
                     if (newGroups != null) {
                         groups.postValue(newGroups);
                     }
@@ -91,7 +92,11 @@ public class IRCRepository implements Repository{
         threadRefresh.start();
         synchronized (sync) {
             Log.d(LOG_TAG, "userExist = true");
-            return groups != null;
+            if (groups == null){
+                groups.setValue(new ArrayList<Group>());
+                return false;
+            }
+            return true;
         }
     }
 
@@ -148,7 +153,7 @@ public class IRCRepository implements Repository{
                         List<Group> newGroups = response.body();
                         if (newGroups != null) {
                             Collections.sort(newGroups);
-                            groups.postValue(newGroups);
+                            groups.postValue(new ArrayList<>());
                             Log.d(LOG_TAG, "поле group обновлено");
                         }
                         else {
