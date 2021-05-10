@@ -35,6 +35,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -51,11 +52,11 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
 
             //найдем ресайклер
-            RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
+            recyclerView = rootView.findViewById(R.id.recycler_tasks);
             TaskAdapter adapter = new TaskAdapter();
             recyclerView.setAdapter(adapter);
 
-            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
                 @Override
                 public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                     return false;
@@ -63,7 +64,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                    if (direction == ItemTouchHelper.LEFT){
+                    if (direction == ItemTouchHelper.RIGHT){
                         //произвести удаление таска
                     }
                 }

@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onResume() {
         super.onResume();
         Fragment fragment = new TaskFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.content_container, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_container, fragment).commit();
         SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
         if (!(prefs.contains("email") && prefs.contains("password"))) {
             Log.d(LOG_TAG, "User Not Logged In");
