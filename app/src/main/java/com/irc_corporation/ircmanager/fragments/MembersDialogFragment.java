@@ -44,6 +44,7 @@ public class MembersDialogFragment extends DialogFragment {
         this.group = group;
     }
 
+    @SuppressLint("CutPasteId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -58,11 +59,7 @@ public class MembersDialogFragment extends DialogFragment {
 
         frameLayout = rootView.findViewById(R.id.frame_in_dialog);
         //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
-        
-//        for (User member : members){
-//            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), string_title, member.getEmail());
-//        }
-
+        //хотя можно и оставить пока так
         MembersDialogViewModel membersDialogViewModel = new ViewModelProvider(this).get(MembersDialogViewModel.class);
         membersDialogViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
@@ -86,13 +83,6 @@ public class MembersDialogFragment extends DialogFragment {
                 repository.refresh(pref.getString("email", ""), pref.getString("password", ""));
             }
         });
-
-//        repository.
-//        String[] members = new String[];
-//        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(),
-//                android.R.layout.simple_list_item_1, new String[]{"fe'wf'", "eowqieqw"});
-//        ListView listMembers = (ListView) rootView.findViewById(R.id.list_members);
-//        listMembers.setAdapter(listAdapter);
 
         return rootView;
 
