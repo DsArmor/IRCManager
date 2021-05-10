@@ -4,12 +4,14 @@ package com.irc_corporation.ircmanager.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,6 +36,8 @@ import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.viewmodels.TaskViewModel;
 
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class TaskFragment extends Fragment implements View.OnClickListener{
 
@@ -86,6 +90,22 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                                 groupTask.getName(),
                                 groupTask.getGroup().getAdmin().getEmail());
                     }
+                }
+
+                @Override
+                public void onChildDraw(@NonNull Canvas c,
+                                        @NonNull RecyclerView recyclerView,
+                                        @NonNull RecyclerView.ViewHolder viewHolder,
+                                        float dX,
+                                        float dY,
+                                        int actionState,
+                                        boolean isCurrentlyActive) {
+                    new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                            .addSwipeRightActionIcon(R.drawable.baseline_done_24)
+                            .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.green))
+                            .create()
+                            .decorate();
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
                 }
             };
             new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
