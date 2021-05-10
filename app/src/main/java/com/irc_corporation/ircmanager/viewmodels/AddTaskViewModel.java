@@ -89,8 +89,11 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
             case R.id.exit:
                 break;
             case R.id.add_task_complete:
-                if (checkedGroup != null && taskName != null && taskDescription != null && dueDate != null) {
+                if (checkedGroup != null && taskName != null && dueDate != null) {
                     Repository repository = IRCRepository.getInstance();
+                    if (taskDescription==null){
+                        taskDescription="";
+                    }
                     repository.addTask(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""), checkedGroup, taskName, taskDescription, dueDate);
                 }
         }
