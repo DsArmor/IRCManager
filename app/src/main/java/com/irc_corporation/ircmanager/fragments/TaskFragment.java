@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
@@ -66,6 +67,10 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     if (direction == ItemTouchHelper.RIGHT){
                         //произвести удаление таска
+                        //для отладки
+                        repository.taskDone(prefs.getString("email", ""),
+                                prefs.getString("password", ""),
+                                viewHolder.itemView.findViewById(R.id.group_name_in_card_tasks));
                     }
                 }
             };
