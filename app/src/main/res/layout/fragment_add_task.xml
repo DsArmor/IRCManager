@@ -18,22 +18,24 @@
             android:id="@+id/task_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
             android:ems="10"
             android:hint="Название задания"
-            android:text="@={addTaskViewModel.taskName}"
             android:inputType="textPersonName"
+            android:text="@={addTaskViewModel.taskName}"
             app:layout_constraintBottom_toTopOf="@+id/calendarView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
             android:layout_marginStart="5dp"
+            android:layout_marginBottom="12dp"
             android:text="Выберите группу"
             app:layout_constraintBottom_toTopOf="@+id/spinner_groups"
             app:layout_constraintStart_toStartOf="parent" />
@@ -55,8 +57,8 @@
             android:ems="10"
             android:gravity="start"
             android:hint="Описание"
-            android:text="@={addTaskViewModel.taskDescription}"
             android:maxLines="5"
+            android:text="@={addTaskViewModel.taskDescription}"
             app:layout_constraintBottom_toTopOf="@+id/add_task_complete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.656"
@@ -69,8 +71,8 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Добавить"
             android:onClick="@{addTaskViewModel}"
+            android:text="Добавить"
             android:textStyle="italic"
             app:layout_constraintBaseline_toBaselineOf="@+id/exit"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -82,16 +84,28 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="4dp"
-            android:text="Отмена"
             android:onClick="@{addTaskViewModel}"
+            android:text="Отмена"
             android:textStyle="italic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/add_task_complete" />
 
         <CalendarView
             android:id="@+id/calendarView"
-            android:layout_width="237dp"
-            android:layout_height="234dp"
+            android:layout_width="252dp"
+            android:layout_height="305dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="113dp"
+            app:layout_constraintTop_toBottomOf="@+id/dedlain"/>
+
+        <TextView
+            android:id="@+id/dedlain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Выберите дату дедлайна"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/task_name" />

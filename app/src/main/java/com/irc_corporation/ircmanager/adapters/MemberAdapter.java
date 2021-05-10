@@ -20,7 +20,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.irc_corporation.ircmanager.DismissListener;
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.User;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
@@ -29,17 +31,20 @@ import com.irc_corporation.ircmanager.repository.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder> {
+public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder>{
 
     private List<User> members = new ArrayList<>();
     private User admin;
     private String groupName;
     private static final String LOG_TAG = "MemberAdapter";
     private FrameLayout frameLayout;
+    private MembersDialogFragment fragment;
 
-    public MemberAdapter(Group group) {
+    public MemberAdapter(Group group, MembersDialogFragment fragment) {
         Log.d(LOG_TAG, "MemberAdapter()");
         groupName = group.getName();
+        this.fragment = fragment;
+
     }
 
     public void setMembers(List<User> members) {
@@ -96,6 +101,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                     public void onClick(View v) {
                         repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
                         repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+                        fragment.dismiss();
                     }
                 });
             }

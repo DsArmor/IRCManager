@@ -23,6 +23,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.irc_corporation.ircmanager.DismissListener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.MemberAdapter;
 import com.irc_corporation.ircmanager.models.Group;
@@ -52,7 +53,7 @@ public class MembersDialogFragment extends DialogFragment {
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_members);
         EditText newMemberEmail = rootView.findViewById(R.id.new_member_email);
-        MemberAdapter adapter = new MemberAdapter(group);
+        MemberAdapter adapter = new MemberAdapter(group, this);
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
@@ -68,11 +69,11 @@ public class MembersDialogFragment extends DialogFragment {
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
                 adapter.setGroupName(group.getName());
                 adapter.setFrame(frameLayout);
-                //тут должно быть получение группы));
                 adapter.notifyDataSetChanged();
             }
         });
 
+        //todo: убрать обращение к репозиторию отсюда
         ImageButton addMemberButton = rootView.findViewById(R.id.add_member_button);
         addMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +82,6 @@ public class MembersDialogFragment extends DialogFragment {
                 SharedPreferences pref = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
                 repository.addMember(pref.getString("email", ""), pref.getString("password", ""), group.getName(), newMemberEmail.getText().toString());
                 repository.refresh(pref.getString("email", ""), pref.getString("password", ""));
-//                dismiss();
             }
         });
 
