@@ -25,7 +25,6 @@ public class AddGroupFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_group, container, false);
         AddGroupViewModel addGroupViewModel = new ViewModelProvider(this).get(AddGroupViewModel.class);
-        addGroupViewModel.setDialogFragment(this);
         addGroupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
 
         binding.setAddGroupViewModel(addGroupViewModel);

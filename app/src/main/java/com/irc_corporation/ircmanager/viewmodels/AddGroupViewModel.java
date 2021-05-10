@@ -21,7 +21,6 @@ import java.util.List;
 public class AddGroupViewModel extends ViewModel implements View.OnClickListener {
     private String groupName;
     private SharedPreferences sharedPreferences;
-    private DialogFragment dialogFragment;
 
     public AddGroupViewModel() {
         super();
@@ -31,9 +30,6 @@ public class AddGroupViewModel extends ViewModel implements View.OnClickListener
         this.sharedPreferences = sharedPreferences;
     }
 
-    public void setDialogFragment(DialogFragment dialogFragment) {
-        this.dialogFragment = dialogFragment;
-    }
 
     @Override
     public void onClick(View v) {
@@ -54,8 +50,5 @@ public class AddGroupViewModel extends ViewModel implements View.OnClickListener
         Repository repository = IRCRepository.getInstance();
         repository.createGroup(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""), string_title);
         repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));
-        if (dialogFragment != null) {
-            dialogFragment.dismiss();
-        }
     }
 }
