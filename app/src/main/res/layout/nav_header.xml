@@ -37,6 +37,6 @@
         android:layout_gravity="end|center_vertical"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="20dp"
-        android:tint="@color/white"
+        android:tint="#253726"
         android:background="#5E8E60"/>
 </FrameLayout>

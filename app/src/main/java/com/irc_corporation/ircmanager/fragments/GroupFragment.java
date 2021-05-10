@@ -40,9 +40,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-//        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-//        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
-//        groupList = repository.getGroups().getValue();
         View rootView =
                 inflater.inflate(R.layout.fragment_group, container, false);
 

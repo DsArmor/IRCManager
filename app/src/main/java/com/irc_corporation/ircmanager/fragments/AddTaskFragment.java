@@ -64,7 +64,8 @@ public class AddTaskFragment extends DialogFragment {
         AddTaskViewModel addTaskViewModel = new ViewModelProvider(this).get(AddTaskViewModel.class);
         binding.setAddTaskViewModel(addTaskViewModel);
         addTaskViewModel.setFragmentManager(getActivity().getSupportFragmentManager());
-        addTaskViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
+        SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        addTaskViewModel.setSharedPreferences(prefs);
         binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -73,13 +74,21 @@ public class AddTaskFragment extends DialogFragment {
             }
         });
 
+        //todo: здесь получение должно быть из viewmodel, а не вызов репозитория
         Repository repository = IRCRepository.getInstance();
         List<Group> groups = repository.getGroups().getValue();
 
-        String[] temp_groups = new String[groups.size()];
-        for (int i=0; i<temp_groups.length; i++){
-            temp_groups[i] = groups.get(i).getName();
+        List<Group> currentGroup = new ArrayList<>();
+        for (int i=0; i<groups.size(); i++){
+            if (groups.get(i).getAdmin().getEmail().equals(prefs.getString("email", ""))){
+                currentGroup.add(groups.get(i));
+            }
         }
+        String[] temp_groups = new String[currentGroup.size()];
+        for (int i=0; i<currentGroup.size(); i++){
+            temp_groups[i]=currentGroup.get(i).getName();
+        }
+
         Spinner spinner = binding.spinnerGroups.findViewById(R.id.spinner_groups);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, temp_groups);
         spinner.setAdapter(adapter);

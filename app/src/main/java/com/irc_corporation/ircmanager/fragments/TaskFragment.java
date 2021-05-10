@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -42,6 +45,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
         //получение данных из viewModel
         if ((prefs.contains("email") && prefs.contains("password"))) {
+            //todo: убрать обращение к репозиторию по возможности
             Repository repository = IRCRepository.getInstance();
 
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
@@ -50,6 +54,21 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             RecyclerView recyclerView = rootView.findViewById(R.id.recycler_tasks);
             TaskAdapter adapter = new TaskAdapter();
             recyclerView.setAdapter(adapter);
+
+            ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    if (direction == ItemTouchHelper.LEFT){
+                        //произвести удаление таска
+                    }
+                }
+            };
+            new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
             TaskViewModel taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
             taskViewModel.getGroups().observe(this, new Observer<List<Group>>() {
@@ -74,6 +93,8 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     public void onAttach(Context context) {
         super.onAttach(context);
         this.listener = (Listener) context;
+
+        //todo: убрать по возможности обращение к репозиторию
         prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
         Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
