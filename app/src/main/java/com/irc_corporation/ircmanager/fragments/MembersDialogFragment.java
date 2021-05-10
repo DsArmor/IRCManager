@@ -38,6 +38,7 @@ public class MembersDialogFragment extends DialogFragment {
 
     private static final String LOG_TAG = "MemberDialogFragment";
     private Group group;
+    private FrameLayout frameLayout;
 
     public MembersDialogFragment(Group group) {
         this.group = group;

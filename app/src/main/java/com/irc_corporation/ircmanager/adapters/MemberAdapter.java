@@ -101,24 +101,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                 });
             }
         }
-        else if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
-            viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
-                    repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
-                }
-            });
-        }
-        else {
-            viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
-                    repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
-                }
-            });
-        }
+
     }
 
     @Override
