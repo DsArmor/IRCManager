@@ -35,18 +35,23 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private User admin;
     private String groupName;
     private static final String LOG_TAG = "MemberAdapter";
+    private FrameLayout frameLayout;
 
     public MemberAdapter(Group group) {
         Log.d(LOG_TAG, "MemberAdapter()");
         groupName = group.getName();
-        members = group.getMembers();
+//        members = group.getMembers();
     }
 
     public void setMembers(List<User> members) {
         Log.d(LOG_TAG, "setMembers()");
         this.admin = members.get(members.size()-1);
-        //members.remove(members.get(members.size()-1));
+        members.remove(members.get(members.size()-1));
         this.members = members;
+    }
+
+    public void setFrame(FrameLayout frame){
+        this.frameLayout = frame;
     }
 
     public void setGroupName(String groupName) {
@@ -73,8 +78,28 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         //здесь нужно получить имя пользователя
         SharedPreferences prefs = viewHolder.itemView.getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Repository repository = IRCRepository.getInstance();
+
         if (!prefs.getString("email", "").equals(admin.getEmail()) && !prefs.getString("email", "").equals(members.get(position).getEmail())){
             viewHolder.imageButtonDeleteMember.setVisibility(View.INVISIBLE);
+        } else{
+            if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
+                viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
+                        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+                    }
+                });
+            }
+            else {
+                viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
+                        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+                    }
+                });
+            }
         }
         else if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
             viewHolder.imageButtonDeleteMember.setOnClickListener(new View.OnClickListener() {

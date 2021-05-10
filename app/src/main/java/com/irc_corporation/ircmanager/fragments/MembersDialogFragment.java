@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -42,7 +43,7 @@ public class MembersDialogFragment extends DialogFragment {
         this.group = group;
     }
 
-
+    @SuppressLint("CutPasteId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,12 +55,10 @@ public class MembersDialogFragment extends DialogFragment {
         recyclerView.setAdapter(adapter);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
-        
-//        for (User member : members){
-//            repository.addMember(prefs.getString("email", ""), prefs.getString("password", ""), string_title, member.getEmail());
-//        }
 
+        frameLayout = rootView.findViewById(R.id.frame_in_dialog);
+        //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
+        //хотя можно и оставить пока так
         MembersDialogViewModel membersDialogViewModel = new ViewModelProvider(this).get(MembersDialogViewModel.class);
         membersDialogViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
@@ -67,6 +66,7 @@ public class MembersDialogFragment extends DialogFragment {
                 Log.d(LOG_TAG, "OnChanged ");
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
                 adapter.setGroupName(group.getName());
+                adapter.setFrame(frameLayout);
                 //тут должно быть получение группы));
                 adapter.notifyDataSetChanged();
             }
@@ -83,13 +83,6 @@ public class MembersDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
-//        repository.
-//        String[] members = new String[];
-//        ArrayAdapter<String> listAdapter = new ArrayAdapter<>(getActivity(),
-//                android.R.layout.simple_list_item_1, new String[]{"fe'wf'", "eowqieqw"});
-//        ListView listMembers = (ListView) rootView.findViewById(R.id.list_members);
-//        listMembers.setAdapter(listAdapter);
 
         return rootView;
 
