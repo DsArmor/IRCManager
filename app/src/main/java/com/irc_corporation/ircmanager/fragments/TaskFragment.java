@@ -24,6 +24,7 @@ import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
+import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.viewmodels.TaskViewModel;
@@ -68,9 +69,12 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                     if (direction == ItemTouchHelper.RIGHT){
                         //произвести удаление таска
                         //для отладки
+                        GroupTask groupTask =((TaskAdapter)recyclerView.getAdapter()).getTasks().get(viewHolder.getAdapterPosition());
                         repository.taskDone(prefs.getString("email", ""),
                                 prefs.getString("password", ""),
-                                viewHolder.itemView.findViewById(R.id.group_name_in_card_tasks));
+                                groupTask.getGroup().getName(),
+                                groupTask.getName(),
+                                groupTask.getGroup().getAdmin().getEmail());
                     }
                 }
             };
@@ -81,7 +85,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 @Override
                 public void onChanged(List<Group> groups) {
                     Log.d(LOG_TAG, "OnChanged");
-                    adapter.setTasks(taskViewModel.getTasks());
+                    adapter.setGroups(groups);
                     adapter.notifyDataSetChanged();
                 }
             });

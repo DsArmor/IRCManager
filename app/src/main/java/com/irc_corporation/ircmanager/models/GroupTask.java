@@ -8,6 +8,7 @@ public class GroupTask implements Comparable<GroupTask>{
     private String description;
     private Date dueDate;
     private boolean isDone;
+    private Group group;
 
     public GroupTask(String name, String description, Date dueDate, boolean isDone) {
         this.name = name;
@@ -52,5 +53,13 @@ public class GroupTask implements Comparable<GroupTask>{
 
     public void setDone(boolean done) {
         isDone = done;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

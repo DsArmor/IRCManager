@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 
 import java.util.ArrayList;
@@ -22,10 +23,23 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<GroupTask> tasks = new ArrayList<>();
     private static final String LOG_TAG = "TaskAdapter";
 
-    public void setTasks(List<GroupTask> tasks) {
+    /*public void setTasks(List<GroupTask> tasks) {
         Log.d(LOG_TAG, "setTasks");
         this.tasks = tasks;
         Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
+    }*/
+
+    public void setGroups(List<Group> groups) {
+        for (Group group : groups) {
+            for (GroupTask task : group.getTasks()) {
+                task.setGroup(group);
+                this.tasks.add(task);
+            }
+        }
+    }
+
+    public List<GroupTask> getTasks() {
+        return tasks;
     }
 
     @NonNull
@@ -41,8 +55,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         GroupTask task = tasks.get(position);
         viewHolder.textViewTaskName.setText(task.getName());
         viewHolder.textViewDescription.setText(task.getDescription());
-        //todo: получить реальное название группы
-        viewHolder.textViewGroupName.setText("Бульбага");
+        viewHolder.textViewGroupName.setText(task.getGroup().getName());
+        viewHolder.textViewData.setText(task.getDueDate().toString());
     }
 
     @Override
@@ -62,6 +76,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             textViewTaskName = itemView.findViewById(R.id.task_name_in_card_tasks);
             textViewDescription = itemView.findViewById(R.id.task_description_in_card_tasks);
             textViewGroupName = itemView.findViewById(R.id.group_name_in_card_tasks);
+            textViewData = itemView.findViewById(R.id.task_date_in_card);
+
         }
     }
 }

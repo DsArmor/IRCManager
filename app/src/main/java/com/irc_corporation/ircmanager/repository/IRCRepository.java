@@ -105,6 +105,7 @@ public class IRCRepository implements Repository{
         TaskDoneRequestBody jsonBody = new TaskDoneRequestBody();
         jsonBody.user.email = email;
         jsonBody.user.password = password;
+        jsonBody.task.group.name = groupName;
         jsonBody.task.name = taskName;
         jsonBody.task.group.admin.email = adminEmail;
         Thread thread = new Thread() {
@@ -125,6 +126,7 @@ public class IRCRepository implements Repository{
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
                     }
                 });
             }
@@ -233,6 +235,7 @@ public class IRCRepository implements Repository{
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
                     }
                 });
             }
@@ -265,6 +268,7 @@ public class IRCRepository implements Repository{
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
                     }
                 });
             }
@@ -296,6 +300,7 @@ public class IRCRepository implements Repository{
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
                     }
                 });
             }
@@ -328,6 +333,7 @@ public class IRCRepository implements Repository{
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
                     }
                 });
                 Log.d(LOG_TAG, "");
@@ -360,6 +366,7 @@ public class IRCRepository implements Repository{
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
                     }
                 });
                 Log.d(LOG_TAG, "");
