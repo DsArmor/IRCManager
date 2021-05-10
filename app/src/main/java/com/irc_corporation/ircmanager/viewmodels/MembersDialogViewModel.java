@@ -16,7 +16,7 @@ import java.util.List;
 public class MembersDialogViewModel extends ViewModel {
 
     private final MutableLiveData<List<Group>> groups;
-    private final List<User> members = new ArrayList<>();
+    private List<User> members = new ArrayList<>();
 
     public MembersDialogViewModel(){
         Repository repository = IRCRepository.getInstance();
@@ -28,6 +28,7 @@ public class MembersDialogViewModel extends ViewModel {
     }
 
     public List<User> getMembers(Group group) {
+        members = new ArrayList<User>();
         List<User> tempMembers = group.getMembers();
         User admin=null;
         for (int i = 0; i<tempMembers.size(); i++){

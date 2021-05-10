@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,25 +34,30 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private List<User> members = new ArrayList<>();
     private User admin;
     private String groupName;
+    private static final String LOG_TAG = "MemberAdapter";
 
     public MemberAdapter(Group group) {
+        Log.d(LOG_TAG, "MemberAdapter()");
         groupName = group.getName();
         members = group.getMembers();
     }
 
     public void setMembers(List<User> members) {
+        Log.d(LOG_TAG, "setMembers()");
         this.admin = members.get(members.size()-1);
         //members.remove(members.get(members.size()-1));
         this.members = members;
     }
 
     public void setGroupName(String groupName) {
+        Log.d(LOG_TAG, "setGroupName()");
         this.groupName = groupName;
     }
 
     @NonNull
     @Override
     public MemberAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d(LOG_TAG, "onCreateViewHolder()");
         CardView cv;
         cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_for_members, parent, false);
         return new MemberAdapter.ViewHolder(cv);
@@ -68,9 +74,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         SharedPreferences prefs = viewHolder.itemView.getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Repository repository = IRCRepository.getInstance();
         if (!prefs.getString("email", "").equals(admin.getEmail()) && !prefs.getString("email", "").equals(members.get(position).getEmail())){
-            System.out.println("Мы находимся на проверке админа");
-            System.out.println(prefs.getString("email", ""));
-            System.out.println(admin.getEmail());
             viewHolder.imageButtonDeleteMember.setVisibility(View.INVISIBLE);
         }
         else if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
@@ -78,6 +81,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
+                    repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
                 }
             });
         }
@@ -86,15 +90,15 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     repository.leave(prefs.getString("email", ""), prefs.getString("password", ""), groupName,  admin.getEmail());
+                    repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
                 }
             });
         }
-        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
     }
 
     @Override
     public int getItemCount() {
-        System.out.println(members.size());
+        Log.d(LOG_TAG, "getItemCount(): " + String.valueOf(members.size()));
         return members.size();
     }
 

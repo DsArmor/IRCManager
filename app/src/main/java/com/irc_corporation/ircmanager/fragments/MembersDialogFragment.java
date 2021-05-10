@@ -37,7 +37,6 @@ public class MembersDialogFragment extends DialogFragment {
 
     private static final String LOG_TAG = "MemberDialogFragment";
     private Group group;
-    private FrameLayout frameLayout;
 
     public MembersDialogFragment(Group group) {
         this.group = group;
@@ -65,7 +64,7 @@ public class MembersDialogFragment extends DialogFragment {
         membersDialogViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
             public void onChanged(List<Group> groups) {
-                Log.d(LOG_TAG, "OnChanged");
+                Log.d(LOG_TAG, "OnChanged ");
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
                 adapter.setGroupName(group.getName());
                 //тут должно быть получение группы));
@@ -81,6 +80,7 @@ public class MembersDialogFragment extends DialogFragment {
                 SharedPreferences pref = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
                 repository.addMember(pref.getString("email", ""), pref.getString("password", ""), group.getName(), newMemberEmail.getText().toString());
                 repository.refresh(pref.getString("email", ""), pref.getString("password", ""));
+                dismiss();
             }
         });
 
