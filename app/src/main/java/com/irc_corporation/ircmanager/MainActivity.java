@@ -31,7 +31,7 @@ import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener, DismissListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Listener{
 
     private static final String LOG_TAG = "MainActivity";
 
@@ -133,14 +133,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @Override
-    public void onDismiss() {
-        Repository repository = IRCRepository.getInstance();
-        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
-        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
-        Fragment fragment = new GroupFragment();
-        getSupportFragmentManager().popBackStack();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.content_container, fragment).commit();
-    }
+//    @Override
+//    public void onDismiss() {
+//        Repository repository = IRCRepository.getInstance();
+//        SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+//        repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+//        Fragment fragment = new GroupFragment();
+//        getSupportFragmentManager().popBackStack();
+//        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//        ft.replace(R.id.content_container, fragment).commit();
+//    }
 }

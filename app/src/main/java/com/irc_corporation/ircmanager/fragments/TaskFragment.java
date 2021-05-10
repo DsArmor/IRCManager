@@ -102,7 +102,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                                         boolean isCurrentlyActive) {
                     new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
                             .addSwipeRightActionIcon(R.drawable.baseline_done_24)
-                            .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.green))
+                            .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.light_green))
                             .create()
                             .decorate();
                     super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
