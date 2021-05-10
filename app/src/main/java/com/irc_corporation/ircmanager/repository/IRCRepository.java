@@ -153,7 +153,7 @@ public class IRCRepository implements Repository{
                         List<Group> newGroups = response.body();
                         if (newGroups != null) {
                             Collections.sort(newGroups);
-                            groups.postValue(newGroups);
+                            groups.postValue(new ArrayList<>());
                             Log.d(LOG_TAG, "поле group обновлено");
                         }
                         Log.d(LOG_TAG, "После refresh() в группе: " + String.valueOf(groups.getValue().size()));
