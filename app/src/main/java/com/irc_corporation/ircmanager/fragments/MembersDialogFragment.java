@@ -81,7 +81,7 @@ public class MembersDialogFragment extends DialogFragment {
                 SharedPreferences pref = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
                 repository.addMember(pref.getString("email", ""), pref.getString("password", ""), group.getName(), newMemberEmail.getText().toString());
                 repository.refresh(pref.getString("email", ""), pref.getString("password", ""));
-                dismiss();
+//                dismiss();
             }
         });
 

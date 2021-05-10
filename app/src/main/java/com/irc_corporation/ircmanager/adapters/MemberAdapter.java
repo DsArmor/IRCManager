@@ -40,13 +40,12 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     public MemberAdapter(Group group) {
         Log.d(LOG_TAG, "MemberAdapter()");
         groupName = group.getName();
-//        members = group.getMembers();
     }
 
     public void setMembers(List<User> members) {
         Log.d(LOG_TAG, "setMembers()");
         this.admin = members.get(members.size()-1);
-        members.remove(members.get(members.size()-1));
+//        members.remove(members.get(members.size()-1));
         this.members = members;
     }
 
@@ -101,7 +100,10 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                 });
             }
         }
-
+        if (prefs.getString("email", "").equals(admin.getEmail())) {
+            System.out.println("Мы находимся на проверке админа");
+            frameLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
