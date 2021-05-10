@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +40,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
     private RecyclerView recyclerView;
+    SwipeRefreshLayout swipeRefresh;
 
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -52,6 +55,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             Repository repository = IRCRepository.getInstance();
 
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
+            swipeRefresh = rootView.findViewById(R.id.swipe_refresh);
 
             //найдем ресайклер
             recyclerView = rootView.findViewById(R.id.recycler_tasks);
@@ -85,15 +89,23 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 @Override
                 public void onChanged(List<Group> groups) {
                     Log.d(LOG_TAG, "OnChanged");
-                    adapter.setGroups(groups);
+                    adapter.setTasks(taskViewModel.getTasks());
                     adapter.notifyDataSetChanged();
                 }
             });
-
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
+            //todo: убрать
             repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
             button.setOnClickListener(this);
+
+            swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    //сделать рефреш, но не через явный выхов репозитория, только не тут!
+                    swipeRefresh.setRefreshing(false);
+                }
+            });
         }
         return rootView;
     }

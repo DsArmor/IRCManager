@@ -34,8 +34,11 @@ public class TaskViewModel extends ViewModel {
 
     public List<GroupTask> getTasks() {
         tasks = new ArrayList<>();
-        for (Group group: getGroups().getValue()) {
-            tasks.addAll(group.getTasks());
+        for (Group group : groups.getValue()) {
+            for (GroupTask task : group.getTasks()) {
+                task.setGroup(group);
+                this.tasks.add(task);
+            }
         }
         return tasks;
     }

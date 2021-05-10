@@ -23,19 +23,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     private List<GroupTask> tasks = new ArrayList<>();
     private static final String LOG_TAG = "TaskAdapter";
 
-    /*public void setTasks(List<GroupTask> tasks) {
+    public void setTasks(List<GroupTask> tasks) {
         Log.d(LOG_TAG, "setTasks");
         this.tasks = tasks;
         Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
-    }*/
-
-    public void setGroups(List<Group> groups) {
-        for (Group group : groups) {
-            for (GroupTask task : group.getTasks()) {
-                task.setGroup(group);
-                this.tasks.add(task);
-            }
-        }
     }
 
     public List<GroupTask> getTasks() {
@@ -56,6 +47,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         viewHolder.textViewTaskName.setText(task.getName());
         viewHolder.textViewDescription.setText(task.getDescription());
         viewHolder.textViewGroupName.setText(task.getGroup().getName());
+        //todo: проверка на наличие даты
         viewHolder.textViewData.setText(task.getDueDate().toString());
     }
 
@@ -69,7 +61,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         private final TextView textViewTaskName;
         private final TextView textViewDescription;
         private final TextView textViewGroupName;
-        private TextView textViewData;//под вопросом, подумай
+        private final TextView textViewData;//под вопросом, подумай
 
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
@@ -77,7 +69,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             textViewDescription = itemView.findViewById(R.id.task_description_in_card_tasks);
             textViewGroupName = itemView.findViewById(R.id.group_name_in_card_tasks);
             textViewData = itemView.findViewById(R.id.task_date_in_card);
-
         }
     }
 }
