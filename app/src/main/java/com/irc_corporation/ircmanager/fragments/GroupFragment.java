@@ -78,8 +78,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        //тут убрать вызов репозитория
-        Repository repository = IRCRepository.getInstance();
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override

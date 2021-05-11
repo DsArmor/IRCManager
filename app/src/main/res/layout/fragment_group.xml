@@ -7,23 +7,63 @@
     tools:context=".fragments.GroupFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/text_for_group_where_you_admin"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Вы админ этих групп"
+            android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/recycler_groups_where_you_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="385dp"
+            android:paddingStart="21dp"
+            android:paddingEnd="21dp"
+            android:layout_marginTop="5dp"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/card_for_groups" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/text_for_group_where_you_member"
+            android:layout_marginTop="2dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Вы состоите в этих группах"
+            android:visibility="gone"/>
+
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh_group"
-            android:padding="10dp"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/swipe_refresh_group_where_you_member"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="21dp"
+            android:paddingEnd="21dp"
+            android:layout_marginTop="2dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_groups"
-                android:foregroundGravity="center"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/card_for_groups" />
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,11 +71,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/baseline_group_add_24"
-        android:backgroundTint="@color/green"
-        app:borderWidth="3dp"
-        android:tint="@color/white"
-        app:maxImageSize="33dp"
         android:layout_margin="20dp"
-        android:contentDescription="add_group" />
+        android:backgroundTint="@color/green"
+        android:contentDescription="add_group"
+        android:src="@drawable/baseline_group_add_24"
+        android:tint="@color/white"
+        app:borderWidth="3dp"
+        app:maxImageSize="33dp" />
 </FrameLayout>
