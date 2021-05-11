@@ -20,4 +20,5 @@ public interface Repository {
     void leave(String email, String password, String groupName, String adminEmail);
     void kickMember(String email, String password, String userEmail, String groupName);
     void taskDone(String email, String password, String groupName, String taskName, String adminEmail);
+    void delete(String email, String password, String groupName);
 }

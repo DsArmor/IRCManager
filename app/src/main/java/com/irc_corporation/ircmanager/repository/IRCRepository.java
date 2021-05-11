@@ -11,6 +11,7 @@ import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.JSON.AddMemberRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.AddTaskRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.CreateGroupRequestBody;
+import com.irc_corporation.ircmanager.repository.JSON.DeleteGroupQuery;
 import com.irc_corporation.ircmanager.repository.JSON.KickMemberRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.LeaveGroupRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.RegistrationRequestBody;
@@ -368,6 +369,39 @@ public class IRCRepository implements Repository{
                         .build();
                 RetrofitService service = retrofit.create(RetrofitService.class);
                 Call<String> call = service.registration(jsonBody);
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        Log.d(LOG_TAG, response.message());
+                        refresh(email, password);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        refresh(email, password);
+                    }
+                });
+                Log.d(LOG_TAG, "");
+            }
+        };
+        thread.start();
+    }
+
+    @Override
+    public void delete(String email, String password, String groupName) {
+        DeleteGroupQuery jsonBody = new DeleteGroupQuery();
+        jsonBody.admin.email = email;
+        jsonBody.group.name = groupName;
+        jsonBody.admin.password = password;
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(URL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                RetrofitService service = retrofit.create(RetrofitService.class);
+                Call<String> call = service.delete(jsonBody);
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

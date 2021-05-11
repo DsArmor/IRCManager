@@ -37,4 +37,7 @@ public interface RetrofitService {
 
     @POST("/users/registration")
     Call<String> registration(@Body RegistrationRequestBody query);
+
+    @POST("/groups/delete")
+    Call<String> delete(@Body DeleteGroupQuery query);
 }
