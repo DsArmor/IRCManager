@@ -168,7 +168,7 @@ public class IRCRepository implements Repository{
                             groups.postValue(newGroups);
                             Log.d(LOG_TAG, "поле group обновлено");
                         }
-                        Log.d(LOG_TAG, "После refresh() в группе: " + String.valueOf(groups.getValue().size()));
+//                        Log.d(LOG_TAG, "После refresh() в группе: " + String.valueOf(groups.getValue().size()));
                         Log.d(LOG_TAG, "Группы получены");
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -46,7 +46,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         GroupTask task = tasks.get(position);
         viewHolder.textViewTaskName.setText(task.getName());
-        if (!task.getDescription().equals("")){
+        if (task.getDescription()!=null){
             viewHolder.textViewDescription.setVisibility(View.VISIBLE);
             viewHolder.textViewDescription.setText(task.getDescription());
         }

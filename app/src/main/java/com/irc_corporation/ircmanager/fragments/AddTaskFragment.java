@@ -40,9 +40,6 @@ public class AddTaskFragment extends DialogFragment {
         addTaskViewModel = new ViewModelProvider(this).get(AddTaskViewModel.class);
         binding.setAddTaskViewModel(addTaskViewModel);
 
-        //этого тут быть не должно
-        addTaskViewModel.setFragmentManager(getActivity().getSupportFragmentManager());
-
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         addTaskViewModel.setSharedPreferences(prefs);
 

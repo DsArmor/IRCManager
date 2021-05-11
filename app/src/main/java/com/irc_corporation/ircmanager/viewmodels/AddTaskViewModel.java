@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class AddTaskViewModel extends ViewModel implements View.OnClickListener {
+public class AddTaskViewModel extends ViewModel {
     private String taskName;
     private String taskDescription;
     private String group;
@@ -63,16 +63,6 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
         return temp_groups;
     }
 
-
-    //убрать это
-    public androidx.fragment.app.FragmentManager getFragmentManager() {
-        return fragmentManager;
-    }
-
-    public void setFragmentManager(androidx.fragment.app.FragmentManager fragmentManager) {
-        this.fragmentManager = fragmentManager;
-    }
-    //////////
 
     public String getCheckedGroup() {
         return checkedGroup;
@@ -122,22 +112,4 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
                 taskDescription,
                 dueDate);
     }
-    //здесь этого быть не должно
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.exit:
-                break;
-            case R.id.add_task_complete:
-                if (checkedGroup != null && taskName != null && dueDate != null) {
-                    if (taskDescription==null){
-                        taskDescription="";
-                    }
-                    repository.addTask(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""), checkedGroup, taskName, taskDescription, dueDate);
-                }
-        }
-        //отсюда тоже убрать
-        fragmentManager.popBackStack();
-    }
-    /////////
 }
