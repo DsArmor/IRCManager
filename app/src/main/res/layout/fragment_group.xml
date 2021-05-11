@@ -18,17 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Вы админ этих групп"
-            android:visibility="gone"/>
+            android:text="Вы админ этих групп" />
 
         <RelativeLayout
             android:id="@+id/relative_groups_where_you_admin"
             android:layout_width="wrap_content"
-            android:layout_height="385dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:paddingStart="21dp"
             android:paddingEnd="21dp"
-            android:layout_marginTop="5dp"
-            android:visibility="gone">
+            android:layout_marginTop="5dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_groups_where_you_admin"
@@ -44,18 +43,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Вы состоите в этих группах"
-            android:visibility="gone"/>
+            android:text="Вы состоите в этих группах" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh_group_where_you_member"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:paddingStart="21dp"
             android:paddingEnd="21dp"
             android:layout_marginTop="2dp"
-            android:layout_gravity="center_horizontal"
-            android:visibility="gone">
+            android:layout_gravity="center_horizontal">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_groups_where_you_member"
