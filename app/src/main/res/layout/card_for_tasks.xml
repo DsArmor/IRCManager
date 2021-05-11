@@ -136,5 +136,5 @@
         android:text="Просрочено"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="#7C1212"
-        android:visibility="gone"/>
+        />
 </androidx.cardview.widget.CardView>

@@ -79,6 +79,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                 int c1 =  viewHolder.itemView.getContext().getResources().getColor(R.color.green);
                 viewHolder.imageViewWarningHand.setColorFilter(c1);
             }
+            if (diffDays<0){
+                viewHolder.textViewDeprecated.setVisibility(View.VISIBLE);
+            } else
+                viewHolder.textViewDeprecated.setVisibility(View.GONE);
         } else {
             viewHolder.textViewData.setText("-");
         }
@@ -96,6 +100,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         private final TextView textViewGroupName;
         private final TextView textViewData;
         private final ImageView imageViewWarningHand;
+        private final TextView textViewDeprecated;
 
         public ViewHolder(@NonNull CardView itemView) {
             super(itemView);
@@ -104,6 +109,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             textViewGroupName = itemView.findViewById(R.id.group_name_in_card_tasks);
             textViewData = itemView.findViewById(R.id.task_date_in_card);
             imageViewWarningHand = itemView.findViewById(R.id.warning_hand);
+            textViewDeprecated = itemView.findViewById(R.id.deprecated);
         }
     }
 }

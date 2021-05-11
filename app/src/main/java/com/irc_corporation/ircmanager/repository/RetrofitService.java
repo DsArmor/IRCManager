@@ -26,7 +26,7 @@ public interface RetrofitService {
     @POST("/groups/addTask")
     Call<String> addTask(@Body AddTaskRequestBody query);
 
-    @HTTP(method = "DELETE", path = "/groups/kickMember", hasBody = true)
+    @POST("/groups/kickMember")
     Call<String> kickMember(@Body KickMemberRequestBody query);
 
     @POST("/groups/addMember")
