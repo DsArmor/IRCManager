@@ -22,7 +22,7 @@
             android:visibility="gone"/>
 
         <RelativeLayout
-            android:id="@+id/recycler_groups_where_you_admin"
+            android:id="@+id/relative_groups_where_you_admin"
             android:layout_width="wrap_content"
             android:layout_height="385dp"
             android:paddingStart="21dp"
@@ -31,6 +31,7 @@
             android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_groups_where_you_admin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"
@@ -57,7 +58,7 @@
             android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_groups"
+                android:id="@+id/recycler_groups_where_you_member"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical"

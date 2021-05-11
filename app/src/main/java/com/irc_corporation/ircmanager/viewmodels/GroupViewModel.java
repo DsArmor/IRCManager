@@ -26,10 +26,10 @@ public class GroupViewModel extends ViewModel {
         groups = repository.getGroups();
     }
 
-    public boolean checkAccess(){
-        if (sharedPreferences.getString())
-        return false;
-    }
+//    public boolean checkAccess(){
+//        if (sharedPreferences.getString())
+//        return false;
+//    }
 
     public void refresh(){
         repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));

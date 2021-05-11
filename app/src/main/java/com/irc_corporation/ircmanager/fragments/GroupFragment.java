@@ -22,14 +22,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.GroupAdapter;
-import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
-import com.irc_corporation.ircmanager.models.GroupTask;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.viewmodels.GroupViewModel;
@@ -47,6 +47,11 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     SharedPreferences prefs;
     SwipeRefreshLayout swipeRefresh;
+    TextView textViewForAdmin;
+    TextView textViewForMember;
+    RecyclerView recyclerViewForAdmin;
+    RecyclerView recyclerViewForMember;
+    RelativeLayout relativeLayoutForAdmin;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,8 +68,11 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
         button.setOnClickListener(this);
 
-        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_groups);
-        swipeRefresh = rootView.findViewById(R.id.swipe_refresh_group);
+        relativeLayoutForAdmin = rootView.findViewById(R.id.relative_groups_where_you_admin);
+        recyclerViewForMember = rootView.findViewById(R.id.recycler_groups_where_you_member);
+        recyclerViewForAdmin = rootView.findViewById(R.id.recycler_members);
+        swipeRefresh = rootView.findViewById(R.id.swipe_refresh_group_where_you_member);
+
 
         int c1 = getResources().getColor(R.color.light_green);
         int c2 = getResources().getColor(R.color.white);
