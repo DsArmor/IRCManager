@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,6 +26,7 @@
                 android:id="@+id/relative_groups_where_you_admin"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
+                android:minHeight="300dp"
                 android:layout_weight="1"
                 android:paddingStart="21dp"
                 android:paddingEnd="21dp"
@@ -43,7 +42,7 @@
 
             <TextView
                 android:id="@+id/text_for_group_where_you_member"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

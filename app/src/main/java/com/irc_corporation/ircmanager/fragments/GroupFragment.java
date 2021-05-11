@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.core.content.ContextCompat;
@@ -41,7 +42,7 @@ import java.util.List;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
-public class GroupFragment extends Fragment implements View.OnClickListener{
+public class GroupFragment extends Fragment implements View.OnClickListener {
 
     private Listener listener;
 
@@ -66,7 +67,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_group, container, false);
         prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         FloatingActionButton button = binding.getRoot().findViewById(R.id.add_new_group);
@@ -76,13 +76,13 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         recyclerViewForMember = binding.recyclerGroupsWhereYouMember;
         recyclerViewForAdmin = binding.recyclerGroupsWhereYouAdmin;
         swipeRefresh = binding.swipeRefreshGroupWhereYouMember;
-
+        textViewForAdmin = binding.textForGroupWhereYouAdmin;
+        textViewForMember = binding.textForGroupWhereYouMember;
 
         int c1 = getResources().getColor(R.color.light_green);
         int c2 = getResources().getColor(R.color.white);
         int c3 = getResources().getColor(R.color.light_green);
         swipeRefresh.setColorSchemeColors(c1, c2, c3);
-
 
         //получение данных с сервера
 
@@ -106,9 +106,9 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                if (direction == ItemTouchHelper.RIGHT){
+                if (direction == ItemTouchHelper.RIGHT) {
                     //--------перенести логику в вьюМодель
-                    Group group =((GroupAdapter)recyclerViewForAdmin.getAdapter()).getGroups().get(viewHolder.getAdapterPosition());
+                    Group group = ((GroupAdapter) recyclerViewForAdmin.getAdapter()).getGroups().get(viewHolder.getAdapterPosition());
                     Repository repository = IRCRepository.getInstance();
                     repository.delete(
                             prefs.getString("email", ""),
@@ -136,20 +136,33 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         };
 
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
-        groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings",Context.MODE_PRIVATE));
+        groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
         new ItemTouchHelper(callbackForAdmin).attachToRecyclerView(recyclerViewForAdmin);
 
         groupViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
             public void onChanged(List<Group> groups) {
                 Log.d(LOG_TAG, "OnChanged");
-                adapterForAdmin.setGroups(groupViewModel.getGroupAdmin());
-                adapterForAdmin.notifyDataSetChanged();
-                adapterForMember.setGroups(groupViewModel.getGroupsMember());
-                adapterForMember.notifyDataSetChanged();
+                if (groupViewModel.getGroupAdmin().size() > 0) {
+                    textViewForAdmin.setVisibility(View.VISIBLE);
+                    relativeLayoutForAdmin.setVisibility(View.VISIBLE);
+                    adapterForAdmin.setGroups(groupViewModel.getGroupAdmin());
+                    adapterForAdmin.notifyDataSetChanged();
+                } else {
+                    textViewForAdmin.setVisibility(View.GONE);
+                    relativeLayoutForAdmin.setVisibility(View.GONE);
+                }
+                if (groupViewModel.getGroupsMember().size() > 0) {
+                    textViewForMember.setVisibility(View.VISIBLE);
+                    swipeRefresh.setVisibility(View.VISIBLE);
+                    adapterForMember.setGroups(groupViewModel.getGroupsMember());
+                    adapterForMember.notifyDataSetChanged();
+                } else {
+                    textViewForMember.setVisibility(View.GONE);
+                    swipeRefresh.setVisibility(View.GONE);
+                }
             }
         });
-
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -160,7 +173,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         });
 
         return binding.getRoot();
-
     }
 
     @Override
@@ -171,7 +183,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        if (listener != null){
+        if (listener != null) {
             listener.onMyClick(2);
         }
     }
