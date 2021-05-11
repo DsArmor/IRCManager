@@ -2,6 +2,7 @@ package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,10 +95,19 @@ public class GroupFragment extends Fragment implements View.OnClickListener {
         GroupAdapter adapterForMember = new GroupAdapter();
         recyclerViewForMember.setAdapter(adapterForMember);
 
-        LinearLayoutManager layoutManagerForAdmin = new LinearLayoutManager(getActivity());
-        LinearLayoutManager layoutManagerForMember = new LinearLayoutManager(getActivity());
-        recyclerViewForAdmin.setLayoutManager(layoutManagerForAdmin);
-        recyclerViewForMember.setLayoutManager(layoutManagerForMember);
+        int orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            LinearLayoutManager layoutManagerForAdmin = new LinearLayoutManager(getActivity());
+            LinearLayoutManager layoutManagerForMember = new LinearLayoutManager(getActivity());
+            recyclerViewForAdmin.setLayoutManager(layoutManagerForAdmin);
+            recyclerViewForMember.setLayoutManager(layoutManagerForMember);
+        } else {
+            GridLayoutManager gridLayoutManagerForAdmin = new GridLayoutManager(getContext(), 2);
+            GridLayoutManager gridLayoutManagerForMember  = new GridLayoutManager(getContext(), 2);
+            recyclerViewForAdmin.setLayoutManager(gridLayoutManagerForAdmin);
+            recyclerViewForMember.setLayoutManager(gridLayoutManagerForMember);
+        }
+
 
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));

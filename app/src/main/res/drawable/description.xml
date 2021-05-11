@@ -10,7 +10,7 @@
     <!-- View border color and width -->
     <stroke
         android:width="2dp"
-        android:color="#A3FBA6">
+        android:color="@color/green_in_tasks">
     </stroke>
 
     <!-- The radius makes the corners rounded -->

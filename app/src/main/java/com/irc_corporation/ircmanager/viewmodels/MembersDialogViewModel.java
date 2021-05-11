@@ -29,7 +29,15 @@ public class MembersDialogViewModel extends ViewModel {
 
     public List<User> getMembers(Group group) {
         members = new ArrayList<User>();
+        for (Group groupTemp : groups.getValue()){
+            if (groupTemp.getAdmin().getEmail().equals(group.getAdmin().getEmail()) && groupTemp.getName().equals(group.getName())){
+                group=groupTemp;
+                break;
+            }
+        }
+
         List<User> tempMembers = group.getMembers();
+
         User admin=null;
         for (int i = 0; i<tempMembers.size(); i++){
             if (!tempMembers.get(i).getFullname().equals(group.getAdmin().getFullname())){
