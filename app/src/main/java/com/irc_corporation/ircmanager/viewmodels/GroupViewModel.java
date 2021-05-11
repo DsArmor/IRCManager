@@ -53,8 +53,13 @@ public class GroupViewModel extends ViewModel {
 //        return false;
 //    }
 
-    public void delete() {
-
+    public void delete(Group group) {
+        Repository repository = IRCRepository.getInstance();
+        repository.delete(
+                sharedPreferences.getString("email", ""),
+                sharedPreferences.getString("password", ""),
+                group.getName()
+        );
     }
 
     public void refresh(){

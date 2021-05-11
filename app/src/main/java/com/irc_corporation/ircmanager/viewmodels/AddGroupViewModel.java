@@ -18,7 +18,7 @@ import com.irc_corporation.ircmanager.repository.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddGroupViewModel extends ViewModel implements View.OnClickListener {
+public class AddGroupViewModel extends ViewModel{
 
     private String groupName;
     private SharedPreferences sharedPreferences;
@@ -31,11 +31,6 @@ public class AddGroupViewModel extends ViewModel implements View.OnClickListener
         this.sharedPreferences = sharedPreferences;
     }
 
-    @Override
-    public void onClick(View v) {
-        onClickAddGroup();
-    }
-
     public String getGroupName() {
         return groupName;
     }
@@ -44,10 +39,11 @@ public class AddGroupViewModel extends ViewModel implements View.OnClickListener
         this.groupName = groupName;
     }
 
-    private void onClickAddGroup(){
+    public void addGroup(){
         String string_title = groupName.toString();
         Repository repository = IRCRepository.getInstance();
         repository.createGroup(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""), string_title);
+        //возможно, можно убрать
         repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));
     }
 }

@@ -51,6 +51,7 @@ public class MembersDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_members_dialog, container, false);
 
+        //todo написать тут binding
         RecyclerView recyclerView = rootView.findViewById(R.id.recycler_members);
         EditText newMemberEmail = rootView.findViewById(R.id.new_member_email);
         MemberAdapter adapter = new MemberAdapter(group, this);
@@ -66,6 +67,7 @@ public class MembersDialogFragment extends DialogFragment {
             @Override
             public void onChanged(List<Group> groups) {
                 Log.d(LOG_TAG, "OnChanged ");
+                System.out.println("Размер массива участников группы: " + membersDialogViewModel.getMembers(group).size());
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
                 adapter.setGroupName(group.getName());
                 adapter.setFrame(frameLayout);
@@ -78,6 +80,7 @@ public class MembersDialogFragment extends DialogFragment {
         addMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //перееести в viewModel
                 Repository repository = IRCRepository.getInstance();
                 SharedPreferences pref = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
                 repository.addMember(pref.getString("email", ""), pref.getString("password", ""), group.getName(), newMemberEmail.getText().toString());

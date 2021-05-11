@@ -35,6 +35,7 @@ import com.irc_corporation.ircmanager.databinding.FragmentGroupBinding;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
+import com.irc_corporation.ircmanager.viewmodels.AddGroupViewModel;
 import com.irc_corporation.ircmanager.viewmodels.GroupViewModel;
 
 import java.util.List;
@@ -97,6 +98,8 @@ public class GroupFragment extends Fragment implements View.OnClickListener {
         recyclerViewForAdmin.setLayoutManager(layoutManagerForAdmin);
         recyclerViewForMember.setLayoutManager(layoutManagerForMember);
 
+        GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
+        groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
 
         ItemTouchHelper.SimpleCallback callbackForAdmin = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -107,14 +110,8 @@ public class GroupFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.RIGHT) {
-                    //--------перенести логику в вьюМодель
                     Group group = ((GroupAdapter) recyclerViewForAdmin.getAdapter()).getGroups().get(viewHolder.getAdapterPosition());
-                    Repository repository = IRCRepository.getInstance();
-                    repository.delete(
-                            prefs.getString("email", ""),
-                            prefs.getString("password", ""),
-                            group.getName()
-                    );
+                    groupViewModel.delete(group);
                 }
             }
 
@@ -134,9 +131,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener {
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
-
-        GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
-        groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
         new ItemTouchHelper(callbackForAdmin).attachToRecyclerView(recyclerViewForAdmin);
 
         groupViewModel.getGroups().observe(this, new Observer<List<Group>>() {

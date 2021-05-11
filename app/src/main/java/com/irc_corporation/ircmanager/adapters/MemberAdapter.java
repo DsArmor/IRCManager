@@ -44,13 +44,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         Log.d(LOG_TAG, "MemberAdapter()");
         groupName = group.getName();
         this.fragment = fragment;
-
     }
 
     public void setMembers(List<User> members) {
         Log.d(LOG_TAG, "setMembers()");
         this.admin = members.get(members.size()-1);
-//        members.remove(members.get(members.size()-1));
         this.members = members;
     }
 
