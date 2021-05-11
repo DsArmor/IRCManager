@@ -57,7 +57,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             Calendar cal = Calendar.getInstance();
             cal.setTime(task.getDueDate());
             //String.format(Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs);
-            viewHolder.textViewData.setText(String.format(Locale.getDefault(), "%d.%02d.%d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH), cal.get(Calendar.YEAR))) ;
+            viewHolder.textViewData.setText(String.format(Locale.getDefault(), "%02d.%02d.%d", cal.get(Calendar.DAY_OF_MONTH), cal.get(Calendar.MONTH)+1, cal.get(Calendar.YEAR))) ;
         } else {
             viewHolder.textViewData.setText("-");
         }

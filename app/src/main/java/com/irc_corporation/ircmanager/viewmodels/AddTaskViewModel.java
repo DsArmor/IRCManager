@@ -101,11 +101,11 @@ public class AddTaskViewModel extends ViewModel {
     }
 
     public void setDueDate(Date dueDate) {
+        Log.d(LOG_TAG, "setDueDate");
         this.dueDate = dueDate;
     }
 
     public void addTask(){
-        if (dueDate == null) dueDate = new Date();
         repository.addTask(sharedPreferences.getString("email", ""),
                 sharedPreferences.getString("password", ""),
                 checkedGroup,

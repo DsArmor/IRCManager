@@ -23,6 +23,7 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.databinding.FragmentAddTaskBinding;
 import com.irc_corporation.ircmanager.viewmodels.AddTaskViewModel;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class AddTaskFragment extends DialogFragment {
@@ -42,13 +43,16 @@ public class AddTaskFragment extends DialogFragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         addTaskViewModel.setSharedPreferences(prefs);
+        Log.d(LOG_TAG, "onCreateView");
 
         //работа с календарем
         binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Log.d(LOG_TAG, Integer.toString(year) + " " + Integer.toString(month) + " " + Integer.toString(dayOfMonth));
-                addTaskViewModel.setDueDate(new Date(year - 1900, month, dayOfMonth));
+                Log.d(LOG_TAG, Integer.toString(year) + " " + Integer.toString(month) + 1 + " " + Integer.toString(dayOfMonth));
+                Calendar cal = Calendar.getInstance();
+                cal.set(year, month, dayOfMonth);
+                addTaskViewModel.setDueDate(cal.getTime());
             }
         });
 
@@ -84,12 +88,6 @@ public class AddTaskFragment extends DialogFragment {
         });
 
 
-        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-
-            }
-        });
 
         return binding.getRoot();
     }
