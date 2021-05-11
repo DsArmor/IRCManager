@@ -90,7 +90,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         recyclerViewForAdmin.setAdapter(adapterForAdmin);
 
         GroupAdapter adapterForMember = new GroupAdapter();
-        recyclerViewForAdmin.setAdapter(adapterForAdmin);
+        recyclerViewForMember.setAdapter(adapterForMember);
 
         LinearLayoutManager layoutManagerForAdmin = new LinearLayoutManager(getActivity());
         LinearLayoutManager layoutManagerForMember = new LinearLayoutManager(getActivity());
