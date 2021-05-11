@@ -51,8 +51,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             viewHolder.textViewDescription.setText(task.getDescription());
         }
         viewHolder.textViewGroupName.setText(task.getGroup().getName());
-        //todo: проверка на наличие даты
-//        viewHolder.textViewData.setText(task.getDueDate().toString());
+        if (task.getDueDate() != null) {
+            viewHolder.textViewData.setText(task.getDueDate().getDay() + "."+ task.getDueDate().getMonth() + "." + String.valueOf(task.getDueDate().getYear()+1900));
+        } else {
+            viewHolder.textViewData.setText("-");
+        }
     }
 
     @Override
