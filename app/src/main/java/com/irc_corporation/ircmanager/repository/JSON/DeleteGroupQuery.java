@@ -1,8 +1,8 @@
 package com.irc_corporation.ircmanager.repository.JSON;
 
 public class DeleteGroupQuery {
-    public Admin admin;
-    public Group group;
+    public Admin admin = new Admin();
+    public Group group = new Group();
 
     public class Admin {
         public String email;

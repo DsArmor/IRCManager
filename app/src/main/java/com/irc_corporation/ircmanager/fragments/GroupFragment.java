@@ -90,9 +90,14 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.RIGHT){
-                    //произвести удаление таска
-                    //для отладки
-                    //удаление группы
+                    //--------перенести логику в вьюМодель
+                    Group group =((GroupAdapter)recyclerView.getAdapter()).getGroups().get(viewHolder.getAdapterPosition());
+                    Repository repository = IRCRepository.getInstance();
+                    repository.delete(
+                            prefs.getString("email", ""),
+                            prefs.getString("password", ""),
+                            group.getName()
+                    );
                 }
             }
 
