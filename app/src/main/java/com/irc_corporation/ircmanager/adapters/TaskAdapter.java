@@ -18,6 +18,7 @@ import com.irc_corporation.ircmanager.models.GroupTask;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +30,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void setTasks(List<GroupTask> tasks) {
         Log.d(LOG_TAG, "setTasks");
         this.tasks = tasks;
+        Collections.sort(this.tasks);
         Log.d(LOG_TAG, "В адаптере: " + this.tasks.size() + " элементов");
     }
 
