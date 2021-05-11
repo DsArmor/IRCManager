@@ -83,12 +83,14 @@ public class AddTaskFragment extends DialogFragment {
             }
         });
 
-        binding.exit.setOnClickListener(new View.OnClickListener() {
+
+        binding.calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStack();
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+
             }
         });
+
         return binding.getRoot();
     }
 

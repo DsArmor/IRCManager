@@ -17,6 +17,7 @@ import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.GroupTask;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
@@ -52,7 +53,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
         viewHolder.textViewGroupName.setText(task.getGroup().getName());
         if (task.getDueDate() != null) {
-            viewHolder.textViewData.setText(task.getDueDate().getDay() + "."+ task.getDueDate().getMonth() + "." + String.valueOf(task.getDueDate().getYear()+1900));
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(task.getDueDate());
+            viewHolder.textViewData.setText(cal.get(Calendar.DAY_OF_MONTH) + "."+ cal.get(Calendar.MONTH) + "." + cal.get(Calendar.YEAR));
         } else {
             viewHolder.textViewData.setText("-");
         }
