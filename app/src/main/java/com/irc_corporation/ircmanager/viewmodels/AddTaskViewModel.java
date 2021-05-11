@@ -105,6 +105,7 @@ public class AddTaskViewModel extends ViewModel {
     }
 
     public void addTask(){
+        if (dueDate == null) dueDate = new Date();
         repository.addTask(sharedPreferences.getString("email", ""),
                 sharedPreferences.getString("password", ""),
                 checkedGroup,
