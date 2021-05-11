@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.GroupAdapter;
+import com.irc_corporation.ircmanager.databinding.FragmentGroupBinding;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
@@ -44,6 +46,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     private Listener listener;
 
     private static final String LOG_TAG = "GroupFragment";
+    private FragmentGroupBinding binding;
 
     SharedPreferences prefs;
     SwipeRefreshLayout swipeRefresh;
@@ -62,16 +65,17 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView =
-                inflater.inflate(R.layout.fragment_group, container, false);
 
-        FloatingActionButton button = rootView.findViewById(R.id.add_new_group);
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_group, container, false);
+        prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        FloatingActionButton button = binding.getRoot().findViewById(R.id.add_new_group);
         button.setOnClickListener(this);
 
-        relativeLayoutForAdmin = rootView.findViewById(R.id.relative_groups_where_you_admin);
-        recyclerViewForMember = rootView.findViewById(R.id.recycler_groups_where_you_member);
-        recyclerViewForAdmin = rootView.findViewById(R.id.recycler_members);
-        swipeRefresh = rootView.findViewById(R.id.swipe_refresh_group_where_you_member);
+        relativeLayoutForAdmin = binding.relativeGroupsWhereYouAdmin;
+        recyclerViewForMember = binding.recyclerGroupsWhereYouMember;
+        recyclerViewForAdmin = binding.recyclerGroupsWhereYouAdmin;
+        swipeRefresh = binding.swipeRefreshGroupWhereYouMember;
 
 
         int c1 = getResources().getColor(R.color.light_green);
@@ -79,15 +83,22 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         int c3 = getResources().getColor(R.color.light_green);
         swipeRefresh.setColorSchemeColors(c1, c2, c3);
 
+
         //получение данных с сервера
 
-        GroupAdapter adapter = new GroupAdapter();
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        GroupAdapter adapterForAdmin = new GroupAdapter();
+        recyclerViewForAdmin.setAdapter(adapterForAdmin);
+
+        GroupAdapter adapterForMember = new GroupAdapter();
+        recyclerViewForAdmin.setAdapter(adapterForAdmin);
+
+        LinearLayoutManager layoutManagerForAdmin = new LinearLayoutManager(getActivity());
+        LinearLayoutManager layoutManagerForMember = new LinearLayoutManager(getActivity());
+        recyclerViewForAdmin.setLayoutManager(layoutManagerForAdmin);
+        recyclerViewForMember.setLayoutManager(layoutManagerForMember);
 
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback callbackForAdmin = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -97,7 +108,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if (direction == ItemTouchHelper.RIGHT){
                     //--------перенести логику в вьюМодель
-                    Group group =((GroupAdapter)recyclerView.getAdapter()).getGroups().get(viewHolder.getAdapterPosition());
+                    Group group =((GroupAdapter)recyclerViewForAdmin.getAdapter()).getGroups().get(viewHolder.getAdapterPosition());
                     Repository repository = IRCRepository.getInstance();
                     repository.delete(
                             prefs.getString("email", ""),
@@ -123,17 +134,19 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
                 super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
             }
         };
-        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
-        prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        groupViewModel.setSharedPreferences(prefs);
+        groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings",Context.MODE_PRIVATE));
+        new ItemTouchHelper(callbackForAdmin).attachToRecyclerView(recyclerViewForAdmin);
+
         groupViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
             public void onChanged(List<Group> groups) {
                 Log.d(LOG_TAG, "OnChanged");
-                adapter.setGroups(groups);
-                adapter.notifyDataSetChanged();
+                adapterForAdmin.setGroups(groupViewModel.getGroupAdmin());
+                adapterForAdmin.notifyDataSetChanged();
+                adapterForMember.setGroups(groupViewModel.getGroupsMember());
+                adapterForMember.notifyDataSetChanged();
             }
         });
 
@@ -146,7 +159,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
             }
         });
 
-        return rootView;
+        return binding.getRoot();
 
     }
 
