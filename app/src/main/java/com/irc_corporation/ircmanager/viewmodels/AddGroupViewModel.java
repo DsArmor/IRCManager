@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddGroupViewModel extends ViewModel implements View.OnClickListener {
+
     private String groupName;
     private SharedPreferences sharedPreferences;
 

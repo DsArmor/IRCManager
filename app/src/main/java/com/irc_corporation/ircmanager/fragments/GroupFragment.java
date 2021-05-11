@@ -2,12 +2,18 @@ package com.irc_corporation.ircmanager.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -21,10 +27,16 @@ import android.view.ViewGroup;
 import com.irc_corporation.ircmanager.Listener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.GroupAdapter;
+import com.irc_corporation.ircmanager.adapters.TaskAdapter;
 import com.irc_corporation.ircmanager.models.Group;
+import com.irc_corporation.ircmanager.models.GroupTask;
+import com.irc_corporation.ircmanager.repository.IRCRepository;
+import com.irc_corporation.ircmanager.repository.Repository;
 import com.irc_corporation.ircmanager.viewmodels.GroupViewModel;
 
 import java.util.List;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 
 public class GroupFragment extends Fragment implements View.OnClickListener{
@@ -66,6 +78,42 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
+        //тут убрать вызов репозитория
+        Repository repository = IRCRepository.getInstance();
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                if (direction == ItemTouchHelper.RIGHT){
+                    //произвести удаление таска
+                    //для отладки
+                    //удаление группы
+                }
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c,
+                                    @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder,
+                                    float dX,
+                                    float dY,
+                                    int actionState,
+                                    boolean isCurrentlyActive) {
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                        .addSwipeRightActionIcon(R.drawable.baseline_group_off_24)
+                        .addSwipeRightBackgroundColor(ContextCompat.getColor(getActivity(), R.color.light_green))
+                        .create()
+                        .decorate();
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            }
+        };
+        new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         groupViewModel.setSharedPreferences(prefs);
@@ -77,6 +125,7 @@ public class GroupFragment extends Fragment implements View.OnClickListener{
                 adapter.notifyDataSetChanged();
             }
         });
+
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

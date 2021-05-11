@@ -9,13 +9,17 @@ import android.widget.CalendarView;
 import android.widget.Spinner;
 
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class AddTaskViewModel extends ViewModel implements View.OnClickListener {
     private String taskName;
@@ -26,13 +30,12 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
     private String LOG_TAG = "AddTaskViewModel";
     private SharedPreferences sharedPreferences;
     private FragmentManager fragmentManager;
+    private Repository repository;
+    private MutableLiveData<List<Group>> groups;
 
-    public String getCheckedGroup() {
-        return checkedGroup;
-    }
-
-    public void setCheckedGroup(String checkedGroup) {
-        this.checkedGroup = checkedGroup;
+    public AddTaskViewModel(){
+        repository = IRCRepository.getInstance();
+        groups = repository.getGroups();
     }
 
     public SharedPreferences getSharedPreferences() {
@@ -43,12 +46,40 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
         this.sharedPreferences = sharedPreferences;
     }
 
+    public String[] getGroups(){
+        List<Group> groupList = groups.getValue();
+
+        List<Group> currentGroup = new ArrayList<>();
+        for (int i=0; i<groupList.size(); i++){
+            if (groupList.get(i).getAdmin().getEmail().equals(sharedPreferences.getString("email", ""))){
+                currentGroup.add(groupList.get(i));
+            }
+        }
+
+        String[] temp_groups = new String[currentGroup.size()];
+        for (int i=0; i<currentGroup.size(); i++){
+            temp_groups[i]=currentGroup.get(i).getName();
+        }
+        return temp_groups;
+    }
+
+
+    //убрать это
     public androidx.fragment.app.FragmentManager getFragmentManager() {
         return fragmentManager;
     }
 
     public void setFragmentManager(androidx.fragment.app.FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
+    }
+    //////////
+
+    public String getCheckedGroup() {
+        return checkedGroup;
+    }
+
+    public void setCheckedGroup(String checkedGroup) {
+        this.checkedGroup = checkedGroup;
     }
 
     public String getTaskName() {
@@ -83,6 +114,15 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
         this.dueDate = dueDate;
     }
 
+    public void addTask(){
+        repository.addTask(sharedPreferences.getString("email", ""),
+                sharedPreferences.getString("password", ""),
+                checkedGroup,
+                taskName,
+                taskDescription,
+                dueDate);
+    }
+    //здесь этого быть не должно
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -90,13 +130,14 @@ public class AddTaskViewModel extends ViewModel implements View.OnClickListener 
                 break;
             case R.id.add_task_complete:
                 if (checkedGroup != null && taskName != null && dueDate != null) {
-                    Repository repository = IRCRepository.getInstance();
                     if (taskDescription==null){
                         taskDescription="";
                     }
                     repository.addTask(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""), checkedGroup, taskName, taskDescription, dueDate);
                 }
         }
+        //отсюда тоже убрать
         fragmentManager.popBackStack();
     }
+    /////////
 }
