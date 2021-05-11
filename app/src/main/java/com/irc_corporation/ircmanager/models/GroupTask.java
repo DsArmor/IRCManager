@@ -19,8 +19,31 @@ public class GroupTask implements Comparable<GroupTask>{
 
     @Override
     public int compareTo(GroupTask o) {
-        return 0;
-        //todo
+        if (dueDate != null && o.getDueDate() != null) {
+            if (dueDate.compareTo(o.getDueDate()) == 0) {
+                if (name.compareTo(o.getName()) == 0) {
+                    return group.compareTo(o.getGroup());
+                }
+                return name.compareTo(o.getName());
+            }
+            return dueDate.compareTo(o.getDueDate());
+        }
+        else if (o.getDueDate() == null) {
+            if (dueDate != null)
+                return -1;
+            else
+                return name.compareTo(o.getName());
+        }
+        else if (dueDate == null) {
+            if (o.getDueDate() != null)
+                return 1;
+            else
+                return name.compareTo(o.getName());
+        }
+        else if (name.compareTo(o.getName()) == 0) {
+            return group.compareTo(o.getGroup());
+        }
+        return name.compareTo(o.getName());
     }
 
     public String getName() {
