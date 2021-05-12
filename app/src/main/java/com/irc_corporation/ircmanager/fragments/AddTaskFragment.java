@@ -19,6 +19,7 @@ import android.widget.CalendarView;
 import android.widget.Spinner;
 
 import com.irc_corporation.ircmanager.Listener;
+import com.irc_corporation.ircmanager.MainActivity;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.databinding.FragmentAddTaskBinding;
 import com.irc_corporation.ircmanager.viewmodels.AddTaskViewModel;
@@ -83,6 +84,7 @@ public class AddTaskFragment extends DialogFragment {
                 //например не закрывать фрагмент, вывести тост
                 addTaskViewModel.addTask();
                 getActivity().getSupportFragmentManager().popBackStack();
+                ((MainActivity) getActivity()).bottomNavigationMenu.setVisibility(View.VISIBLE);
             }
         });
 
@@ -90,6 +92,7 @@ public class AddTaskFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 getActivity().getSupportFragmentManager().popBackStack();
+                ((MainActivity) getActivity()).bottomNavigationMenu.setVisibility(View.VISIBLE);
             }
         });
 
