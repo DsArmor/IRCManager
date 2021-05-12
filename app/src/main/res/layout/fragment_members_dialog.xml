@@ -4,13 +4,13 @@
     <data>
         <variable
             name="membersDialogViewModel"
-            type="com.irc_corporation.ircmanager.viewmodels.MembersDialogViewModel" />
+            type="com.irc_corporation.ircmanager.viewmodel.MembersDialogViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.MembersDialogFragment">
+        tools:context=".view.fragments.MembersDialogFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"

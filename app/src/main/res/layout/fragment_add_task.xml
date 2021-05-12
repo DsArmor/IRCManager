@@ -5,14 +5,14 @@
     <data>
         <variable
             name="addTaskViewModel"
-            type="com.irc_corporation.ircmanager.viewmodels.AddTaskViewModel" />
+            type="com.irc_corporation.ircmanager.viewmodel.AddTaskViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".fragments.AddTaskFragment">
+        tools:context=".view.fragments.AddTaskFragment">
 
         <EditText
             android:id="@+id/task_name"

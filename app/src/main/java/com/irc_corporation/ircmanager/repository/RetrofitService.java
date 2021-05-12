@@ -1,12 +1,11 @@
 package com.irc_corporation.ircmanager.repository;
 
-import com.irc_corporation.ircmanager.models.Group;
+import com.irc_corporation.ircmanager.model.Group;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import com.irc_corporation.ircmanager.repository.JSON.*;
 

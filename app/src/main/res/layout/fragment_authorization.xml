@@ -6,12 +6,12 @@
     <data>
         <variable
             name="authorizationViewModel"
-            type="com.irc_corporation.ircmanager.viewmodels.AuthorizationViewModel"/>
+            type="com.irc_corporation.ircmanager.viewmodel.AuthorizationViewModel"/>
     </data>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.Login.AuthorizationFragment">
+        tools:context=".view.fragments.Login.AuthorizationFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

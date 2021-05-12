@@ -6,14 +6,14 @@
     <data>
         <variable
             name="addGroupViewModel"
-            type="com.irc_corporation.ircmanager.viewmodels.AddGroupViewModel" />
+            type="com.irc_corporation.ircmanager.viewmodel.AddGroupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="30dp"
-        tools:context=".fragments.AddGroupFragment">
+        tools:context=".view.fragments.AddGroupFragment">
 
 
         <EditText

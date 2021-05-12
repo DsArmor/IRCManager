@@ -6,13 +6,13 @@
     <data>
         <variable
             name="registrationViewModel"
-            type="com.irc_corporation.ircmanager.viewmodels.RegistrationViewModel" />
+            type="com.irc_corporation.ircmanager.viewmodel.RegistrationViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.Login.RegistrationFragment">
+        tools:context=".view.fragments.Login.RegistrationFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

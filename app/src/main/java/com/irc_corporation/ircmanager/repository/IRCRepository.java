@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.irc_corporation.ircmanager.models.Group;
-import com.irc_corporation.ircmanager.models.GroupTask;
+import com.irc_corporation.ircmanager.model.Group;
+import com.irc_corporation.ircmanager.model.GroupTask;
 import com.irc_corporation.ircmanager.repository.JSON.AddMemberRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.AddTaskRequestBody;
 import com.irc_corporation.ircmanager.repository.JSON.CreateGroupRequestBody;
