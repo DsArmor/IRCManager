@@ -53,7 +53,7 @@ public class IRCRepository implements Repository{
 
 
     //todo userExist работает неправльно
-    @Override
+    /*@Override
     public boolean userExist(String email, String password) {
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
@@ -99,7 +99,7 @@ public class IRCRepository implements Repository{
             }
             return true;
         }
-    }
+    }*/
 
     @Override
     public void taskDone(String email, String password, String groupName, String taskName, String adminEmail) {
@@ -165,7 +165,12 @@ public class IRCRepository implements Repository{
                             }
                             System.out.println(countDone);
                             Collections.sort(newGroups);
-                            groups.postValue(newGroups);
+                            if (groups != null) {
+                                groups.postValue(newGroups);
+                            }
+                            else {
+                                groups = new MutableLiveData<List<Group>>();
+                            }
                             Log.d(LOG_TAG, "поле group обновлено");
                         }
                         Log.d(LOG_TAG, "Группы получены");

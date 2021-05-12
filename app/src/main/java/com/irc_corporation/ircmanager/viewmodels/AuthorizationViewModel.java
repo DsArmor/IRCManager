@@ -29,9 +29,10 @@ public class AuthorizationViewModel  {
         this.sharedPreferences = sharedPreferences;
     }
 
+    //todo
     public boolean logIn() {
         Repository repository = IRCRepository.getInstance();
-        if (repository.userExist(email, password)) {
+        //if (repository.userExist(email, password)) {
             Log.d(LOG_TAG, "userExist = true");
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("email", email);
@@ -40,8 +41,9 @@ public class AuthorizationViewModel  {
             editor.putString("password", password);
             editor.apply();
             editor.apply();
-        }
-        return (repository.userExist(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
+        //}
+        //return (repository.userExist(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
+        return true;
     }
 
     public String getEmail() {

@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface Repository {
-    boolean userExist(String email, String password);
+    //boolean userExist(String email, String password);
     void refresh(String email, String password);
     MutableLiveData<List<Group>> getGroups();
     void addTask(String email, String password, String groupName, String newGroupTaskName, String newGroupTaskDescription, Date newGroupTaskDueDate);
