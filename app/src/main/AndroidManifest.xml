@@ -11,8 +11,9 @@
         android:roundIcon="@mipmap/my_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.IRCManager">
-        <activity android:name=".LoginActivity">
-
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MainActivity"

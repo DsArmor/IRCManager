@@ -90,6 +90,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                     public void onClick(View v) {
                         repository.kickMember(prefs.getString("email", ""), prefs.getString("password", ""), members.get(position).getEmail(), groupName);
                         repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+                        Log.d(LOG_TAG, "onClickDeleteMember");
                     }
                 });
             }

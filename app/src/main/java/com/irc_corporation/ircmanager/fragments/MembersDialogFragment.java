@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import com.irc_corporation.ircmanager.DismissListener;
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.adapters.MemberAdapter;
+import com.irc_corporation.ircmanager.databinding.FragmentMembersDialogBinding;
 import com.irc_corporation.ircmanager.models.Group;
 import com.irc_corporation.ircmanager.models.User;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
@@ -39,7 +41,7 @@ public class MembersDialogFragment extends DialogFragment {
 
     private static final String LOG_TAG = "MemberDialogFragment";
     private Group group;
-    private FrameLayout frameLayout;
+    private FragmentMembersDialogBinding binding;
 
     public MembersDialogFragment(Group group) {
         this.group = group;
@@ -49,20 +51,19 @@ public class MembersDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_members_dialog, container, false);
-
-        //todo написать тут binding
-        RecyclerView recyclerView = rootView.findViewById(R.id.recycler_members);
-        EditText newMemberEmail = rootView.findViewById(R.id.new_member_email);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_members_dialog, container, false);
+        binding.recyclerMembers.setLayoutManager(new LinearLayoutManager(getActivity()));
         MemberAdapter adapter = new MemberAdapter(group, this);
-        recyclerView.setAdapter(adapter);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+        binding.recyclerMembers.setAdapter(adapter);
 
-        frameLayout = rootView.findViewById(R.id.frame_in_dialog);
-        //todo: перевести на биндинг получение имени нового участника группы и нажатие на кнопку добавления
-        //хотя можно и оставить пока так
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        if (group.getAdmin().getEmail().equals(sharedPreferences.getString("email", ""))) {
+            binding.frameInDialog.setVisibility(View.VISIBLE);
+        }
         MembersDialogViewModel membersDialogViewModel = new ViewModelProvider(this).get(MembersDialogViewModel.class);
+        membersDialogViewModel.setSharedPreferences(sharedPreferences);
+
+        binding.setMembersDialogViewModel(membersDialogViewModel);
         membersDialogViewModel.getGroups().observe(this, new Observer<List<Group>>() {
             @Override
             public void onChanged(List<Group> groups) {
@@ -70,26 +71,20 @@ public class MembersDialogFragment extends DialogFragment {
                 System.out.println("Размер массива участников группы: " + membersDialogViewModel.getMembers(group).size());
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
                 adapter.setGroupName(group.getName());
-                adapter.setFrame(frameLayout);
+                adapter.setFrame(binding.frameInDialog);
                 adapter.notifyDataSetChanged();
             }
         });
 
-        //todo: убрать обращение к репозиторию отсюда
-        ImageButton addMemberButton = rootView.findViewById(R.id.add_member_button);
+        ImageButton addMemberButton = binding.addMemberButton;
         addMemberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //перееести в viewModel
-                Repository repository = IRCRepository.getInstance();
-                SharedPreferences pref = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-                repository.addMember(pref.getString("email", ""), pref.getString("password", ""), group.getName(), newMemberEmail.getText().toString());
-                repository.refresh(pref.getString("email", ""), pref.getString("password", ""));
-                newMemberEmail.setText("");
+                membersDialogViewModel.addMember();
             }
         });
 
-        return rootView;
+        return binding.getRoot();
 
     }
 }

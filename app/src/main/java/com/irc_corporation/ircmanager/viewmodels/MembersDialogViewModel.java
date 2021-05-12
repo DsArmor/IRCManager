@@ -1,5 +1,8 @@
 package com.irc_corporation.ircmanager.viewmodels;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -17,6 +20,9 @@ public class MembersDialogViewModel extends ViewModel {
 
     private final MutableLiveData<List<Group>> groups;
     private List<User> members = new ArrayList<>();
+    private String newMemberEmail;
+    private SharedPreferences sharedPreferences;
+    private Group group;
 
     public MembersDialogViewModel(){
         Repository repository = IRCRepository.getInstance();
@@ -35,7 +41,7 @@ public class MembersDialogViewModel extends ViewModel {
                 break;
             }
         }
-
+        this.group = group;
         List<User> tempMembers = group.getMembers();
 
         User admin=null;
@@ -48,5 +54,28 @@ public class MembersDialogViewModel extends ViewModel {
         }
         members.add(admin);
         return members;
+    }
+
+    public void addMember() {
+        Repository repository = IRCRepository.getInstance();
+        repository.addMember(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""), group.getName(), newMemberEmail);
+        repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));
+        setNewMemberEmail("");
+    }
+
+    public String getNewMemberEmail() {
+        return newMemberEmail;
+    }
+
+    public void setNewMemberEmail(String newMemberEmail) {
+        this.newMemberEmail = newMemberEmail;
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
     }
 }

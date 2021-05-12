@@ -10,7 +10,6 @@ public class KickMemberRequestBody {
         public String email;
     }
     public  class Admin {
-        public String fullname;
         public String password;
         public String email;
     }

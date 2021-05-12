@@ -1,65 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.MembersDialogFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="membersDialogViewModel"
+            type="com.irc_corporation.ircmanager.viewmodels.MembersDialogViewModel" />
+    </data>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        android:background="@color/white">
+        tools:context=".fragments.MembersDialogFragment">
 
-        <TextView
-            android:id="@+id/members_text"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Участники группы"
-            android:textColor="@color/black"
-            android:textSize="16sp"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:background="@color/white">
 
-        <FrameLayout
-            android:id="@+id/frame_in_dialog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/members_text"
-            android:padding="5dp"
-            android:visibility="gone">
+            <TextView
+                android:id="@+id/members_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Участники группы"
+                android:textColor="@color/black"
+                android:textSize="16sp"/>
 
-            <EditText
-                android:id="@+id/new_member_email"
+            <FrameLayout
+                android:id="@+id/frame_in_dialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/members_text"
+                android:padding="5dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/new_member_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="200dp"
+                    android:hint="Почта нового участника"
+                    android:text="@={membersDialogViewModel.newMemberEmail}"
+                    android:textSize="14sp"
+                    android:layout_gravity="bottom|start"/>
+
+                <ImageButton
+                    android:id="@+id/add_member_button"
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_person_add_24"
+                    android:background="@color/white"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:tint="#4E8A51"/>
+
+            </FrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginTop="3dp"
+                android:id="@+id/recycler_members"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="200dp"
-                android:hint="Почта нового участника"
-                android:textSize="14sp"
-                android:layout_gravity="bottom|start"/>
+                android:layout_below="@id/frame_in_dialog"
+                android:minWidth="300dp"
+                tools:listitem="@layout/card_for_members" />
 
-            <ImageButton
-                android:id="@+id/add_member_button"
-                android:layout_marginTop="2dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_person_add_24"
-                android:background="@color/white"
-                android:layout_gravity="end|center_vertical"
-                android:layout_marginEnd="8dp"
-                android:tint="#4E8A51"/>
+        </RelativeLayout>
 
-        </FrameLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="3dp"
-            android:id="@+id/recycler_members"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/frame_in_dialog"
-            android:minWidth="300dp"
-            tools:listitem="@layout/card_for_members" />
-
-    </RelativeLayout>
-
-</FrameLayout>
+    </FrameLayout>
+</layout>

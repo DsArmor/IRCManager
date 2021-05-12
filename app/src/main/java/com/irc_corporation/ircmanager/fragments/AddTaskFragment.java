@@ -57,7 +57,6 @@ public class AddTaskFragment extends DialogFragment {
         });
 
         //работа с спиннером для групп
-        //todo:почему при биндинге, здесь до сих пор findViewById, а не просто binding.
         Spinner spinner = binding.spinnerGroups;
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, addTaskViewModel.getGroups());
         spinner.setAdapter(adapter);
