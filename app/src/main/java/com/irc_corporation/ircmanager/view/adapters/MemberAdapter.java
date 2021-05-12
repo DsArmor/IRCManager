@@ -7,12 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +17,6 @@ import com.irc_corporation.ircmanager.databinding.CardForMembersBinding;
 import com.irc_corporation.ircmanager.view.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.model.Group;
 import com.irc_corporation.ircmanager.model.User;
-import com.irc_corporation.ircmanager.repository.IRCRepository;
-import com.irc_corporation.ircmanager.repository.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,14 +25,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
 
     private List<User> members = new ArrayList<>();
     private User admin;
-    private String groupName;
     private static final String LOG_TAG = "MemberAdapter";
-    private FrameLayout frameLayout;
-    private MembersDialogFragment fragment;
+    private final MembersDialogFragment fragment;
 
     public MemberAdapter(Group group, MembersDialogFragment fragment) {
         Log.d(LOG_TAG, "MemberAdapter()");
-        groupName = group.getName();
         this.fragment = fragment;
     }
 
@@ -48,14 +39,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         this.members = members;
     }
 
-    public void setFrame(FrameLayout frame){
-        this.frameLayout = frame;
-    }
 
-    public void setGroupName(String groupName) {
-        Log.d(LOG_TAG, "setGroupName()");
-        this.groupName = groupName;
-    }
 
     @NonNull
     @Override
@@ -84,7 +68,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         }
         if (prefs.getString("email", "").equals(admin.getEmail())) {
             System.out.println("Мы находимся на проверке админа");
-            frameLayout.setVisibility(View.VISIBLE);
+            fragment.setAddMemberBarVisibility(true);
         }
     }
 

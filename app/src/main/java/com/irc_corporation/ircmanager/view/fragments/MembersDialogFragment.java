@@ -61,8 +61,6 @@ public class MembersDialogFragment extends DialogFragment {
                 Log.d(LOG_TAG, "OnChanged ");
                 System.out.println("Размер массива участников группы: " + membersDialogViewModel.getMembers(group).size());
                 adapter.setMembers(membersDialogViewModel.getMembers(group));
-                adapter.setGroupName(group.getName());
-                adapter.setFrame(binding.frameInDialog);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -99,5 +97,14 @@ public class MembersDialogFragment extends DialogFragment {
 
     public OnClickMember getKickMembersCallback() {
         return kickMembersCallback;
+    }
+
+    public void setAddMemberBarVisibility(boolean visible) {
+        if (visible) {
+            binding.frameInDialog.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.frameInDialog.setVisibility(View.GONE);
+        }
     }
 }
