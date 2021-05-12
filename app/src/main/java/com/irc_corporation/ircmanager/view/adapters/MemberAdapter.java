@@ -66,10 +66,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
                 viewHolder.getBinding().setOnClick(fragment.getLeaveCallback());
             }
         }
-        if (prefs.getString("email", "").equals(admin.getEmail())) {
-            System.out.println("Мы находимся на проверке админа");
-            fragment.setAddMemberBarVisibility(true);
-        }
     }
 
     @Override
