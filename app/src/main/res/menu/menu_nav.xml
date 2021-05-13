@@ -9,4 +9,5 @@
             android:id="@+id/nav_group"
             android:icon="@drawable/baseline_groups_24"
             android:title="@string/your_groups" />
+
 </menu>

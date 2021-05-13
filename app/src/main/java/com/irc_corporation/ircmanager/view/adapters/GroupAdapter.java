@@ -55,6 +55,8 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
         //тогда мы не можем там показать фрагмент, нарушит инкапсуляцию, поэтому мы должны будем прокинуть это в main activity?
         //это дорого обойдется....
 //        viewHolder.getBinding().setOnClick();
+
+        //может это оставим тут так?????????????????????????????????????
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

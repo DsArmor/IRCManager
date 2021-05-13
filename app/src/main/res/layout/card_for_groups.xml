@@ -6,9 +6,6 @@
         <variable
             name="group"
             type="com.irc_corporation.ircmanager.model.Group" />
-        <variable
-            name="onClick"
-            type="com.irc_corporation.ircmanager.view.callback.OnClickCard" />
 
     </data>
 
@@ -22,8 +19,7 @@
         android:layout_height="60dp"
         card_view:cardElevation="5dp"
         android:padding="10dp"
-        android:layout_margin="2dp"
-        android:onClick="@{()-> onClick.onClickCard()}">
+        android:layout_margin="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

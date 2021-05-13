@@ -47,6 +47,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+        //ты тут хочешь просто после viewHolder написать getBinding и тогда дублировать для каждого действия и все?
         GroupTask task = tasks.get(position);
         viewHolder.textViewTaskName.setText(task.getName());
         if (task.getDescription()!=null){

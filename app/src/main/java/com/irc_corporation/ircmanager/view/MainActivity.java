@@ -16,6 +16,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -146,6 +147,26 @@ public class MainActivity extends AppCompatActivity implements Listener {
 //    }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem menuItem = menu.findItem(R.id.exit_from_activity);
+        menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d(LOG_TAG, "User Leave");
+                SharedPreferences prefs = getSharedPreferences("settings", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.commit();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public void onMyClick(int id) {
         //добавить вызов нового show
         if (id == 1) {
@@ -159,10 +180,6 @@ public class MainActivity extends AppCompatActivity implements Listener {
             ft.addToBackStack(null);
             DialogFragment fragment = new AddGroupFragment();
             fragment.show(ft, "AddGroup");
-        } else if (id==3){
-//            FragmentManager fragmentManager = getSupportFragmentManager();
-//            DialogFragment dialog = new MembersDialogFragment(group);
-//            dialog.show(fragmentManager, ""); }
         }
     }
 

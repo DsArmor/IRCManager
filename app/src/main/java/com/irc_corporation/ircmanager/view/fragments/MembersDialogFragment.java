@@ -42,7 +42,6 @@ public class MembersDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_members_dialog, container, false);
         binding.recyclerMembers.setLayoutManager(new LinearLayoutManager(getActivity()));
         MemberAdapter adapter = new MemberAdapter(group, this);
@@ -77,8 +76,6 @@ public class MembersDialogFragment extends DialogFragment {
             setAddMemberBarVisibility(true);
         }
         return binding.getRoot();
-
-
     }
 
     private OnClickMember leaveCallback = new OnClickMember() {
