@@ -35,6 +35,7 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.view.adapters.GroupAdapter;
 import com.irc_corporation.ircmanager.databinding.FragmentGroupBinding;
 import com.irc_corporation.ircmanager.model.Group;
+import com.irc_corporation.ircmanager.view.callback.OnClickCard;
 import com.irc_corporation.ircmanager.viewmodel.GroupViewModel;
 
 import java.util.List;
@@ -104,7 +105,6 @@ public class GroupFragment extends Fragment implements View.OnClickListener {
             recyclerViewForAdmin.setLayoutManager(gridLayoutManagerForAdmin);
             recyclerViewForMember.setLayoutManager(gridLayoutManagerForMember);
         }
-
 
         GroupViewModel groupViewModel = new ViewModelProvider(this).get(GroupViewModel.class);
         groupViewModel.setSharedPreferences(getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE));
@@ -183,11 +183,24 @@ public class GroupFragment extends Fragment implements View.OnClickListener {
         this.listener = (Listener) context;
     }
 
+    private OnClickCard showMembers = new OnClickCard() {
+        @Override
+        public void onClickCard() {
+            if (listener != null){
+                listener.onMyClick(3);
+            }
+        }
+    };
+
+
+    public OnClickCard getShowMembers() {
+        return showMembers;
+    }
+
     @Override
     public void onClick(View v) {
-        if (listener != null) {
+        if (listener != null){
             listener.onMyClick(2);
         }
     }
-
 }

@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.view.fragments.AddGroupFragment;
 import com.irc_corporation.ircmanager.view.fragments.AddTaskFragment;
 import com.irc_corporation.ircmanager.view.fragments.GroupFragment;
+import com.irc_corporation.ircmanager.view.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.view.fragments.TaskFragment;
 import com.irc_corporation.ircmanager.repository.IRCRepository;
 import com.irc_corporation.ircmanager.repository.Repository;
@@ -145,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements Listener {
 
     @Override
     public void onMyClick(int id) {
+        //добавить вызов нового show
         if (id == 1) {
             Fragment fragment = new AddTaskFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -156,6 +159,10 @@ public class MainActivity extends AppCompatActivity implements Listener {
             ft.addToBackStack(null);
             DialogFragment fragment = new AddGroupFragment();
             fragment.show(ft, "AddGroup");
+        } else if (id==3){
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            DialogFragment dialog = new MembersDialogFragment(group);
+//            dialog.show(fragmentManager, ""); }
         }
     }
 

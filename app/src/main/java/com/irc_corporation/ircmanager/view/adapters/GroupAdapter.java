@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.irc_corporation.ircmanager.R;
+import com.irc_corporation.ircmanager.databinding.CardForGroupsBinding;
+import com.irc_corporation.ircmanager.databinding.CardForMembersBinding;
 import com.irc_corporation.ircmanager.view.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.model.Group;
 
@@ -37,17 +40,21 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
     @NonNull
     @Override
     public GroupAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        CardView cv;
-        cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.card_for_groups, parent, false);
-        return new ViewHolder(cv);
+        CardForGroupsBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.card_for_groups, parent, false);
+        return new ViewHolder(binding);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Group group = groups.get(position);
-        viewHolder.textViewGroupName.setText(group.getName());
-        viewHolder.textViewCountMembers.setText(Integer.toString(group.getMembers().size()));
+        viewHolder.getBinding().setGroup(group);
+        viewHolder.getBinding().countOfMembers.setText(Integer.toString(group.getMembers().size()));
+        //todo: как тут поставить setOnCLick не обращаясь к фрагменту, так еще и показать фргамент с текущей группой
+        //не хочется создавать еще один интерфес для main, но к этому все и идет тогда, раз мы прокинем это в Groupfragment
+        //тогда мы не можем там показать фрагмент, нарушит инкапсуляцию, поэтому мы должны будем прокинуть это в main activity?
+        //это дорого обойдется....
+//        viewHolder.getBinding().setOnClick();
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,13 +72,20 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView textViewGroupName;
-        private final TextView textViewCountMembers;
+        private CardForGroupsBinding binding;
 
-        public ViewHolder(@NonNull CardView itemView) {
-            super(itemView);
-            textViewGroupName = itemView.findViewById(R.id.group_name_in_card_groups);
-            textViewCountMembers = itemView.findViewById(R.id.count_of_members);
+        public ViewHolder(@NonNull CardForGroupsBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
+
+        public CardForGroupsBinding getBinding() {
+            return binding;
+        }
+
+        public void setBinding(CardForGroupsBinding binding) {
+            this.binding = binding;
         }
     }
+
 }

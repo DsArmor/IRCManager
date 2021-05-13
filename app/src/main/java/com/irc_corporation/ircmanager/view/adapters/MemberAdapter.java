@@ -39,8 +39,6 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         this.members = members;
     }
 
-
-
     @NonNull
     @Override
     public MemberAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
