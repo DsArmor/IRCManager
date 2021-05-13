@@ -44,6 +44,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
     private RecyclerView recyclerView;
+    private  TaskViewModel taskViewModel;
     SwipeRefreshLayout swipeRefresh;
 
     @SuppressLint("ResourceAsColor")
@@ -108,7 +109,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             };
             new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
-            TaskViewModel taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+            taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
             taskViewModel.setSharedPreferences(prefs);
             taskViewModel.getGroups().observe(this, new Observer<List<Group>>() {
                 @Override
@@ -140,13 +141,13 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     public void onAttach(Context context) {
         super.onAttach(context);
         this.listener = (Listener) context;
-
+        taskViewModel.refresh();
         //todo: убрать по возможности обращение к репозиторию
-        prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        /*prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
         Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
         Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
         Repository repository = IRCRepository.getInstance();
-        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));
+        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));*/
     }
 
     @Override

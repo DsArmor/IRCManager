@@ -44,7 +44,9 @@ public class MembersDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_members_dialog, container, false);
         binding.recyclerMembers.setLayoutManager(new LinearLayoutManager(getActivity()));
-        MemberAdapter adapter = new MemberAdapter(group, this);
+        MemberAdapter adapter = new MemberAdapter(group);
+        adapter.setDeleteMemberCallback(kickMembersCallback);
+        adapter.setLeaveGroupCallback(leaveCallback);
         binding.recyclerMembers.setAdapter(adapter);
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);

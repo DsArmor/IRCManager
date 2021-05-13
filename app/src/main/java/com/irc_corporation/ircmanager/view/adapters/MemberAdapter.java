@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.irc_corporation.ircmanager.R;
 import com.irc_corporation.ircmanager.databinding.CardForMembersBinding;
+import com.irc_corporation.ircmanager.view.callback.OnClickMember;
 import com.irc_corporation.ircmanager.view.fragments.MembersDialogFragment;
 import com.irc_corporation.ircmanager.model.Group;
 import com.irc_corporation.ircmanager.model.User;
@@ -26,11 +27,11 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
     private List<User> members = new ArrayList<>();
     private User admin;
     private static final String LOG_TAG = "MemberAdapter";
-    private final MembersDialogFragment fragment;
+    private OnClickMember kickMemberCallback;
+    private OnClickMember leaveGroupCallback;
 
-    public MemberAdapter(Group group, MembersDialogFragment fragment) {
+    public MemberAdapter(Group group) {
         Log.d(LOG_TAG, "MemberAdapter()");
-        this.fragment = fragment;
     }
 
     public void setMembers(List<User> members) {
@@ -58,10 +59,10 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
             viewHolder.getBinding().deleteMember.setVisibility(View.INVISIBLE);
         } else{
             if (!prefs.getString("email", "").equals(members.get(position).getEmail())){
-                viewHolder.getBinding().setOnClick(fragment.getKickMembersCallback());
+                viewHolder.getBinding().setOnClick(kickMemberCallback);
             }
             else {
-                viewHolder.getBinding().setOnClick(fragment.getLeaveCallback());
+                viewHolder.getBinding().setOnClick(leaveGroupCallback);
             }
         }
     }
@@ -88,5 +89,21 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.ViewHolder
         public void setBinding(CardForMembersBinding binding) {
             this.binding = binding;
         }
+    }
+
+    public OnClickMember getDeleteMemberCallback() {
+        return kickMemberCallback;
+    }
+
+    public void setDeleteMemberCallback(OnClickMember deleteMemberCallback) {
+        this.kickMemberCallback = deleteMemberCallback;
+    }
+
+    public OnClickMember getLeaveGroupCallback() {
+        return leaveGroupCallback;
+    }
+
+    public void setLeaveGroupCallback(OnClickMember leaveGroupCallback) {
+        this.leaveGroupCallback = leaveGroupCallback;
     }
 }
