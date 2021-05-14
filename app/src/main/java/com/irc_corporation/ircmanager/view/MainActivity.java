@@ -41,9 +41,6 @@ public class MainActivity extends AppCompatActivity implements Listener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //todo: переписать на базу данных, это временно
-        //----------------------------------------------------------------------------
-
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -91,9 +88,6 @@ public class MainActivity extends AppCompatActivity implements Listener {
             Log.d(LOG_TAG, "User Not Logged In");
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
-        }
-        else {
-            Repository repository = IRCRepository.getInstance();
         }
 
     }
