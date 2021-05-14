@@ -39,8 +39,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 public class TaskFragment extends Fragment implements View.OnClickListener{
 
-    SharedPreferences prefs;
-
+    private SharedPreferences prefs;
     private Listener listener;
     private static final String LOG_TAG = "TaskFragment";
     private RecyclerView recyclerView;
@@ -57,9 +56,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
 
         //получение данных из viewModel
         if ((prefs.contains("email") && prefs.contains("password"))) {
-            //todo: убрать обращение к репозиторию по возможности
-            //Repository repository = IRCRepository.getInstance();
-
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
             swipeRefresh = rootView.findViewById(R.id.swipe_refresh);
             int c1 = getResources().getColor(R.color.light_green);
@@ -70,6 +66,8 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             recyclerView = rootView.findViewById(R.id.recycler_tasks);
             TaskAdapter adapter = new TaskAdapter();
             recyclerView.setAdapter(adapter);
+            taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
+            taskViewModel.setSharedPreferences(prefs);
 
             ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
                 @Override
@@ -80,8 +78,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 @Override
                 public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                     if (direction == ItemTouchHelper.RIGHT){
-                        //произвести удаление таска
-                        //для отладки
                         GroupTask groupTask =((TaskAdapter)recyclerView.getAdapter()).getTasks().get(viewHolder.getAdapterPosition());
                         taskViewModel.taskDone(groupTask);
                     }
@@ -104,9 +100,6 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                 }
             };
             new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
-
-            taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-            taskViewModel.setSharedPreferences(prefs);
             taskViewModel.getGroups().observe(this, new Observer<List<Group>>() {
                 @Override
                 public void onChanged(List<Group> groups) {
@@ -117,10 +110,8 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             });
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-            //todo: убрать
             taskViewModel.refresh();
             button.setOnClickListener(this);
-
             swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -137,13 +128,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
     public void onAttach(Context context) {
         super.onAttach(context);
         this.listener = (Listener) context;
-        taskViewModel.refresh();
-        //todo: убрать по возможности обращение к репозиторию
-        /*prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
-        Log.d(LOG_TAG, prefs.getString("email", "Login Not saved"));
-        Log.d(LOG_TAG, prefs.getString("password", "Password Not saved"));
-        Repository repository = IRCRepository.getInstance();
-        repository.refresh(prefs.getString("email", ""),prefs.getString("password", ""));*/
+        prefs = getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE);
     }
 
     @Override

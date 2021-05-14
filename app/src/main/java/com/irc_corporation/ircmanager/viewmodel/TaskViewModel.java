@@ -32,7 +32,6 @@ public class TaskViewModel extends ViewModel {
         groups = repository.getGroups();
     }
 
-    //todo: отпарсить таски по дате и вернуть
 
     public MutableLiveData<List<Group>> getGroups() {
         return groups;
