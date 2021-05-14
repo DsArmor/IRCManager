@@ -56,4 +56,12 @@ public class TaskViewModel extends ViewModel {
     public void refresh(){
         repository.refresh(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", ""));
     }
+
+    public void taskDone(GroupTask groupTask) {
+        repository.taskDone(sharedPreferences.getString("email", ""),
+                sharedPreferences.getString("password", ""),
+                groupTask.getGroup().getName(),
+                groupTask.getName(),
+                groupTask.getGroup().getAdmin().getEmail());
+    }
 }

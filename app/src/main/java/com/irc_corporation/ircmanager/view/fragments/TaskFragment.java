@@ -58,7 +58,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
         //получение данных из viewModel
         if ((prefs.contains("email") && prefs.contains("password"))) {
             //todo: убрать обращение к репозиторию по возможности
-            Repository repository = IRCRepository.getInstance();
+            //Repository repository = IRCRepository.getInstance();
 
             FloatingActionButton button = rootView.findViewById(R.id.add_new_task);
             swipeRefresh = rootView.findViewById(R.id.swipe_refresh);
@@ -83,11 +83,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
                         //произвести удаление таска
                         //для отладки
                         GroupTask groupTask =((TaskAdapter)recyclerView.getAdapter()).getTasks().get(viewHolder.getAdapterPosition());
-                        repository.taskDone(prefs.getString("email", ""),
-                                prefs.getString("password", ""),
-                                groupTask.getGroup().getName(),
-                                groupTask.getName(),
-                                groupTask.getGroup().getAdmin().getEmail());
+                        taskViewModel.taskDone(groupTask);
                     }
                 }
 
@@ -122,7 +118,7 @@ public class TaskFragment extends Fragment implements View.OnClickListener{
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             //todo: убрать
-            repository.refresh(prefs.getString("email", ""), prefs.getString("password", ""));
+            taskViewModel.refresh();
             button.setOnClickListener(this);
 
             swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
