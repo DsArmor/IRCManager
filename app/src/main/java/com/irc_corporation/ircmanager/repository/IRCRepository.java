@@ -371,19 +371,24 @@ public class IRCRepository implements Repository{
                 call.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-                        Log.d(LOG_TAG, response.message());
+                        if (userExist(email, password)) {
+                            refresh(email, password);
+                        }
+                        else {
+                            groups = null;
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        if (userExist(email, password)) {
+                            refresh(email, password);
+                        }
+                        else {
+                            groups = null;
+                        }
                     }
                 });
-                if (userExist(email, password)) {
-                    refresh(email, password);
-                }
-                else {
-                    groups = null;
-                }
             }
         };
         thread.start();
