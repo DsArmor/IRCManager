@@ -52,18 +52,16 @@ public class IRCRepository implements Repository{
     }
 
 
-    //todo userExist работает неправльно
-    /*@Override
+
+    @Override
     public boolean userExist(String email, String password) {
         Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
         jsonBody.email = email;
         jsonBody.password = password;
-        Object sync = new Object();
         Thread threadRefresh = new Thread() {
             @Override
-            public void run() {
-                synchronized (sync) {
+            public void run(){
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(URL)
                         .addConverterFactory(GsonConverterFactory.create())
@@ -73,33 +71,32 @@ public class IRCRepository implements Repository{
                 try {
                     Response<List<Group>> response = call.execute();
                     List<Group> newGroups = response.body();
-                    if (newGroups != null)
-                        Collections.sort(newGroups);
                     if (newGroups != null) {
+                        Collections.sort(newGroups);
                         groups.postValue(newGroups);
                     }
-                    if (response.code() == 400){
+                    if (response.code() == 400) {
                         Log.d(LOG_TAG, "User does not exist 400");
                         groups = null;
                     }
-                    Log.d(LOG_TAG, "Группы получены");
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.d(LOG_TAG, "Группы НЕ получены");
                 }
-            }
             }
         };
         threadRefresh.start();
-        synchronized (sync) {
-            Log.d(LOG_TAG, "userExist = true");
-            if (groups == null){
-                groups.setValue(new ArrayList<Group>());
-                return false;
-            }
-            return true;
+        try {
+            threadRefresh.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-    }*/
+        if (groups == null){
+            groups = new MutableLiveData<>();
+            groups.postValue(new ArrayList<Group>());
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public void taskDone(String email, String password, String groupName, String taskName, String adminEmail) {
