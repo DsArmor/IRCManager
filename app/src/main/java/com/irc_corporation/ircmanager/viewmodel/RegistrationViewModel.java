@@ -20,15 +20,15 @@ public class RegistrationViewModel {
 
     public boolean registration() {
         Repository repository = IRCRepository.getInstance();
-        repository.createUser(name, email, password);
+        boolean success = repository.createUser(name, email, password);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("email", email.toString());
         editor.apply();
         editor = sharedPreferences.edit();
         editor.putString("password", password);
         editor.apply();
+        return success;
         //return (repository.userExist(sharedPreferences.getString("email", ""), sharedPreferences.getString("password", "")));
-        return true;
     }
 
     public String getEmail() {

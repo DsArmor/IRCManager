@@ -55,7 +55,6 @@ public class IRCRepository implements Repository{
 
     @Override
     public boolean userExist(String email, String password) {
-        Log.d(LOG_TAG, "refreshing for user " + email + " - " + password);
         GetAllGroupsRequestBody jsonBody = new GetAllGroupsRequestBody();
         jsonBody.email = email;
         jsonBody.password = password;
@@ -355,7 +354,7 @@ public class IRCRepository implements Repository{
     }
 
     @Override
-    public void createUser(String name, String email, String password) {
+    public boolean createUser(String name, String email, String password) {
         RegistrationRequestBody jsonBody = new RegistrationRequestBody();
         jsonBody.email = email;
         jsonBody.fullname = name;
@@ -373,18 +372,32 @@ public class IRCRepository implements Repository{
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         Log.d(LOG_TAG, response.message());
-                        refresh(email, password);
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        refresh(email, password);
                     }
                 });
-                Log.d(LOG_TAG, "");
+                if (userExist(email, password)) {
+                    refresh(email, password);
+                }
+                else {
+                    groups = null;
+                }
             }
         };
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (groups == null){
+            groups = new MutableLiveData<>();
+            groups.postValue(new ArrayList<Group>());
+            return false;
+        }
+        return true;
     }
 
     @Override
